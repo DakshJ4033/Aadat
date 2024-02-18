@@ -7,18 +7,80 @@
 
 import SwiftUI
 
-struct ContentView: View {
+/* RootView Manager */
+class RootViewManager: ObservableObject {
+    @Published var rootViewType: RootViewType = .homeView
+}
+
+enum RootViewType {
+    case homeView
+    case manageTagsView
+}
+
+class UserModel: ObservableObject {
+    @Published var tasks: [Task] = []
+    
+}
+
+struct RootView: View {
+    
+    @StateObject var rootViewManager: RootViewManager = RootViewManager()
+    @StateObject var userModel: UserModel = UserModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch rootViewManager.rootViewType {
+                
+            case .homeView:
+                HomeView()
+                
+            case .manageTagsView:
+                TabView {
+                    ManageTagsView()
+                }
+                
+            }
+            // TODO: StatsView(), generate stats across different time frames, show habits etc.
+            // TODO: CalendarView()?
+            
         }
-        .padding()
+        .environmentObject(rootViewManager)
+        .environmentObject(userModel)
+        .bottomNavBar(rootViewManager: rootViewManager)
+        
     }
 }
 
 #Preview {
-    ContentView()
+    RootView()
+}
+
+struct BottomNavBar: ViewModifier {
+    var rootViewManager: RootViewManager
+    func body(content: Content) -> some View {
+        content
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    HStack {
+                        Button { /* Home Button */
+                            rootViewManager.rootViewType = .homeView
+                        } label: {
+                            Image(systemName: "house.circle.fill")
+                        }
+                        
+                        Button { /* All Tags View */
+                            rootViewManager.rootViewType = .manageTagsView
+                        } label: {
+                            Image(systemName: "book.pages.fill")
+                        }
+                    }
+                }
+            }
+    }
+}
+
+extension View {
+    func bottomNavBar(rootViewManager: RootViewManager) -> some View {
+        modifier(BottomNavBar(rootViewManager: rootViewManager))
+    }
 }

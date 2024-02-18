@@ -15,6 +15,7 @@ struct AddTaskOrSessionView: View {
     var body: some View {
         HStack {
             /* Click to add empty Task/Session */
+            // TODO: make this a persistent button that doesn't scroll away
             Button {
                 let newTask = Task()
                 newTask.isPinned = true

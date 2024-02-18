@@ -15,7 +15,7 @@ struct SessionsView: View {
     var body: some View {
         VStack {
             /* Show completed sessions */
-            Text("Completed Sessions")
+            Text("Completed Sessions (On timer end, display here)")
         }
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box

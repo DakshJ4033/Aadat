@@ -14,12 +14,14 @@ struct HomeView: View {
     @EnvironmentObject var userModel: UserModel
     
     var body: some View {
-        VStack {
-            PinnedView()
-            
-            SessionsView()
-            
-            AddTaskOrSessionView()
+        ScrollView {
+            VStack {
+                PinnedView()
+                
+                SessionsView()
+                
+                AddTaskOrSessionView()
+            }
         }
         .environmentObject(userModel)
         .padding()

@@ -6,3 +6,24 @@
 //
 
 import Foundation
+import SwiftUI
+
+/* Session Class Dec. */
+class Session {
+    var startTime: Date?
+    var endTime: Date?
+}
+
+struct SessionView: View {
+    var body: some View {
+        VStack {
+
+            
+        }
+        .padding()
+    }
+}
+
+#Preview {
+    SessionView()
+}

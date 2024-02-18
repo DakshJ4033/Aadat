@@ -13,7 +13,7 @@ struct PinnedView: View {
     @EnvironmentObject var userModel: UserModel
 
     var body: some View {
-        // TODO: make pinniing actually an editable thing lol
+        // TODO: make pinniing actually an editable thing from UI perspective?
         // TODO: currently shows all Tasks. reduce to only pinned = true? tasks
         VStack {
             Text("pinned Tasks")
