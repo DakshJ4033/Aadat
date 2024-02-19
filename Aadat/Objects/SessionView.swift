@@ -13,10 +13,11 @@ class Session {
     var taskName: String
     var startTime: Date
     var endTime: Date?
+    var task: Task?
     
     // create a session for the task you want to work on
     // constructor automatically adds the start time on creation
-    init(taskName: String = "") {
+    init(taskName: String = "default") {
             self.taskName = taskName
             self.startTime = Date()
         }

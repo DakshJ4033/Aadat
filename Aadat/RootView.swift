@@ -19,6 +19,7 @@ enum RootViewType {
 
 class UserModel: ObservableObject {
     @Published var tasks: [Task] = []
+    @Published var sessions: [Session] = []
     
 }
 
