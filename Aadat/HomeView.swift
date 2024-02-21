@@ -13,6 +13,8 @@ struct HomeView: View {
     @EnvironmentObject var rootViewManager: RootViewManager
     @EnvironmentObject var userModel: UserModel
     
+    @State private var showAddTaskOrSessionSheet = false
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -20,8 +22,11 @@ struct HomeView: View {
                 
                 SessionsView()
                 
-                AddTaskOrSessionView()
+                AddTaskOrSessionView(showAddTaskOrSessionSheet: $showAddTaskOrSessionSheet)
             }
+            .sheet(isPresented: $showAddTaskOrSessionSheet, content: {
+                TaskOrSessionFormView()
+            })
         }
         .environmentObject(userModel)
         .padding()

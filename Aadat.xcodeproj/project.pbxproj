@@ -23,6 +23,7 @@
 		674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */; };
 		674815842B813F1F007D4F59 /* ManageTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815832B813F1F007D4F59 /* ManageTagsView.swift */; };
 		BA28C49C2B86B92F00E0D322 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BA28C49B2B86B92F00E0D322 /* .gitignore */; };
+		BA28C49E2B86BC2F00E0D322 /* TaskOrSessionFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskOrSessionView.swift; sourceTree = "<group>"; };
 		674815832B813F1F007D4F59 /* ManageTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTagsView.swift; sourceTree = "<group>"; };
 		BA28C49B2B86B92F00E0D322 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskOrSessionFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */,
 				674815742B7FEC53007D4F59 /* HomeView.swift */,
+				BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */,
 				0DC4E03B2B7EFC480050F5E1 /* RootView.swift */,
 				674815762B7FED47007D4F59 /* PinnedView.swift */,
 				674815782B7FEDA4007D4F59 /* SessionsView.swift */,
@@ -303,6 +306,7 @@
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
 				0DC4E03A2B7EFC480050F5E1 /* AadatApp.swift in Sources */,
+				BA28C49E2B86BC2F00E0D322 /* TaskOrSessionFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

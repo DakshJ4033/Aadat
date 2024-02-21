@@ -11,12 +11,15 @@ import SwiftUI
 struct AddTaskOrSessionView: View {
     
     @EnvironmentObject var userModel: UserModel
+    
+    @Binding var showAddTaskOrSessionSheet: Bool
 
     var body: some View {
         HStack {
             /* Click to add empty Task/Session */
             // TODO: make this a persistent button that doesn't scroll away
             Button {
+                showAddTaskOrSessionSheet = true
                 let newTask = Task(defaultNoTagStr: userModel.defaultNoTagStr)
                 newTask.isPinned = true
                 userModel.tasks.append(newTask)
@@ -33,5 +36,5 @@ struct AddTaskOrSessionView: View {
 }
 
 #Preview {
-    AddTaskOrSessionView()
+    AddTaskOrSessionView(showAddTaskOrSessionSheet: .constant(false))
 }
