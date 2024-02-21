@@ -21,12 +21,20 @@ class UserModel: ObservableObject {
     @Published var tasks: [Task] = []
     @Published var sessions: [Session] = []
     
+    @Published var defaultNoTagStr: String // used in the TaskView PICKER, beware refactor bugs
+    @Published var allTags: [String]
+    
+    // TODO: this init may cause issues depending when we pull from disk
+    init(defaultNoTagStr: String) {
+        self.defaultNoTagStr = defaultNoTagStr
+        self.allTags = [defaultNoTagStr]
+    }
 }
 
 struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
-    @StateObject var userModel: UserModel = UserModel()
+    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
         Group {

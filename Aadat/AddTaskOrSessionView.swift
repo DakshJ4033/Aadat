@@ -17,7 +17,7 @@ struct AddTaskOrSessionView: View {
             /* Click to add empty Task/Session */
             // TODO: make this a persistent button that doesn't scroll away
             Button {
-                let newTask = Task()
+                let newTask = Task(defaultNoTagStr: userModel.defaultNoTagStr)
                 newTask.isPinned = true
                 userModel.tasks.append(newTask)
             } label: {
