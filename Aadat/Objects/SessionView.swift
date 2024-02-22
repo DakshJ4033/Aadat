@@ -55,6 +55,7 @@ class Session {
 struct SessionView: View {
     var session: Session
     
+    @State private var showAccountsPopOver: Bool = false
     var body: some View {
         HStack {
             Text("\(session.taskName)")
@@ -63,6 +64,12 @@ struct SessionView: View {
         }
         .padding()
         .background(.gray)
+        .onTapGesture {
+                            showAccountsPopOver = true;
+                        }
+                        .popover(isPresented: $showAccountsPopOver) {
+                            SessionDetailedView(session: session)
+                        }
     }
 }
 
