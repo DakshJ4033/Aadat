@@ -33,36 +33,39 @@ struct TaskView: View {
     @EnvironmentObject var userModel: UserModel
     
     @State private var task: Task
-    
-    init(task: Task) {
-        self.task = task
-    }
+    init(task: Task) {self.task = task}
     
     // TODO: display Tag, short desc., total time of Tag today, and timer button */
     // TODO: taskDesc is not updating the Object instance
     // TODO: tag should be a selectable field to scroll through all existing tags and change
+    // TODO: add search bar to picker
+    // TODO: see if NewTag sheet can be moved inside picker. wasn't working before
+    
+    @State var searchText: String = ""
+    @State var showNewTagSheet: Bool = false
+    @State var newTag: String = "New Tag"
     
     var body: some View {
-        
-        @State var searchText: String = ""
-        @State var showingSheet: Bool = false
-        @State var newTag: String = "New Tag"
-        
+            
         HStack {
             VStack {
                 // Task desc.
                 TextField(task.desc, text: self.$task.desc)
                 
-                // assign a Tag from allTags
+                // assign a Tag from allTags or Add New
+                Button("New Tag...") { // Half-sheet name entry
+                    showNewTagSheet.toggle()
+                }.sheet(isPresented: $showNewTagSheet) {
+                    //TODO: make this actually add tags to the userModel and push to disk
+                    TextField("New Tag...", text: $newTag).defaultSheetDetents()
+                }
+                
                 Picker(task.tag, selection: $userModel.allTags[0]) {
                     ForEach(userModel.allTags, id: \.self) { i in
                         Text(i)
                     }
                 }.pickerStyle(.menu)
-                
-                // Create a new Tag
-            }
-            .padding()
+            }.padding()
             
             Spacer()
             
@@ -76,10 +79,12 @@ struct TaskView: View {
              }*/
             .padding()
         }
+        
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
         .background(.gray)
         .padding()
+        
     }
 }
 

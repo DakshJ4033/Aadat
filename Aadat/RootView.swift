@@ -55,16 +55,11 @@ struct RootView: View {
         }
         .environmentObject(rootViewManager)
         .environmentObject(userModel)
-        .bottomNavBar(rootViewManager: rootViewManager)
-        
+        .rootBottomNavBar(rootViewManager: rootViewManager)
     }
 }
 
-#Preview {
-    RootView()
-}
-
-struct BottomNavBar: ViewModifier {
+struct RootBottomNavBar: ViewModifier {
     var rootViewManager: RootViewManager
     func body(content: Content) -> some View {
         content
@@ -89,7 +84,11 @@ struct BottomNavBar: ViewModifier {
 }
 
 extension View {
-    func bottomNavBar(rootViewManager: RootViewManager) -> some View {
-        modifier(BottomNavBar(rootViewManager: rootViewManager))
+    func rootBottomNavBar(rootViewManager: RootViewManager) -> some View {
+        modifier(RootBottomNavBar(rootViewManager: rootViewManager))
     }
+}
+
+#Preview {
+    RootView()
 }

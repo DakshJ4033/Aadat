@@ -12,21 +12,21 @@ struct AddTaskOrSessionView: View {
     
     @EnvironmentObject var userModel: UserModel
     
-    @Binding var showAddTaskOrSessionSheet: Bool
+    @State var showAddTaskOrSessionSheet: Bool = false
 
     var body: some View {
         HStack {
             /* Click to add empty Task/Session */
             // TODO: make this a persistent button that doesn't scroll away
-            Button {
-                showAddTaskOrSessionSheet = true
+            Button ("Add Task/Session") {
+                showAddTaskOrSessionSheet.toggle()
                 let newTask = Task(defaultNoTagStr: userModel.defaultNoTagStr)
                 newTask.isPinned = true
                 userModel.tasks.append(newTask)
-            } label: {
-                Text("Add Task/Session")
             }
-            
+            .sheet(isPresented: $showAddTaskOrSessionSheet) {
+                TaskOrSessionFormView()
+            }
         }
         .frame(maxWidth: .infinity)
         // TODO: Button UI
@@ -36,5 +36,5 @@ struct AddTaskOrSessionView: View {
 }
 
 #Preview {
-    AddTaskOrSessionView(showAddTaskOrSessionSheet: .constant(false))
+    AddTaskOrSessionView()
 }

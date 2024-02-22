@@ -22,11 +22,9 @@ struct HomeView: View {
                 
                 SessionsView()
                 
-                AddTaskOrSessionView(showAddTaskOrSessionSheet: $showAddTaskOrSessionSheet)
+                AddTaskOrSessionView()
             }
-            .sheet(isPresented: $showAddTaskOrSessionSheet, content: {
-                TaskOrSessionFormView()
-            })
+            
         }
         .environmentObject(userModel)
         .padding()

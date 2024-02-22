@@ -18,9 +18,14 @@ struct ManageTagsView: View {
         ScrollView {
             VStack {
                 /* Show all Tags so user can pin / search / unpin */
+                // TODO: search bar
+                // TODO: Add tag in top right button
                 Text("All tags go here")
                 ForEach(0..<userModel.tasks.count, id: \.self) {i in
                     TaskView(task: userModel.tasks[i])
+                }
+                ForEach(0..<userModel.allTags.count, id: \.self) {i in
+                    Text("\(i): \(userModel.allTags[i])")
                 }
             }
         }
