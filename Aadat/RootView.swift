@@ -21,12 +21,20 @@ class UserModel: ObservableObject {
     @Published var tasks: [Task] = []
     @Published var sessions: [Session] = []
     
+    @Published var defaultNoTagStr: String // used in the TaskView PICKER, beware refactor bugs
+    @Published var allTags: [String]
+    
+    // TODO: this init may cause issues depending when we pull from disk
+    init(defaultNoTagStr: String) {
+        self.defaultNoTagStr = defaultNoTagStr
+        self.allTags = [defaultNoTagStr]
+    }
 }
 
 struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
-    @StateObject var userModel: UserModel = UserModel()
+    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
         Group {
@@ -47,16 +55,11 @@ struct RootView: View {
         }
         .environmentObject(rootViewManager)
         .environmentObject(userModel)
-        .bottomNavBar(rootViewManager: rootViewManager)
-        
+        .rootBottomNavBar(rootViewManager: rootViewManager)
     }
 }
 
-#Preview {
-    RootView()
-}
-
-struct BottomNavBar: ViewModifier {
+struct RootBottomNavBar: ViewModifier {
     var rootViewManager: RootViewManager
     func body(content: Content) -> some View {
         content
@@ -81,7 +84,11 @@ struct BottomNavBar: ViewModifier {
 }
 
 extension View {
-    func bottomNavBar(rootViewManager: RootViewManager) -> some View {
-        modifier(BottomNavBar(rootViewManager: rootViewManager))
+    func rootBottomNavBar(rootViewManager: RootViewManager) -> some View {
+        modifier(RootBottomNavBar(rootViewManager: rootViewManager))
     }
+}
+
+#Preview {
+    RootView()
 }

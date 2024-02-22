@@ -22,6 +22,7 @@ struct HomeView: View {
                 
                 AddTaskOrSessionView()
             }
+            
         }
         .environmentObject(userModel)
         .padding()
