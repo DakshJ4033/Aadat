@@ -10,13 +10,20 @@ import SwiftUI
 
 struct TimerButtonView: View {
     @EnvironmentObject var userModel: UserModel
+    @State var taskStarted = false
     
     var body: some View {
         Button {
-            let newSession = Session()
-            userModel.sessions.append(newSession)
+            if !taskStarted {
+                let newSession = Session()
+                userModel.sessions.append(newSession)
+            }
+            taskStarted.toggle()
         } label: {
-            Image(systemName: "play.circle.fill")
+            Image(systemName: taskStarted ? "stop.circle.fill" : "play.circle.fill")
+                .resizable() // Make the image resizable
+                .frame(width: 24, height: 24)
+                .foregroundColor(taskStarted ? .red : .blue)
         }
         .padding()
     }

@@ -17,9 +17,9 @@ struct SessionsView: View {
             /* Show completed sessions */
             Text("Completed Sessions (On timer end, display here)")
             
-            ForEach(0..<userModel.sessions.count, id: \.self) {i in
-                SessionView(session: userModel.sessions[i])
-            }
+                ForEach(0..<userModel.sessions.count, id: \.self) {i in
+                    SessionView(session: userModel.sessions[i])
+                }
         }
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box

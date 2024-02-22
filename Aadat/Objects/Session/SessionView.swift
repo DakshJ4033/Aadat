@@ -11,8 +11,8 @@ import SwiftUI
 /* Session Class Dec. */
 class Session {
     var taskName: String
-    var startTime: Date
-    var endTime: Date?
+    @State var startTime: Date
+    @State var endTime: Date?
     var task: Task?
     
     // create a session for the task you want to work on
@@ -54,15 +54,23 @@ class Session {
 
 struct SessionView: View {
     var session: Session
+    @State private var showAccountsPopOver: Bool = false
     
     var body: some View {
-        HStack {
-            Text("\(session.taskName)")
-                .lineLimit(1)
-            Text("Started: \(session.getStartTime())")
-        }
-        .padding()
-        .background(.gray)
+                HStack {
+                    Text("\(session.taskName)")
+                        .lineLimit(1)
+                    Text("Started: \(session.getStartTime())")
+                }
+                .padding()
+                .background(.gray)
+                .onTapGesture {
+                    showAccountsPopOver = true;
+                }
+                .popover(isPresented: $showAccountsPopOver) {
+                    SessionDetailedView(session: session)
+                }
+            
     }
 }
 
