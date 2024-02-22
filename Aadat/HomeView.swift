@@ -13,8 +13,6 @@ struct HomeView: View {
     @EnvironmentObject var rootViewManager: RootViewManager
     @EnvironmentObject var userModel: UserModel
     
-    @State private var showAddTaskOrSessionSheet = false
-    
     var body: some View {
         ScrollView {
             VStack {

@@ -11,6 +11,8 @@ struct TaskOrSessionFormView: View {
     
     @State private var taskName = ""
     @State private var taskDescription = ""
+    @State private var showTagsSheet = false
+    
     @FocusState private var taskNameFieldIsFocused: Bool
     
     @Environment(\.dismiss) var dismiss
@@ -44,7 +46,22 @@ struct TaskOrSessionFormView: View {
                     TextField("Task Description", text: $taskDescription)
                         .padding([.bottom], 30)
                 }
+                Section(header: Text("Tags")) {
+                    Button {
+                        showTagsSheet.toggle()
+                    } label: {
+                        HStack {
+                            Image(systemName: "number")
+                            Text("Tags")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                        }
+                    }
+                }
             }
+            .sheet(isPresented: $showTagsSheet, content: {
+                
+            })
             .onAppear() {
                taskNameFieldIsFocused = true
             }

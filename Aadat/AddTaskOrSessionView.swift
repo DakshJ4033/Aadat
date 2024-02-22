@@ -12,7 +12,7 @@ struct AddTaskOrSessionView: View {
     
     @EnvironmentObject var userModel: UserModel
     
-    @State var showAddTaskOrSessionSheet: Bool = false
+    @State var showAddTaskOrSessionSheet = false
 
     var body: some View {
         HStack {
