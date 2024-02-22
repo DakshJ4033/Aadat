@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct TaskOrSessionFormView: View {
-    
+    @EnvironmentObject var userModel: UserModel
     @State private var taskName = ""
     @State private var taskDescription = ""
-    @State private var showTagsSheet = false
+    
+    @State private var tagName = ""
+    @State private var selectedTagIndex = 0
     
     @FocusState private var taskNameFieldIsFocused: Bool
     
     @Environment(\.dismiss) var dismiss
+    
+    func addTask() {
+        let newTask = Task(defaultNoTagStr: "")
+        newTask.desc = taskDescription
+        newTask.isPinned = true
+        newTask.tag = userModel.allTags[selectedTagIndex]
+        newTask.parent = nil
+        userModel.tasks.append(newTask)
+        dismiss()
+    }
     
     var body: some View {
         VStack {
@@ -34,6 +46,7 @@ struct TaskOrSessionFormView: View {
                 Spacer()
                 Button {
                     // TODO: Implement task/session creation logic
+                    addTask()
                 } label: {
                     Text("Add")
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 15))
@@ -47,21 +60,25 @@ struct TaskOrSessionFormView: View {
                         .padding([.bottom], 30)
                 }
                 Section(header: Text("Tags")) {
-                    Button {
-                        showTagsSheet.toggle()
-                    } label: {
+                    Picker(selection: $selectedTagIndex, content: {
+                        ForEach(0..<userModel.allTags.count, id: \.self) {index in
+                            Text("\(userModel.allTags[index])")
+                                .tag(index)
+                        }
+                    }, label: {
                         HStack {
                             Image(systemName: "number")
                             Text("Tags")
-                            Spacer()
-                            Image(systemName: "chevron.right")
                         }
-                    }
+                    })
+                    TextField("Add New Tag...", text: $tagName)
+                        .onSubmit {
+                            userModel.allTags.append(tagName)
+                            tagName = ""
+                            selectedTagIndex = userModel.allTags.count - 1
+                        }
                 }
             }
-            .sheet(isPresented: $showTagsSheet, content: {
-                
-            })
             .onAppear() {
                taskNameFieldIsFocused = true
             }
