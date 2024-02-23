@@ -53,7 +53,7 @@ struct TaskView: View {
             
             VStack {
                 // TODO: total time today, discuss session times as well
-                TimerButtonView(task: task)
+                TimerButtonView()
             }
             /*.onChange(of: self.$task.desc) {
              // TODO: double check this references the actual Object? (push changes to disk?)

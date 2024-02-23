@@ -12,6 +12,7 @@ struct SessionDetailedView: View {
     
     @State var userStartTime : Date = Date() + 60
     @State var userEndTime : Date = Date() + 60
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
         
@@ -29,5 +30,5 @@ struct SessionDetailedView: View {
 }
 
 #Preview {
-    SessionDetailedView(session:Session())
+    SessionDetailedView(session: Session(startTime: Date.now))
 }

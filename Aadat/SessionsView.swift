@@ -7,11 +7,10 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct SessionsView: View {
-    
-//    @EnvironmentObject var userModel: UserModel
-    @Query private var tasks: [Task]
+    @Query private var sessions: [Session]
 
     var body: some View {
         VStack {
@@ -21,8 +20,8 @@ struct SessionsView: View {
 //            ForEach(0..<userModel.sessions.count, id: \.self) {i in
 //                SessionView(session: userModel.sessions[i])
 //            }
-            ForEach(tasks) { task in
-                SessionView(session: task.sessions)
+            ForEach(sessions) { session in
+                SessionView(session: session)
             }
         }
         .frame(maxWidth: .infinity)

@@ -9,14 +9,14 @@ import Foundation
 import SwiftUI
 
 struct TimerButtonView: View {
-    @State var task: Task
+    @Environment(\.modelContext) var context
     @State var taskStarted = false
     
     var body: some View {
         Button {
             if !taskStarted {
                 let newSession = Session(startTime: Date.now)
-                task.sessions.append(newSession)
+                context.insert(newSession)
             }
             taskStarted.toggle()
         } label: {
@@ -30,5 +30,5 @@ struct TimerButtonView: View {
 }
 
 #Preview {
-    TimerButtonView(task: Task())
+    TimerButtonView()
 }

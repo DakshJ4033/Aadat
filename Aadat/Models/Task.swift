@@ -16,17 +16,14 @@ final class Task {
     @Attribute(.unique) 
     var tag: String
     var subTasks = [Task]()
-    var sessions = [Session]()
     
-    init(taskDescription: String = "", 
+    init(taskDescription: String = "",
          isPinned: Bool = false,
          tag: String = "No Tag", 
-         subTasks: [Task] = [Task](),
-         sessions: [Session] = [Session]()) {
+         subTasks: [Task] = [Task]()) {
         self.taskDescription = taskDescription
         self.isPinned = isPinned
         self.tag = tag
         self.subTasks = subTasks
-        self.sessions = sessions
     }
 }

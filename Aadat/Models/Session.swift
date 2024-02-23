@@ -12,10 +12,12 @@ import SwiftData
 final class Session {
     var startTime: Date
     var endTime: Date?
+    var tag: String
     
-    init(startTime: Date, endTime: Date? = nil) {
+    init(startTime: Date, endTime: Date? = nil, tag: String = "No Tag") {
         self.startTime = startTime
         self.endTime = endTime
+        self.tag = tag
     }
     
     func totalTime() -> TimeInterval {

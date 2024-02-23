@@ -14,21 +14,21 @@ struct SessionView: View {
     @State private var showAccountsPopOver: Bool = false
     var body: some View {
         HStack {
-            Text("\(session.taskName)")
+            Text("\(session.tag)")
                 .lineLimit(1)
             Text("Started: \(session.getStartTime())")
         }
         .padding()
         .background(.gray)
         .onTapGesture {
-                            showAccountsPopOver = true;
-                        }
-                        .popover(isPresented: $showAccountsPopOver) {
-                            SessionDetailedView(session: session)
-                        }
+            showAccountsPopOver = true;
+        }
+        .popover(isPresented: $showAccountsPopOver) {
+            SessionDetailedView(session: session)
+        }
     }
 }
 
 #Preview {
-    SessionView(session: Session())
+    SessionView(session: Session(startTime: Date.now))
 }
