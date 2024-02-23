@@ -18,7 +18,11 @@ final class Task {
     var subTasks = [Task]()
     var sessions = [Session]()
     
-    init(taskDescription: String, isPinned: Bool, tag: String, subTasks: [Task] = [Task](), sessions: [Session] = [Session]()) {
+    init(taskDescription: String = "", 
+         isPinned: Bool = false,
+         tag: String = "No Tag", 
+         subTasks: [Task] = [Task](),
+         sessions: [Session] = [Session]()) {
         self.taskDescription = taskDescription
         self.isPinned = isPinned
         self.tag = tag

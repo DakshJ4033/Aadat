@@ -10,8 +10,6 @@ import SwiftUI
 
 struct AddTaskOrSessionView: View {
     
-    @EnvironmentObject var userModel: UserModel
-    
     @State var showAddTaskOrSessionSheet = false
 
     var body: some View {
@@ -20,9 +18,6 @@ struct AddTaskOrSessionView: View {
             // TODO: make this a persistent button that doesn't scroll away
             Button ("Add Task/Session") {
                 showAddTaskOrSessionSheet.toggle()
-//                let newTask = Task(defaultNoTagStr: userModel.defaultNoTagStr)
-//                newTask.isPinned = true
-//                userModel.tasks.append(newTask)
             }
             .sheet(isPresented: $showAddTaskOrSessionSheet) {
                 TaskOrSessionFormView()

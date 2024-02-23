@@ -12,11 +12,10 @@ import SwiftUI
 
 
 struct TaskView: View {
-    
-    @EnvironmentObject var userModel: UserModel
-    
     @State private var task: Task
-    init(task: Task) {self.task = task}
+    init(task: Task) {
+        self.task = task
+    }
     
     // TODO: display Tag, short desc., total time of Tag today, and timer button */
     // TODO: taskDesc is not updating the Object instance
@@ -33,7 +32,7 @@ struct TaskView: View {
         HStack {
             VStack {
                 // Task desc.
-                TextField(task.desc, text: self.$task.desc)
+                TextField(task.taskDescription, text: $task.taskDescription)
                 
                 // assign a Tag from allTags or Add New
                 Button("New Tag...") { // Half-sheet name entry
@@ -42,19 +41,19 @@ struct TaskView: View {
                     //TODO: make this actually add tags to the userModel and push to disk
                     TextField("New Tag...", text: $newTag).defaultSheetDetents()
                 }
-                
-                Picker(task.tag, selection: $userModel.allTags[0]) {
-                    ForEach(userModel.allTags, id: \.self) { i in
-                        Text(i)
-                    }
-                }.pickerStyle(.menu)
+//                
+//                Picker(task.tag, selection: $userModel.allTags[0]) {
+//                    ForEach(userModel.allTags, id: \.self) { i in
+//                        Text(i)
+//                    }
+//                }.pickerStyle(.menu)
             }.padding()
             
             Spacer()
             
             VStack {
                 // TODO: total time today, discuss session times as well
-                TimerButtonView()
+                TimerButtonView(task: task)
             }
             /*.onChange(of: self.$task.desc) {
              // TODO: double check this references the actual Object? (push changes to disk?)

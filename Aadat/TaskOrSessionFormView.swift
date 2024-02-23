@@ -6,27 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TaskOrSessionFormView: View {
-    @EnvironmentObject var userModel: UserModel
-    @State private var taskDescription = ""
-    
-    @State private var tagName = ""
-    @State private var selectedTagIndex = 0
-    
+    @Query private var tasks: [Task]
+    @State private var task = Task()
     @FocusState private var taskDescFieldIsFocused: Bool
     
     @Environment(\.dismiss) var dismiss
-    
-    func addTask() {
-        let newTask = Task(defaultNoTagStr: "")
-        newTask.desc = taskDescription
-        newTask.isPinned = true
-        newTask.tag = userModel.allTags[selectedTagIndex]
-        newTask.parent = nil
-        userModel.tasks.append(newTask)
-        dismiss()
-    }
+    @Environment(\.modelContext) var context
     
     var body: some View {
         VStack {
@@ -45,7 +33,8 @@ struct TaskOrSessionFormView: View {
                 Spacer()
                 Button {
                     // TODO: Implement task/session creation logic
-                    addTask()
+                    context.insert(task)
+                    dismiss()
                 } label: {
                     Text("Add")
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 15))
@@ -53,15 +42,18 @@ struct TaskOrSessionFormView: View {
             }
             Form {
                 Section(header: Text("Create Task")) {
-                    TextField("Task Description", text: $taskDescription)
+                    TextField("Task Description", text: $task.taskDescription)
                         .focused($taskDescFieldIsFocused)
                         .padding([.bottom], 30)
                 }
                 Section(header: Text("Tags")) {
-                    Picker(selection: $selectedTagIndex, content: {
-                        ForEach(0..<userModel.allTags.count, id: \.self) {index in
-                            Text("\(userModel.allTags[index])")
-                                .tag(index)
+                    Picker(selection: $task.tag, content: {
+//                        ForEach(0..<userModel.allTags.count, id: \.self) {index in
+//                            Text("\(userModel.allTags[index])")
+//                                .tag(index)
+//                        }
+                        ForEach(tasks) { task in
+                            Text("\(task.tag)")
                         }
                     }, label: {
                         HStack {
@@ -69,11 +61,12 @@ struct TaskOrSessionFormView: View {
                             Text("Tags")
                         }
                     })
-                    TextField("Add New Tag...", text: $tagName)
+                    TextField("Add New Tag...", text: $task.tag)
                         .onSubmit {
-                            userModel.allTags.append(tagName)
-                            tagName = ""
-                            selectedTagIndex = userModel.allTags.count - 1
+//                            userModel.allTags.append(tagName)
+//                            tagName = ""
+//                            selectedTagIndex = userModel.allTags.count - 1
+                            // TODO: DO SOMETHING HERE
                         }
                 }
             }

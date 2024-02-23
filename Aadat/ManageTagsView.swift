@@ -7,12 +7,12 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct ManageTagsView: View {
     
     //TODO: show all tags so user can manage their pinned/not pinned. can also manage deletion/creation
-    
-    @EnvironmentObject var userModel: UserModel
+    @Query private var tasks: [Task]
 
     var body: some View {
         ScrollView {
@@ -21,11 +21,8 @@ struct ManageTagsView: View {
                 // TODO: search bar
                 // TODO: Add tag in top right button
                 Text("All tags go here")
-                ForEach(0..<userModel.tasks.count, id: \.self) {i in
-                    TaskView(task: userModel.tasks[i])
-                }
-                ForEach(0..<userModel.allTags.count, id: \.self) {i in
-                    Text("\(i): \(userModel.allTags[i])")
+                ForEach(tasks) { task in
+                    TaskView(task: task)
                 }
             }
         }

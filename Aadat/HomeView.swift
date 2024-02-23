@@ -11,7 +11,6 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var rootViewManager: RootViewManager
-    @EnvironmentObject var userModel: UserModel
     
     var body: some View {
         ScrollView {
@@ -24,7 +23,7 @@ struct HomeView: View {
             }
             
         }
-        .environmentObject(userModel)
+//        .environmentObject(userModel)
         .padding()
     }
 }

@@ -30,5 +30,5 @@ struct SessionView: View {
 }
 
 #Preview {
-    SessionView(session: Session(taskName: "Homework"))
+    SessionView(session: Session())
 }
