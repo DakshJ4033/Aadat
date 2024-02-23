@@ -17,24 +17,8 @@ enum RootViewType {
     case manageTagsView
 }
 
-class UserModel: ObservableObject {
-    @Published var tasks: [Task] = []
-    @Published var sessions: [Session] = []
-    
-    @Published var defaultNoTagStr: String // used in the TaskView PICKER, beware refactor bugs
-    @Published var allTags: [String]
-    
-    // TODO: this init may cause issues depending when we pull from disk
-    init(defaultNoTagStr: String) {
-        self.defaultNoTagStr = defaultNoTagStr
-        self.allTags = [defaultNoTagStr]
-    }
-}
-
 struct RootView: View {
-    
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
-    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
         Group {
@@ -54,7 +38,6 @@ struct RootView: View {
             
         }
         .environmentObject(rootViewManager)
-        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
     }
 }
@@ -71,7 +54,6 @@ struct RootBottomNavBar: ViewModifier {
                         } label: {
                             Image(systemName: "house.circle.fill")
                         }
-                        
                         Button { /* All Tags View */
                             rootViewManager.rootViewType = .manageTagsView
                         } label: {

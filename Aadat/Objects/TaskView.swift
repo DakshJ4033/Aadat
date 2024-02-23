@@ -9,24 +9,7 @@ import Foundation
 import SwiftUI
 
 /* Task Class Dec. */
-@Observable
-class Task {
-    var desc: String
-    var isPinned: Bool
-    
-    var tag: String
-    var parent: Task?
-    
-    // TODO: use dictionary(?) of {Tag:start/end times}. all stats can be generated off start/end time
-    
-    init(defaultNoTagStr: String) {
-        desc = "Add description"
-        tag = defaultNoTagStr
-        parent = nil
-        // TODO: refine logic on when/where we set isPinned on creation
-        isPinned = true
-    }
-}
+
 
 struct TaskView: View {
     

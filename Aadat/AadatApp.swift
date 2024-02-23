@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct AadatApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-        }
+        }.modelContainer(for: [Task.self, Session.self])
     }
 }
