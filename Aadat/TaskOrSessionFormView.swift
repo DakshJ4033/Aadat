@@ -9,13 +9,12 @@ import SwiftUI
 
 struct TaskOrSessionFormView: View {
     @EnvironmentObject var userModel: UserModel
-    @State private var taskName = ""
     @State private var taskDescription = ""
     
     @State private var tagName = ""
     @State private var selectedTagIndex = 0
     
-    @FocusState private var taskNameFieldIsFocused: Bool
+    @FocusState private var taskDescFieldIsFocused: Bool
     
     @Environment(\.dismiss) var dismiss
     
@@ -54,9 +53,8 @@ struct TaskOrSessionFormView: View {
             }
             Form {
                 Section(header: Text("Create Task")) {
-                    TextField("Task Name", text: $taskName)
-                        .focused($taskNameFieldIsFocused)
                     TextField("Task Description", text: $taskDescription)
+                        .focused($taskDescFieldIsFocused)
                         .padding([.bottom], 30)
                 }
                 Section(header: Text("Tags")) {
@@ -80,7 +78,7 @@ struct TaskOrSessionFormView: View {
                 }
             }
             .onAppear() {
-               taskNameFieldIsFocused = true
+               taskDescFieldIsFocused = true
             }
         }
     }
