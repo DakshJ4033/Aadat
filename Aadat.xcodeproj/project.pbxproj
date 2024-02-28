@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */; };
-		0D18060D2B8EBB6F004E03CB /* SampleClip.flac in Resources */ = {isa = PBXBuildFile; fileRef = 0D18060C2B8EBB6F004E03CB /* SampleClip.flac */; };
 		0D242ED72B8847B20086AFB3 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED62B8847B20086AFB3 /* Task.swift */; };
 		0D242ED92B884F9B0086AFB3 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED82B884F9B0086AFB3 /* Session.swift */; };
 		0DC4E03A2B7EFC480050F5E1 /* AadatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */; };
@@ -51,7 +50,6 @@
 
 /* Begin PBXFileReference section */
 		0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageIdentifierView.swift; sourceTree = "<group>"; };
-		0D18060C2B8EBB6F004E03CB /* SampleClip.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = SampleClip.flac; path = ../../../Downloads/SampleClip.flac; sourceTree = "<group>"; };
 		0D242ED62B8847B20086AFB3 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0D242ED82B884F9B0086AFB3 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		0DC4E0362B7EFC480050F5E1 /* Aadat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aadat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,7 +134,6 @@
 		0DC4E0382B7EFC480050F5E1 /* Aadat */ = {
 			isa = PBXGroup;
 			children = (
-				0D18060C2B8EBB6F004E03CB /* SampleClip.flac */,
 				0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */,
 				6732863D2B87D55200323023 /* CustomModifiers.swift */,
 				674815742B7FEC53007D4F59 /* HomeView.swift */,
@@ -296,7 +293,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DC4E0412B7EFC4B0050F5E1 /* Preview Assets.xcassets in Resources */,
-				0D18060D2B8EBB6F004E03CB /* SampleClip.flac in Resources */,
 				BA28C49C2B86B92F00E0D322 /* .gitignore in Resources */,
 				0DC4E03E2B7EFC4B0050F5E1 /* Assets.xcassets in Resources */,
 			);
