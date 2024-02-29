@@ -15,14 +15,20 @@ struct SessionsView: View {
     var body: some View {
         VStack {
             /* Show completed sessions */
-            Text("Sessions")
+            Text("                Sessions          ⏱️")
+                .font(.title)
+                .bold()
+                .padding(.top)
             ForEach(sessions) { session in
                 SessionView(session: session)
+                    .padding([.bottom], 30)
+                    .cornerRadius(5)
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: 500)
         // TODO: make a better UI for this box
         .background(.blue)
+        .cornerRadius(10)
         .padding()
     }
 }

@@ -41,7 +41,8 @@ struct TaskView: View {
                     //TODO: make this actually add tags to the userModel and push to disk
                     TextField("New Tag...", text: $newTag).defaultSheetDetents()
                 }
-//                
+                .padding([.trailing], 121)
+//
 //                Picker(task.tag, selection: $userModel.allTags[0]) {
 //                    ForEach(userModel.allTags, id: \.self) { i in
 //                        Text(i)
@@ -64,7 +65,8 @@ struct TaskView: View {
         
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
-        .background(.gray)
+        .background(.white)
+        .cornerRadius(10)
         .padding()
         
     }

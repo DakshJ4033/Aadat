@@ -16,9 +16,10 @@ struct PinnedView: View {
     var body: some View {
         // TODO: make pinniing actually an editable thing from UI perspective?
         VStack {
-            HStack {
-                Text("pinned Tasks")
-            }
+            Text("             Pinned Tasks       📌")
+                .font(.title)
+                .bold()
+                .padding(.top)
             ForEach(tasks) { task in
                 TaskView(task: task)
             }
@@ -26,6 +27,7 @@ struct PinnedView: View {
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
         .background(.yellow)
+        .cornerRadius(10)
     }
 }
 

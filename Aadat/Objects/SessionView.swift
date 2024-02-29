@@ -19,7 +19,7 @@ struct SessionView: View {
             Text("Started: \(session.getStartTime())")
         }
         .padding()
-        .background(.gray)
+        .background(.white)
         .onTapGesture {
             showAccountsPopOver = true;
         }

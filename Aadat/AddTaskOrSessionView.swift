@@ -13,20 +13,21 @@ struct AddTaskOrSessionView: View {
     @State var showAddTaskOrSessionSheet = false
 
     var body: some View {
-        HStack {
-            /* Click to add empty Task/Session */
-            // TODO: make this a persistent button that doesn't scroll away
-            Button ("Add Detailed Task") {
-                showAddTaskOrSessionSheet.toggle()
-            }
-            .sheet(isPresented: $showAddTaskOrSessionSheet) {
-                TaskOrSessionFormView()
-            }
+        /* Click to add empty Task/Session */
+        // TODO: make this a persistent button that doesn't scroll away
+        Button {
+            showAddTaskOrSessionSheet.toggle()
+        } label: {
+             Label("Add Detailed Task", systemImage: "plus.circle")
+                .foregroundColor(.black)
         }
-        .frame(maxWidth: .infinity)
-        // TODO: Button UI
+        .sheet(isPresented: $showAddTaskOrSessionSheet) {
+            TaskOrSessionFormView()
+        }
+        .buttonStyle(.bordered)
         .background(.green)
-        .padding()
+        .cornerRadius(5)
+        .controlSize(.large)
     }
 }
 
