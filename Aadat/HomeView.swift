@@ -20,6 +20,8 @@ struct HomeView: View {
                 SessionsView()
                 
                 AddTaskOrSessionView()
+                
+                LanguageIdentifierView()
             }
             
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */; };
 		0D242ED72B8847B20086AFB3 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED62B8847B20086AFB3 /* Task.swift */; };
 		0D242ED92B884F9B0086AFB3 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED82B884F9B0086AFB3 /* Session.swift */; };
 		0DC4E03A2B7EFC480050F5E1 /* AadatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageIdentifierView.swift; sourceTree = "<group>"; };
 		0D242ED62B8847B20086AFB3 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0D242ED82B884F9B0086AFB3 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		0DC4E0362B7EFC480050F5E1 /* Aadat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aadat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 				6748157A2B7FF0E7007D4F59 /* Objects */,
 				0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */,
 				0DC4E03F2B7EFC4B0050F5E1 /* Preview Content */,
+				0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */,
 			);
 			path = Aadat;
 			sourceTree = "<group>";
@@ -340,7 +343,11 @@
 				673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */,
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,
 				2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */,
+<<<<<<< HEAD
 				673286422B8E761B00323023 /* ChartView.swift in Sources */,
+=======
+				0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */,
+>>>>>>> main
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
 				6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */,
