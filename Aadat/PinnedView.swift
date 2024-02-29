@@ -16,7 +16,9 @@ struct PinnedView: View {
     var body: some View {
         // TODO: make pinniing actually an editable thing from UI perspective?
         VStack {
-            Text("pinned Tasks")
+            HStack {
+                Text("pinned Tasks")
+            }
             ForEach(tasks) { task in
                 TaskView(task: task)
             }

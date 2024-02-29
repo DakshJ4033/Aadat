@@ -15,11 +15,7 @@ struct SessionsView: View {
     var body: some View {
         VStack {
             /* Show completed sessions */
-            Text("Completed Sessions (On timer end, display here)")
-//            
-//            ForEach(0..<userModel.sessions.count, id: \.self) {i in
-//                SessionView(session: userModel.sessions[i])
-//            }
+            Text("Sessions")
             ForEach(sessions) { session in
                 SessionView(session: session)
             }

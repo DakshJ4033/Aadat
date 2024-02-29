@@ -16,7 +16,7 @@ struct AddTaskOrSessionView: View {
         HStack {
             /* Click to add empty Task/Session */
             // TODO: make this a persistent button that doesn't scroll away
-            Button ("Add Task/Session") {
+            Button ("Add Detailed Task") {
                 showAddTaskOrSessionSheet.toggle()
             }
             .sheet(isPresented: $showAddTaskOrSessionSheet) {

@@ -15,6 +15,7 @@ class RootViewManager: ObservableObject {
 enum RootViewType {
     case homeView
     case manageTagsView
+    case statsView
 }
 
 //class UserModel: ObservableObject {
@@ -48,6 +49,9 @@ struct RootView: View {
                     ManageTagsView()
                 }
                 
+            case .statsView:
+                StatsView()
+                
             }
             // TODO: StatsView(), generate stats across different time frames, show habits etc.
             // TODO: CalendarView()?
@@ -76,6 +80,12 @@ struct RootBottomNavBar: ViewModifier {
                             rootViewManager.rootViewType = .manageTagsView
                         } label: {
                             Image(systemName: "book.pages.fill")
+                        }
+                        
+                        Button { /* Stats View */
+                            rootViewManager.rootViewType = .statsView
+                        } label: {
+                            Image(systemName: "chart.bar.xaxis.ascending.badge.clock.rtl")
                         }
                     }
                 }

@@ -12,6 +12,7 @@ struct TaskOrSessionFormView: View {
     @Query private var tasks: [Task]
     @State private var task = Task()
     @FocusState private var taskDescFieldIsFocused: Bool
+    @State private var pinnedSelection: Bool = true
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
@@ -46,6 +47,23 @@ struct TaskOrSessionFormView: View {
                         .focused($taskDescFieldIsFocused)
                         .padding([.bottom], 30)
                 }
+                
+                Section(header: Text("Pinned?")) {
+                    HStack {
+                        Text("Pinned:")
+                        Button {
+                            if pinnedSelection == true {
+                                pinnedSelection = false
+                            } else {
+                                pinnedSelection = true
+                            }
+                        } label: {pinnedSelection ? Text("True") : Text("False")}
+                    }
+                    .padding([.bottom], 30)
+                }
+                
+                // TODO: this section breaks the app??
+                /*
                 Section(header: Text("Tags")) {
                     Picker(selection: $task.tag, content: {
 //                        ForEach(0..<userModel.allTags.count, id: \.self) {index in
@@ -61,6 +79,7 @@ struct TaskOrSessionFormView: View {
                             Text("Tags")
                         }
                     })
+                 
                     TextField("Add New Tag...", text: $task.tag)
                         .onSubmit {
 //                            userModel.allTags.append(tagName)
@@ -69,6 +88,8 @@ struct TaskOrSessionFormView: View {
                             // TODO: DO SOMETHING HERE
                         }
                 }
+                 */
+                 
             }
             .onAppear() {
                taskDescFieldIsFocused = true
