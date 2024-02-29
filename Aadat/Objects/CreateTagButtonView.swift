@@ -15,7 +15,13 @@ struct CreateTagButtonView: View {
     
     var body: some View {
         Button {
-            allTags.append("New Tag")
+            /* don't dupe Tags */
+            var dupeNum = 0
+            while allTags.contains("New Tag \(dupeNum)") {
+                dupeNum = dupeNum + 1
+            }
+            allTags.append("New Tag \(dupeNum)")
+            
         } label: {
             Image(systemName: "plus.circle.fill").font(.largeTitle).imageScale(.large)
         }
