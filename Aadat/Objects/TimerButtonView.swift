@@ -11,11 +11,13 @@ import SwiftUI
 struct TimerButtonView: View {
     @Environment(\.modelContext) var context
     @State var taskStarted = false
+    let taskTag: String
     
     var body: some View {
         Button {
             if !taskStarted {
                 let newSession = Session(startTime: Date.now)
+                newSession.tag = taskTag
                 context.insert(newSession)
             }
             taskStarted.toggle()
@@ -30,5 +32,5 @@ struct TimerButtonView: View {
 }
 
 #Preview {
-    TimerButtonView()
+    TimerButtonView(taskTag: "")
 }
