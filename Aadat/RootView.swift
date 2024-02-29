@@ -79,7 +79,7 @@ struct RootBottomNavBar: ViewModifier {
                         Button { /* All Tags View */
                             rootViewManager.rootViewType = .manageTagsView
                         } label: {
-                            Image(systemName: "book.pages.fill")
+                            Image(systemName: "tag.fill")
                         }
                         
                         Button { /* Stats View */

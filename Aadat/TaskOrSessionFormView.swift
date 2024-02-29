@@ -11,6 +11,8 @@ import SwiftData
 struct TaskOrSessionFormView: View {
     @Query private var tasks: [Task]
     @State private var task = Task()
+    @State private var selectedTag = "No Tag"
+    @State private var newTagName = ""
     @FocusState private var taskDescFieldIsFocused: Bool
     @State private var pinnedSelection: Bool = true
     
@@ -34,6 +36,15 @@ struct TaskOrSessionFormView: View {
                 Spacer()
                 Button {
                     // TODO: Implement task/session creation logic
+                    
+                    if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+                        task.tag = newTagName
+                    } else if (newTagName == "" && selectedTag != "No Tag") {
+                        task.tag = selectedTag
+                    } else {
+                        print("Can't have a selected tag and a new tag at the same time!")
+                    }
+                    
                     context.insert(task)
                     dismiss()
                 } label: {
@@ -62,33 +73,26 @@ struct TaskOrSessionFormView: View {
                     .padding([.bottom], 30)
                 }
                 
-                // TODO: this section breaks the app??
-                /*
+                // You can either add a new tag (Picker must have No Tag selected) or
+                // pick a pre-existing tag (TextField should be empty)
                 Section(header: Text("Tags")) {
-                    Picker(selection: $task.tag, content: {
-//                        ForEach(0..<userModel.allTags.count, id: \.self) {index in
-//                            Text("\(userModel.allTags[index])")
-//                                .tag(index)
-//                        }
-                        ForEach(tasks) { task in
-                            Text("\(task.tag)")
-                        }
-                    }, label: {
-                        HStack {
-                            Image(systemName: "number")
-                            Text("Tags")
-                        }
-                    })
+                    if tasks.count > 0 {
+                        Picker(selection: $selectedTag, content: {
+                            Text("No Tag").tag("No Tag")
+                            ForEach(tasks) { task in
+                                Text("\(task.tag)").tag("\(task.tag)")
+                            }
+                        }, label: {
+                            HStack {
+                                Image(systemName: "number")
+                                Text("Tags")
+                            }
+                        })
+                    }
                  
-                    TextField("Add New Tag...", text: $task.tag)
-                        .onSubmit {
-//                            userModel.allTags.append(tagName)
-//                            tagName = ""
-//                            selectedTagIndex = userModel.allTags.count - 1
-                            // TODO: DO SOMETHING HERE
-                        }
+                    TextField("Add New Tag...", text: $newTagName)
                 }
-                 */
+                 
                  
             }
             .onAppear() {

@@ -11,7 +11,7 @@ import SwiftData
 
 struct CreateTagButtonView: View {
     @Query private var tasks: [Task]
-    @State var allTags: [String]
+    @Binding var allTags: [String]
     
     var body: some View {
         Button {
@@ -24,5 +24,5 @@ struct CreateTagButtonView: View {
 }
 
 #Preview {
-    CreateTagButtonView(allTags: [])
+    CreateTagButtonView(allTags: .constant([]))
 }

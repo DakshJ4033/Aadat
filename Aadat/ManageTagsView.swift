@@ -41,7 +41,7 @@ struct ManageTagsView: View {
                     Spacer();Spacer()
                     HStack {
                         Spacer();Spacer()
-                        CreateTagButtonView(allTags: allTags)
+                        CreateTagButtonView(allTags: $allTags)
                     }
                 }
             }
