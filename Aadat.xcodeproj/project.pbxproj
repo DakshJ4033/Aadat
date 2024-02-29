@@ -343,11 +343,8 @@
 				673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */,
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,
 				2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */,
-<<<<<<< HEAD
 				673286422B8E761B00323023 /* ChartView.swift in Sources */,
-=======
 				0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */,
->>>>>>> main
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
 				6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */,
