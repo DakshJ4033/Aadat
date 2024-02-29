@@ -14,8 +14,6 @@ struct SessionDetailedView: View {
     @State var userEndTime : Date = Date() + 60
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        
         DatePicker("Please enter a start time", selection: $userStartTime, displayedComponents: .hourAndMinute)
         
         DatePicker("Please enter an end time", selection: $userEndTime, displayedComponents: .hourAndMinute)
