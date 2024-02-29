@@ -14,7 +14,7 @@ struct TaskOrSessionFormView: View {
     @State private var selectedTag = "No Tag"
     @State private var newTagName = ""
     @FocusState private var taskDescFieldIsFocused: Bool
-    @State private var pinnedSelection: Bool = true
+    @State private var pinnedSelection: Bool = false
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
@@ -45,6 +45,8 @@ struct TaskOrSessionFormView: View {
                         print("Can't have a selected tag and a new tag at the same time!")
                     }
                     
+                    task.isPinned = pinnedSelection
+                    
                     context.insert(task)
                     dismiss()
                 } label: {
@@ -60,17 +62,7 @@ struct TaskOrSessionFormView: View {
                 }
                 
                 Section(header: Text("Pinned?")) {
-                    HStack {
-                        Text("Pinned:")
-                        Button {
-                            if pinnedSelection == true {
-                                pinnedSelection = false
-                            } else {
-                                pinnedSelection = true
-                            }
-                        } label: {pinnedSelection ? Text("True") : Text("False")}
-                    }
-                    .padding([.bottom], 30)
+                    Toggle("Pin Task?", isOn: $pinnedSelection)
                 }
                 
                 // You can either add a new tag (Picker must have No Tag selected) or
