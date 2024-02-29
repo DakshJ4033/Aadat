@@ -10,8 +10,8 @@ import SwiftUI
 struct SessionDetailedView: View {
     var session: Session
     
-    @State var userStartTime : Date = Date() + 60
-    @State var userEndTime : Date = Date() + 60
+    @State var userStartTime : Date = Date()
+    @State var userEndTime : Date = Date()
     
     var body: some View {
         DatePicker("Please enter a start time", selection: $userStartTime, displayedComponents: .hourAndMinute)

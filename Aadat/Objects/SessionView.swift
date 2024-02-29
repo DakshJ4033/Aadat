@@ -31,13 +31,18 @@ struct SessionView: View {
         }
         .onAppear {
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-                elapsedTime = Date().timeIntervalSince(session.startTime)
+                if let unwrappedEndTime = session.endTime {
+                    print("found an end time yahoo")
+                    elapsedTime = unwrappedEndTime.timeIntervalSince(session.startTime)
+                } else {
+                    elapsedTime = Date().timeIntervalSince(session.startTime)
+                }
             }
           }
     }
     // function that nicely formats the string to display the time interval
     private func formattedTime(from time: TimeInterval) -> String {
-        let minutes = Int(time / 60) % 60
+        let minutes = Int(time / 60)
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
         return String(format: "%02d:%02d", minutes, seconds)
       }
