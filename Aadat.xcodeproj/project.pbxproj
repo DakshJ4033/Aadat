@@ -17,6 +17,7 @@
 		0DC4E04B2B7EFC4B0050F5E1 /* AadatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E04A2B7EFC4B0050F5E1 /* AadatTests.swift */; };
 		0DC4E0552B7EFC4B0050F5E1 /* AadatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E0542B7EFC4B0050F5E1 /* AadatUITests.swift */; };
 		0DC4E0572B7EFC4B0050F5E1 /* AadatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E0562B7EFC4B0050F5E1 /* AadatUITestsLaunchTests.swift */; };
+		2E2464B92B91C434000805AD /* AllTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2464B82B91C434000805AD /* AllTasksView.swift */; };
 		2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6737F32B88138C00F11A40 /* SessionDetailedView.swift */; };
 		6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732863D2B87D55200323023 /* CustomModifiers.swift */; };
 		673286402B8E754700323023 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732863F2B8E754700323023 /* StatsView.swift */; };
@@ -66,6 +67,7 @@
 		0DC4E0502B7EFC4B0050F5E1 /* AadatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AadatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DC4E0542B7EFC4B0050F5E1 /* AadatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AadatUITests.swift; sourceTree = "<group>"; };
 		0DC4E0562B7EFC4B0050F5E1 /* AadatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AadatUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2E2464B82B91C434000805AD /* AllTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTasksView.swift; sourceTree = "<group>"; };
 		2E6737F32B88138C00F11A40 /* SessionDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailedView.swift; sourceTree = "<group>"; };
 		6732863D2B87D55200323023 /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
 		6732863F2B8E754700323023 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */,
 				0DC4E03F2B7EFC4B0050F5E1 /* Preview Content */,
 				0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */,
+				2E2464B82B91C434000805AD /* AllTasksView.swift */,
 			);
 			path = Aadat;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
 				6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */,
 				0DC4E03A2B7EFC480050F5E1 /* AadatApp.swift in Sources */,
+				2E2464B92B91C434000805AD /* AllTasksView.swift in Sources */,
 				0D242ED72B8847B20086AFB3 /* Task.swift in Sources */,
 				BA28C49E2B86BC2F00E0D322 /* TaskOrSessionFormView.swift in Sources */,
 			);
