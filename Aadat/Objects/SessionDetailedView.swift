@@ -18,10 +18,10 @@ struct SessionDetailedView: View {
     
     var body: some View {
         VStack {
-                DatePicker("Add a start time", selection: $userStartTime, displayedComponents: .hourAndMinute)
+                DatePicker("Add a start time", selection: $userStartTime, displayedComponents: [.date, .hourAndMinute])
                 .padding(20)
             
-                DatePicker("Add an end time", selection: $userEndTime, displayedComponents: .hourAndMinute)
+                DatePicker("Add an end time", selection: $userEndTime, displayedComponents: [.date, .hourAndMinute])
                     .padding(20)
                     .opacity(onGoingTask ? 0:1)
             

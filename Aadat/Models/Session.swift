@@ -21,7 +21,7 @@ final class Session {
     }
     
     func totalTime() -> TimeInterval {
-            return (endTime ?? Date()).timeIntervalSince(startTime)
+            return (endTime ?? Date()).timeIntervalSince(startTime) / 60
     }
     
     func endSession() {
@@ -45,6 +45,11 @@ final class Session {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .full
-        return formatter.string(from: self.totalTime())!
+        
+        guard let formattedString = formatter.string(from: self.totalTime())
+        else {
+            return ""
+        }
+        return formattedString
     }
 }

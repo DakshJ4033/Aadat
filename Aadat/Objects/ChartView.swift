@@ -12,15 +12,19 @@ import Charts
 
 struct ChartView: View {
     @Query private var sessions: [Session]
-
+    
     let menuOptions = ["Week"]
     @State private var selectedOption = "Week"
     
     var body: some View {
-                
+        
         // Convert dictionary to array of DailyTimeData
         let dailyTimeData: [DailyTimeData] = groupSessionsByDay(sessions: sessions).map { date, interval in
-          DailyTimeData(date: date, interval: interval)
+            DailyTimeData(date: date, interval: interval)
+        }
+        
+        let dailyTimeData2: [DailyTimeData] = groupSessionsByTag(sessions: sessions).map { date, interval in
+            DailyTimeData(date: date, interval: interval)
         }
         
         HStack {
@@ -34,53 +38,87 @@ struct ChartView: View {
         .pickerStyle(.menu) // Set the picker style to menu
         .accessibilityLabel(Text("Select duration")) // Set accessibility label (optional)
         
-        Chart(dailyTimeData) { dataPoint in
-          BarMark(
-            x: .value("Day", dataPoint.id), // Use date as x-axis label
-            y: .value("Total Time (Hours)",  dataPoint.timeInterval) // Convert to hours (optional)
-          )
-          .foregroundStyle(.blue) // Set color for bars (optional)
+        VStack {
+            Chart(dailyTimeData) { dataPoint in
+                BarMark(
+                    x: .value("Day", dataPoint.id), // Use date as x-axis label
+                    y: .value("Total Time (Hours)",  dataPoint.timeInterval) // Convert to hours (optional)
+                )
+                .foregroundStyle(.blue) // Set color for bars (optional)
+            }
+            .chartYAxisLabel("Minutes")
+            .frame(height:250)
+            
+            Spacer()
+            
+            Chart(dailyTimeData2) { dataPoint in
+                SectorMark(
+                    angle: .value(
+                        Text(verbatim: dataPoint.id),
+                        dataPoint.timeInterval
+                    )
+                )
+                .foregroundStyle(
+                    by: .value(
+                        "Type", dataPoint.id
+                    )
+                    
+                )
+            }
+            .frame(height:250)
         }
     }
     
+    
     func groupSessionsByDay(sessions: [Session]) -> [String: TimeInterval] {
-      // Get today's date and adjust calendar for Sunday first
-      let today = Date()
-      var calendar = Calendar.current
-      calendar.firstWeekday = 1
-
-      // Get the start of the current week (Sunday)
-      var startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
-
-      // Initialize an empty dictionary with zero time for each day
-      var sessionsByDay: [String: TimeInterval] = [:]
-      for _ in 0..<7 {
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name (e.g., Mon)
-        let dayName = dayFormatter.string(from: startOfWeek)
-        sessionsByDay[dayName] = 0
-        startOfWeek = calendar.date(byAdding: .day, value: 1, to: startOfWeek)!
-      }
-
-      // Add session times to their corresponding day name
-      for session in sessions {
-        let day = Calendar.current.startOfDay(for: session.startTime)
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name
-        let dayName = dayFormatter.string(from: day)
-        sessionsByDay[dayName] = sessionsByDay[dayName, default: 0] + session.totalTime()
-      }
-
-      return sessionsByDay
+        
+        
+        // Initialize an empty dictionary with zero time for each day
+        var sessionsByDay: [String: TimeInterval] = [
+            "Sun": 0,
+            "Mon": 0,
+            "Tue": 0,
+            "Wed": 0,
+            "Thu": 0,
+            "Fri": 0,
+            "Sat": 0,
+        ]
+        
+        // Add session times to their corresponding day name
+        for session in sessions {
+            let day = Calendar.current.startOfDay(for: session.startTime)
+            let dayFormatter = DateFormatter()
+            dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name
+            let dayName = dayFormatter.string(from: day)
+            sessionsByDay[dayName] = sessionsByDay[dayName, default: 0] + session.totalTime()
+        }
+        
+        return sessionsByDay
+    }
+    
+    func groupSessionsByTag(sessions: [Session]) -> [String: TimeInterval] {
+        
+        // Initialize an empty dictionary to store session times grouped by tag
+        var sessionsByTag: [String: TimeInterval] = [:]
+        
+        // Iterate through each session and group times based on their tag
+        for session in sessions {
+            let tag = session.tag  // Access the tag value
+            
+            // Add the session's total time to the corresponding tag entry
+            sessionsByTag[tag, default: 0] += session.totalTime()  // Use default value of 0 if the tag doesn't exist
+        }
+        
+        return sessionsByTag
     }
     
     struct DailyTimeData: Identifiable {
-      let id: String // Use the date as the unique identifier
-      let timeInterval: TimeInterval
-
-      init(date: String, interval: TimeInterval) {
-        self.id = date
-        self.timeInterval = interval
-      }
+        let id: String // Use the date as the unique identifier
+        let timeInterval: TimeInterval
+        
+        init(date: String, interval: TimeInterval) {
+            self.id = date
+            self.timeInterval = interval
+        }
     }
 }
