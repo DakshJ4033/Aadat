@@ -70,29 +70,104 @@ class LanguageIdentifierViewModel: ObservableObject {
         }
     }
     
-    func convertM4AToWAV(inputURL: URL, outputURL: URL, completionHandler: @escaping (_ success: Bool, _ error: Error?) -> Void) {
-        // function to convert .m4a files to .wav
-        let asset = AVURLAsset(url: inputURL)
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
-            completionHandler(false, NSError(domain: "com.yourapp.audioconversion", code: 0, userInfo: [NSLocalizedDescriptionKey: "Cannot create export session"]))
-            return
-        }
-        
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = .wav
-        exportSession.exportAsynchronously {
-            switch exportSession.status {
-            case .completed:
-                completionHandler(true, nil)
-            case .failed:
-                print("Conversion failed: \(exportSession.error?.localizedDescription ?? "Unknown error")")
-                completionHandler(false, exportSession.error)
-            case .cancelled:
-                completionHandler(false, NSError(domain: "com.yourapp.audioconversion", code: 1, userInfo: [NSLocalizedDescriptionKey: "Conversion cancelled"]))
-            default:
-                completionHandler(false, NSError(domain: "com.yourapp.audioconversion", code: 2, userInfo: [NSLocalizedDescriptionKey: "Unknown conversion error"]))
+    func convertAudio(_ url: URL, outputURL: URL) {
+        var error: OSStatus = noErr
+        var destinationFile: ExtAudioFileRef? = nil
+        var sourceFile: ExtAudioFileRef? = nil
+
+        var srcFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
+        var dstFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
+
+        ExtAudioFileOpenURL(url as CFURL, &sourceFile)
+
+        var thePropertySize: UInt32 = UInt32(MemoryLayout.stride(ofValue: srcFormat))
+
+        ExtAudioFileGetProperty(sourceFile!,
+                                kExtAudioFileProperty_FileDataFormat,
+                                &thePropertySize, &srcFormat)
+
+        dstFormat.mSampleRate = 44100  // Set sample rate
+        dstFormat.mFormatID = kAudioFormatLinearPCM
+        dstFormat.mChannelsPerFrame = 1
+        dstFormat.mBitsPerChannel = 16
+        dstFormat.mBytesPerPacket = 2 * dstFormat.mChannelsPerFrame
+        dstFormat.mBytesPerFrame = 2 * dstFormat.mChannelsPerFrame
+        dstFormat.mFramesPerPacket = 1
+        dstFormat.mFormatFlags = kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsSignedInteger
+
+        // Create destination file
+        error = ExtAudioFileCreateWithURL(
+            outputURL as CFURL,
+            kAudioFileWAVEType,
+            &dstFormat,
+            nil,
+            AudioFileFlags.eraseFile.rawValue,
+            &destinationFile)
+        print("Error 1 in convertAudio: \(error.description)")
+
+        error = ExtAudioFileSetProperty(sourceFile!,
+                                        kExtAudioFileProperty_ClientDataFormat,
+                                        thePropertySize,
+                                        &dstFormat)
+        print("Error 2 in convertAudio: \(error.description)")
+
+        error = ExtAudioFileSetProperty(destinationFile!,
+                                        kExtAudioFileProperty_ClientDataFormat,
+                                        thePropertySize,
+                                        &dstFormat)
+        print("Error 3 in convertAudio: \(error.description)")
+
+        let bufferByteSize: UInt32 = 32768
+        var srcBuffer = [UInt8](repeating: 0, count: Int(bufferByteSize))
+        var sourceFrameOffset: ULONG = 0
+
+        while true {
+            var numFrames: UInt32 = 0
+
+            if dstFormat.mBytesPerFrame > 0 {
+                numFrames = bufferByteSize / dstFormat.mBytesPerFrame
             }
+
+            srcBuffer.withUnsafeMutableBytes { ptr in
+                var fillBufList = AudioBufferList(
+                    mNumberBuffers: 1,
+                    mBuffers: AudioBuffer(
+                        mNumberChannels: dstFormat.mChannelsPerFrame,
+                        mDataByteSize: bufferByteSize,
+                        mData: ptr.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    )
+                )
+
+                error = ExtAudioFileRead(sourceFile!, &numFrames, &fillBufList)
+            }
+            print("Error 4 in convertAudio: \(error.description)")
+
+            if numFrames == 0 {
+                error = noErr
+                break
+            }
+
+            sourceFrameOffset += numFrames
+
+            srcBuffer.withUnsafeMutableBytes { ptr in
+                var fillBufList = AudioBufferList(
+                    mNumberBuffers: 1,
+                    mBuffers: AudioBuffer(
+                        mNumberChannels: dstFormat.mChannelsPerFrame,
+                        mDataByteSize: bufferByteSize,
+                        mData: ptr.baseAddress?.assumingMemoryBound(to: UInt8.self)
+                    )
+                )
+
+                error = ExtAudioFileWrite(destinationFile!, numFrames, &fillBufList)
+            }
+            print("Error 5 in convertAudio: \(error.description)")
         }
+
+        error = ExtAudioFileDispose(destinationFile!)
+        print("Error 6 in convertAudio: \(error.description)")
+        error = ExtAudioFileDispose(sourceFile!)
+        print("Error 7 in convertAudio: \(error.description)")
     }
 }
 
@@ -108,18 +183,9 @@ struct LanguageIdentifierView: View {
             let fileManager = FileManager.default
             let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
             let inputURL = documentsDirectory.appendingPathComponent("SampleClip.m4a")
-            print(inputURL)
-            let outputURL = documentsDirectory.appendingPathComponent("SampleClip.wav")
-            
-            viewModel.convertM4AToWAV(inputURL: inputURL, outputURL: outputURL) { success, error in
-                if success {
-                    print("Conversion to WAV successful!")
-                    // You can now proceed to use the .wav file as needed
-                } else {
-                    print("Conversion failed: \(error?.localizedDescription ?? "Unknown error")")
-                }
-            }
-            
+            let outputURL = documentsDirectory.appendingPathComponent("out.wav")
+
+            viewModel.convertAudio(inputURL, outputURL: outputURL)
             viewModel.identifyLanguage(fromAudioFileAt: outputURL)
         }
     }
