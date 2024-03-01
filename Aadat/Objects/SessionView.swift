@@ -32,7 +32,6 @@ struct SessionView: View {
         .onAppear {
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
                 if let unwrappedEndTime = session.endTime {
-                    print("found an end time yahoo")
                     elapsedTime = unwrappedEndTime.timeIntervalSince(session.startTime)
                 } else {
                     elapsedTime = Date().timeIntervalSince(session.startTime)
