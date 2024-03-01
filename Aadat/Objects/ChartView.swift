@@ -13,30 +13,74 @@ import Charts
 struct ChartView: View {
     @Query private var sessions: [Session]
 
-    //TODO: Sauvikesh please fix this Date() is confusing me
+    let menuOptions = ["Week"]
+    @State private var selectedOption = "Week"
     
     var body: some View {
-        @State var timeInMinutes: TimeInterval = 0
+                
+        // Convert dictionary to array of DailyTimeData
+        let dailyTimeData: [DailyTimeData] = groupSessionsByDay(sessions: sessions).map { date, interval in
+          DailyTimeData(date: date, interval: interval)
+        }
         
-        Text(Date.now, format: .dateTime.day().month().year())
-
-        Chart {
-            let date = Calendar.current.date(from: DateComponents()) ?? .now
-            let components = Calendar.current.dateComponents([.weekOfMonth], from: date)
-            let week = components.weekOfMonth ?? 0
-            
-            BarMark(
-                x: .value("Week", week),
-                 y: .value("Time", timeInMinutes)
-            )
-        }
-        .onAppear() {
-            var timeInSeconds: TimeInterval = 0
-            for session in sessions {
-                timeInSeconds = timeInSeconds + session.totalTime()
+        HStack {
+            Text("Hours:")
+            Picker("", selection: $selectedOption) {
+                ForEach(menuOptions, id: \.self) { option in
+                    Text(option)
+                }
             }
-            timeInMinutes = timeInSeconds / 60
         }
-        .padding()
+        .pickerStyle(.menu) // Set the picker style to menu
+        .accessibilityLabel(Text("Select duration")) // Set accessibility label (optional)
+        
+        Chart(dailyTimeData) { dataPoint in
+          BarMark(
+            x: .value("Day", dataPoint.id), // Use date as x-axis label
+            y: .value("Total Time (Hours)",  dataPoint.timeInterval) // Convert to hours (optional)
+          )
+          .foregroundStyle(.blue) // Set color for bars (optional)
+        }
+    }
+    
+    func groupSessionsByDay(sessions: [Session]) -> [String: TimeInterval] {
+      // Get today's date and adjust calendar for Sunday first
+      let today = Date()
+      var calendar = Calendar.current
+      calendar.firstWeekday = 1
+
+      // Get the start of the current week (Sunday)
+      var startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+
+      // Initialize an empty dictionary with zero time for each day
+      var sessionsByDay: [String: TimeInterval] = [:]
+      for _ in 0..<7 {
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name (e.g., Mon)
+        let dayName = dayFormatter.string(from: startOfWeek)
+        sessionsByDay[dayName] = 0
+        startOfWeek = calendar.date(byAdding: .day, value: 1, to: startOfWeek)!
+      }
+
+      // Add session times to their corresponding day name
+      for session in sessions {
+        let day = Calendar.current.startOfDay(for: session.startTime)
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name
+        let dayName = dayFormatter.string(from: day)
+        sessionsByDay[dayName] = sessionsByDay[dayName, default: 0] + session.totalTime()
+      }
+
+      return sessionsByDay
+    }
+    
+    struct DailyTimeData: Identifiable {
+      let id: String // Use the date as the unique identifier
+      let timeInterval: TimeInterval
+
+      init(date: String, interval: TimeInterval) {
+        self.id = date
+        self.timeInterval = interval
+      }
     }
 }

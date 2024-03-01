@@ -21,9 +21,9 @@ struct SessionsView: View {
                 .padding(.top)
             if sessions.count != 0 {
                 ForEach(sessions) { session in
-                    SessionView(session: session)
-                        .padding([.bottom], 30)
-                        .cornerRadius(5)
+                            SessionView(session: session)
+                                .padding([.bottom], 30)
+                                .cornerRadius(5)
                 }
             } else {
                 Text("There are no active sessions!")

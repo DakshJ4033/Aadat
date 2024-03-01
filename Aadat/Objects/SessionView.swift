@@ -12,7 +12,7 @@ struct SessionView: View {
     var session: Session
     
     @State private var elapsedTime: TimeInterval = 0.0
-    @State private var showAccountsPopOver: Bool = false
+    @State private var showSessionPopOver: Bool = false
     
     var body: some View {
         HStack {
@@ -24,10 +24,10 @@ struct SessionView: View {
         .padding()
         .background(.white)
         .onTapGesture {
-            showAccountsPopOver = true;
+            showSessionPopOver = true;
         }
-        .popover(isPresented: $showAccountsPopOver) {
-            SessionDetailedView(session: session)
+        .popover(isPresented: $showSessionPopOver) {
+            SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
         }
         .onAppear {
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in

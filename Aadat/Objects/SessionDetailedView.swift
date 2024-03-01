@@ -9,7 +9,9 @@ import SwiftUI
 
 struct SessionDetailedView: View {
     var session: Session
+    @Binding var showSessionPopover: Bool
     
+    @Environment(\.modelContext) var context
     @State var userStartTime : Date = Date()
     @State var userEndTime : Date = Date()
     @State private var onGoingTask: Bool = false
@@ -34,6 +36,8 @@ struct SessionDetailedView: View {
                 } else {
                     session.endTime = nil
                 }
+                
+                showSessionPopover = false
             }
             label: {
                 Label("Log Time", systemImage: "clock")
@@ -43,11 +47,22 @@ struct SessionDetailedView: View {
             .background(.blue)
             .cornerRadius(5)
             .controlSize(.large)
+            
+            
+            Button {
+                context.delete(session)
+            }
+            label: {
+                Label("Delete Session", systemImage: "trash")
+                   .foregroundColor(.black)
+           }
+            
+            .buttonStyle(.bordered)
+            .background(.red)
+            .cornerRadius(5)
+            .controlSize(.large)
         }
     }
     
 }
 
-#Preview {
-    SessionDetailedView(session: Session(startTime: Date.now))
-}
