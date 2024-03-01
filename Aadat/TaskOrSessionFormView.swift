@@ -39,10 +39,8 @@ struct TaskOrSessionFormView: View {
                     
                     if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
                         task.tag = newTagName
-                    } else if (newTagName == "" && selectedTag != "No Tag") {
+                    } else if (newTagName == "") {
                         task.tag = selectedTag
-                    } else {
-                        print("Can't have a selected tag and a new tag at the same time!")
                     }
                     
                     task.isPinned = pinnedSelection
@@ -68,19 +66,19 @@ struct TaskOrSessionFormView: View {
                 // You can either add a new tag (Picker must have No Tag selected) or
                 // pick a pre-existing tag (TextField should be empty)
                 Section(header: Text("Tags")) {
-                    if tasks.count > 0 {
-                        Picker(selection: $selectedTag, content: {
+                    Picker(selection: $selectedTag, content: {
+                        if tasks.count < 1 {
                             Text("No Tag").tag("No Tag")
-                            ForEach(tasks) { task in
-                                Text("\(task.tag)").tag("\(task.tag)")
-                            }
-                        }, label: {
-                            HStack {
-                                Image(systemName: "number")
-                                Text("Tags")
-                            }
-                        })
-                    }
+                        }
+                        ForEach(tasks) { task in
+                            Text("\(task.tag)").tag("\(task.tag)")
+                        }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "number")
+                            Text("Tags")
+                        }
+                    })
                  
                     TextField("Add New Tag...", text: $newTagName)
                 }

@@ -48,7 +48,7 @@ struct TaskView: View {
 //                        Text(i)
 //                    }
 //                }.pickerStyle(.menu)
-            }.padding()
+            } .padding()
             
             Spacer()
             
@@ -67,7 +67,6 @@ struct TaskView: View {
         // TODO: make a better UI for this box
         .background(.white)
         .cornerRadius(10)
-        .padding()
         
     }
 }
