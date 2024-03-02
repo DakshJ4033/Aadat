@@ -60,6 +60,7 @@ class SpeechRecognitionManager: NSObject, SFSpeechRecognizerDelegate {
 //                if result.bestTranscription.formattedString.contains("some Japanese text") { // Implement your own logic to determine if it's Japanese
 //                    // Detected Japanese, perform your task here
 //                }
+                print("test")
             }
             
             if error != nil || isFinal {
