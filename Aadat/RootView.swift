@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 /* RootView Manager */
 class RootViewManager: ObservableObject {
     @Published var rootViewType: RootViewType = .homeView
@@ -35,6 +34,7 @@ enum RootViewType {
 struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
+    @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
 //    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
@@ -60,6 +60,9 @@ struct RootView: View {
         .environmentObject(rootViewManager)
 //        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
+        .onAppear {
+            speechRecognitionViewModel.startRecording()
+        }
     }
 }
 
