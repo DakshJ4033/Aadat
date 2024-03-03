@@ -34,6 +34,7 @@
 		674815842B813F1F007D4F59 /* ManageTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815832B813F1F007D4F59 /* ManageTagsView.swift */; };
 		BA28C49C2B86B92F00E0D322 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BA28C49B2B86B92F00E0D322 /* .gitignore */; };
 		BA28C49E2B86BC2F00E0D322 /* TaskOrSessionFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */; };
+		BA6A104B2B93C9E700E7E3DD /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6A104A2B93C9E700E7E3DD /* SpeechRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		674815832B813F1F007D4F59 /* ManageTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTagsView.swift; sourceTree = "<group>"; };
 		BA28C49B2B86B92F00E0D322 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskOrSessionFormView.swift; sourceTree = "<group>"; };
+		BA6A104A2B93C9E700E7E3DD /* SpeechRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		0DC4E0382B7EFC480050F5E1 /* Aadat */ = {
 			isa = PBXGroup;
 			children = (
+				BA6A10492B93C9E700E7E3DD /* SpeechRecognizer */,
 				0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */,
 				6732863D2B87D55200323023 /* CustomModifiers.swift */,
 				674815742B7FEC53007D4F59 /* HomeView.swift */,
@@ -201,6 +204,14 @@
 				673286452B90166500323023 /* CreateTagButtonView.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		BA6A10492B93C9E700E7E3DD /* SpeechRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				BA6A104A2B93C9E700E7E3DD /* SpeechRecognizer.swift */,
+			);
+			path = SpeechRecognizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +358,7 @@
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,
 				2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */,
 				673286422B8E761B00323023 /* ChartView.swift in Sources */,
+				BA6A104B2B93C9E700E7E3DD /* SpeechRecognizer.swift in Sources */,
 				0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */,
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
