@@ -44,10 +44,14 @@ struct ManageTagsView: View {
                         CreateTagButtonView(allTags: $allTags)
                     }
                 }
+                
             }
             
+            
         }
+        .cornerRadius(15)
         .padding()
+        .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.06274509803921569, green: 0.1803921568627451, blue: 0.2901960784313726)/*@END_MENU_TOKEN@*/)
     }
     
     var searchResults: [String] {
