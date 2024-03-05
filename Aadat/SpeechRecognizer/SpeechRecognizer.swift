@@ -93,10 +93,6 @@ class SpeechRecognitionManager: NSObject, SFSpeechRecognizerDelegate {
             return
         }
 
-        var viewModel = LanguageIdentifierViewModel()
-        
-        viewModel.identifyLanguage(fromAudioFileAt: recognitionRequest)
-        
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
 
         guard let recognitionRequest = recognitionRequest else {
