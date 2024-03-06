@@ -27,14 +27,14 @@ struct PinnedView: View {
             } else {
                 Text("There are no pinned tasks!")
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.133, saturation: 0.898, brightness: 0.783)/*@END_MENU_TOKEN@*/)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.55, saturation: 0.686, brightness: 0.871)/*@END_MENU_TOKEN@*/)
                     .cornerRadius(10)
             }
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
-        .background(.yellow)
+        .background(Color(red: 0.333, green: 0.7568627450980392, blue: 0.9803921568627451))
         .cornerRadius(10)
     }
 }

@@ -33,7 +33,7 @@ struct AllTasksView: View {
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
-        .background(.green)
+        .background(Color(red: 0.3411764705882353, green: 0.6431372549019608, blue: 1.0))
         .cornerRadius(10)
     }
 }

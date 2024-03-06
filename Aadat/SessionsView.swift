@@ -28,14 +28,14 @@ struct SessionsView: View {
             } else {
                 Text("There are no active sessions!")
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.606, saturation: 0.832, brightness: 0.875)/*@END_MENU_TOKEN@*/)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.623, saturation: 0.716, brightness: 0.967)/*@END_MENU_TOKEN@*/)
                     .cornerRadius(10)
             }
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
-        .background(.blue)
+        .background(Color(red: 0.345, green: 0.5294117647058824, blue: 1.0))
         .cornerRadius(10)
     }
 }
