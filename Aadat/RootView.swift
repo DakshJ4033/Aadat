@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 /* RootView Manager */
 class RootViewManager: ObservableObject {
     @Published var rootViewType: RootViewType = .homeView
@@ -17,26 +18,21 @@ enum RootViewType {
     case statsView
 }
 
-//class UserModel: ObservableObject {
-//    @Published var tasks: [Task] = []
-//    @Published var sessions: [Session] = []
-//    
-//    @Published var defaultNoTagStr: String // used in the TaskView PICKER, beware refactor bugs
-//    @Published var allTags: [String]
-//    
-//    // TODO: this init may cause issues depending when we pull from disk
-//    init(defaultNoTagStr: String) {
-//        self.defaultNoTagStr = defaultNoTagStr
-//        self.allTags = [defaultNoTagStr]
-//    }
-//}
+class UserModel: ObservableObject {
+    @Published var allTags: [String]
+    init() { self.allTags = UserDefaults.standard.object(forKey:"allTags") as? [String] ?? ["No Tag"] }
+    func updateAllTags() {
+        UserDefaults.standard.set(self.allTags, forKey: "allTags")
+    }
+}
 
 struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
 //    @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
-//    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
-    
+    @StateObject var userModel: UserModel = UserModel()
+    @Query var tasks: [Task]
+
     var body: some View {
         Group {
             switch rootViewManager.rootViewType {
@@ -53,16 +49,26 @@ struct RootView: View {
                 StatsView()
                 
             }
-            // TODO: StatsView(), generate stats across different time frames, show habits etc.
             // TODO: CalendarView()?
             
         }
         .environmentObject(rootViewManager)
-//        .environmentObject(userModel)
+        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
-//        .onAppear {
-//            speechRecognitionViewModel.startRecording()
-//        }
+        .onAppear {initAllTags()}
+    }
+    
+    func initAllTags() {
+        if tasks.count > 0 {
+            for task in tasks {
+                !userModel.allTags.contains(task.tag) ? userModel.allTags.append(task.tag) : print("dupe \(task.tag)")
+            }
+        } else {
+            userModel.allTags = ["No Tag"]
+        }
+        
+        userModel.allTags = Array(Set(userModel.allTags))
+        UserDefaults.standard.set(userModel.allTags, forKey: "allTags")
     }
 }
 

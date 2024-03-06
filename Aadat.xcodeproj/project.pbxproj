@@ -32,6 +32,7 @@
 		674815802B7FF53C007D4F59 /* TimerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748157F2B7FF53C007D4F59 /* TimerButtonView.swift */; };
 		674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */; };
 		674815842B813F1F007D4F59 /* ManageTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815832B813F1F007D4F59 /* ManageTagsView.swift */; };
+		67D280F92B99281F001B41F2 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D280F82B99281F001B41F2 /* TagView.swift */; };
 		BA289A042B97F69A00D5BFC3 /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA289A032B97F69A00D5BFC3 /* SpeechRecognizer.swift */; };
 		BA28C49C2B86B92F00E0D322 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BA28C49B2B86B92F00E0D322 /* .gitignore */; };
 		BA28C49E2B86BC2F00E0D322 /* TaskOrSessionFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */; };
@@ -99,6 +100,7 @@
 		6748157F2B7FF53C007D4F59 /* TimerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButtonView.swift; sourceTree = "<group>"; };
 		674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskOrSessionView.swift; sourceTree = "<group>"; };
 		674815832B813F1F007D4F59 /* ManageTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTagsView.swift; sourceTree = "<group>"; };
+		67D280F82B99281F001B41F2 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		BA289A032B97F69A00D5BFC3 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		BA28C49B2B86B92F00E0D322 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskOrSessionFormView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				673286412B8E761B00323023 /* ChartView.swift */,
 				673286432B90161200323023 /* StartGenericSessionButtonView.swift */,
 				673286452B90166500323023 /* CreateTagButtonView.swift */,
+				67D280F82B99281F001B41F2 /* TagView.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				673286402B8E754700323023 /* StatsView.swift in Sources */,
 				674815792B7FEDA4007D4F59 /* SessionsView.swift in Sources */,
 				0D242ED92B884F9B0086AFB3 /* Session.swift in Sources */,
+				67D280F92B99281F001B41F2 /* TagView.swift in Sources */,
 				674815752B7FEC53007D4F59 /* HomeView.swift in Sources */,
 				673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */,
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,

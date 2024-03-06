@@ -13,8 +13,8 @@ struct ManageTagsView: View {
     
     //TODO: show all tags so user can manage their pinned/not pinned. can also manage deletion/creation
     @Query private var tasks: [Task]
+    @EnvironmentObject var userModel: UserModel
     
-    @State var allTags: [String] = []
     @State var newTagName: String = ""
     
     @State private var searchText = ""
@@ -26,22 +26,18 @@ struct ManageTagsView: View {
                 VStack { /* Show all Tags so user can pin / search / unpin */
                     List {
                         ForEach(searchResults, id: \.self) { tag in
-                            Text(tag)
+                            TagView(tag: tag)
                         }
                     }
                     .searchable(text: $searchText)
                     .navigationTitle("Tags")
-                }.onAppear() {
-                    for task in tasks {
-                        !allTags.contains(task.tag) ? allTags.append(task.tag) : print("got dupe \(task.tag)")
-                    }
                 }
                 
                 VStack {
                     Spacer();Spacer()
                     HStack {
                         Spacer();Spacer()
-                        CreateTagButtonView(allTags: $allTags)
+                        CreateTagButtonView()
                     }
                 }
                 
@@ -49,16 +45,17 @@ struct ManageTagsView: View {
             
             
         }
+        .environmentObject(userModel)
         .cornerRadius(15)
         .padding()
-        .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.06274509803921569, green: 0.1803921568627451, blue: 0.2901960784313726)/*@END_MENU_TOKEN@*/)
+        .background()
     }
     
     var searchResults: [String] {
         if searchText.isEmpty {
-            return allTags
+            return userModel.allTags
         } else {
-            return allTags.filter { $0.localizedCaseInsensitiveContains(searchText) }
+            return userModel.allTags.filter { $0.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }
