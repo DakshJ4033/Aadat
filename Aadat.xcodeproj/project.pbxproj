@@ -24,14 +24,6 @@
 		673286422B8E761B00323023 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286412B8E761B00323023 /* ChartView.swift */; };
 		673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286432B90161200323023 /* StartGenericSessionButtonView.swift */; };
 		673286462B90166500323023 /* CreateTagButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286452B90166500323023 /* CreateTagButtonView.swift */; };
-		673286522B968B7E00323023 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673286512B968B7E00323023 /* WidgetKit.framework */; };
-		673286542B968B7E00323023 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673286532B968B7E00323023 /* SwiftUI.framework */; };
-		673286572B968B7E00323023 /* LockscreenWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286562B968B7E00323023 /* LockscreenWidgetsBundle.swift */; };
-		673286592B968B7E00323023 /* LockscreenWidgetsLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286582B968B7E00323023 /* LockscreenWidgetsLiveActivity.swift */; };
-		6732865B2B968B7E00323023 /* LockscreenWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732865A2B968B7E00323023 /* LockscreenWidgets.swift */; };
-		6732865D2B968B7E00323023 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732865C2B968B7E00323023 /* AppIntent.swift */; };
-		6732865F2B968B8000323023 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6732865E2B968B8000323023 /* Assets.xcassets */; };
-		673286632B968B8000323023 /* LockscreenWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6732864F2B968B7E00323023 /* LockscreenWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		674815752B7FEC53007D4F59 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815742B7FEC53007D4F59 /* HomeView.swift */; };
 		674815772B7FED47007D4F59 /* PinnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815762B7FED47007D4F59 /* PinnedView.swift */; };
 		674815792B7FEDA4007D4F59 /* SessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815782B7FEDA4007D4F59 /* SessionsView.swift */; };
@@ -60,30 +52,23 @@
 			remoteGlobalIDString = 0DC4E0352B7EFC480050F5E1;
 			remoteInfo = Aadat;
 		};
-		673286612B968B8000323023 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0DC4E02E2B7EFC480050F5E1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6732864E2B968B7E00323023;
-			remoteInfo = LockscreenWidgetsExtension;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		673286642B968B8000323023 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				673286632B968B8000323023 /* LockscreenWidgetsExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D0AF0602B97EF23008FF0AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageIdentifierView.swift; sourceTree = "<group>"; };
 		0D242ED62B8847B20086AFB3 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0D242ED82B884F9B0086AFB3 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -104,15 +89,8 @@
 		673286412B8E761B00323023 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		673286432B90161200323023 /* StartGenericSessionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGenericSessionButtonView.swift; sourceTree = "<group>"; };
 		673286452B90166500323023 /* CreateTagButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTagButtonView.swift; sourceTree = "<group>"; };
-		6732864F2B968B7E00323023 /* LockscreenWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LockscreenWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		673286512B968B7E00323023 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		673286532B968B7E00323023 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		673286562B968B7E00323023 /* LockscreenWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockscreenWidgetsBundle.swift; sourceTree = "<group>"; };
-		673286582B968B7E00323023 /* LockscreenWidgetsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockscreenWidgetsLiveActivity.swift; sourceTree = "<group>"; };
-		6732865A2B968B7E00323023 /* LockscreenWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockscreenWidgets.swift; sourceTree = "<group>"; };
-		6732865C2B968B7E00323023 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
-		6732865E2B968B8000323023 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		673286602B968B8000323023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		674815742B7FEC53007D4F59 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		674815762B7FED47007D4F59 /* PinnedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedView.swift; sourceTree = "<group>"; };
 		674815782B7FEDA4007D4F59 /* SessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsView.swift; sourceTree = "<group>"; };
@@ -148,15 +126,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6732864C2B968B7E00323023 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				673286542B968B7E00323023 /* SwiftUI.framework in Frameworks */,
-				673286522B968B7E00323023 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -187,7 +156,6 @@
 				0DC4E0362B7EFC480050F5E1 /* Aadat.app */,
 				0DC4E0462B7EFC4B0050F5E1 /* AadatTests.xctest */,
 				0DC4E0502B7EFC4B0050F5E1 /* AadatUITests.xctest */,
-				6732864F2B968B7E00323023 /* LockscreenWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,6 +163,7 @@
 		0DC4E0382B7EFC480050F5E1 /* Aadat */ = {
 			isa = PBXGroup;
 			children = (
+				0D0AF0602B97EF23008FF0AF /* Info.plist */,
 				BA3B570F2B94035F001D585F /* SpeechRecognizer */,
 				0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */,
 				6732863D2B87D55200323023 /* CustomModifiers.swift */,
@@ -212,7 +181,6 @@
 				0DC4E03F2B7EFC4B0050F5E1 /* Preview Content */,
 				0D1806062B8EB85C004E03CB /* LanguageIdentifierView.swift */,
 				2E2464B82B91C434000805AD /* AllTasksView.swift */,
-				673286552B968B7E00323023 /* LockscreenWidgets */,
 			);
 			path = Aadat;
 			sourceTree = "<group>";
@@ -249,19 +217,6 @@
 				673286532B968B7E00323023 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		673286552B968B7E00323023 /* LockscreenWidgets */ = {
-			isa = PBXGroup;
-			children = (
-				673286562B968B7E00323023 /* LockscreenWidgetsBundle.swift */,
-				673286582B968B7E00323023 /* LockscreenWidgetsLiveActivity.swift */,
-				6732865A2B968B7E00323023 /* LockscreenWidgets.swift */,
-				6732865C2B968B7E00323023 /* AppIntent.swift */,
-				6732865E2B968B8000323023 /* Assets.xcassets */,
-				673286602B968B8000323023 /* Info.plist */,
-			);
-			path = LockscreenWidgets;
 			sourceTree = "<group>";
 		};
 		6748157A2B7FF0E7007D4F59 /* Objects */ = {
@@ -301,7 +256,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				673286622B968B8000323023 /* PBXTargetDependency */,
 			);
 			name = Aadat;
 			productName = Aadat;
@@ -344,23 +298,6 @@
 			productReference = 0DC4E0502B7EFC4B0050F5E1 /* AadatUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		6732864E2B968B7E00323023 /* LockscreenWidgetsExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 673286672B968B8000323023 /* Build configuration list for PBXNativeTarget "LockscreenWidgetsExtension" */;
-			buildPhases = (
-				6732864B2B968B7E00323023 /* Sources */,
-				6732864C2B968B7E00323023 /* Frameworks */,
-				6732864D2B968B7E00323023 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LockscreenWidgetsExtension;
-			productName = LockscreenWidgetsExtension;
-			productReference = 6732864F2B968B7E00323023 /* LockscreenWidgetsExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -382,9 +319,6 @@
 						CreatedOnToolsVersion = 15.2;
 						TestTargetID = 0DC4E0352B7EFC480050F5E1;
 					};
-					6732864E2B968B7E00323023 = {
-						CreatedOnToolsVersion = 15.2;
-					};
 				};
 			};
 			buildConfigurationList = 0DC4E0312B7EFC480050F5E1 /* Build configuration list for PBXProject "Aadat" */;
@@ -403,7 +337,6 @@
 				0DC4E0352B7EFC480050F5E1 /* Aadat */,
 				0DC4E0452B7EFC4B0050F5E1 /* AadatTests */,
 				0DC4E04F2B7EFC4B0050F5E1 /* AadatUITests */,
-				6732864E2B968B7E00323023 /* LockscreenWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -430,14 +363,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6732864D2B968B7E00323023 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6732865F2B968B8000323023 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,17 +415,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6732864B2B968B7E00323023 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				673286572B968B7E00323023 /* LockscreenWidgetsBundle.swift in Sources */,
-				6732865D2B968B7E00323023 /* AppIntent.swift in Sources */,
-				673286592B968B7E00323023 /* LockscreenWidgetsLiveActivity.swift in Sources */,
-				6732865B2B968B7E00323023 /* LockscreenWidgets.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -513,11 +427,6 @@
 			isa = PBXTargetDependency;
 			target = 0DC4E0352B7EFC480050F5E1 /* Aadat */;
 			targetProxy = 0DC4E0512B7EFC4B0050F5E1 /* PBXContainerItemProxy */;
-		};
-		673286622B968B8000323023 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6732864E2B968B7E00323023 /* LockscreenWidgetsExtension */;
-			targetProxy = 673286612B968B8000323023 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -644,7 +553,6 @@
 		0DC4E05B2B7EFC4B0050F5E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -652,6 +560,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Aadat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Aadat/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage permission";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition permission";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -673,7 +584,6 @@
 		0DC4E05C2B7EFC4B0050F5E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -681,6 +591,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Aadat/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Aadat/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage permission";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition permission";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -771,58 +684,6 @@
 			};
 			name = Release;
 		};
-		673286652B968B8000323023 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LockscreenWidgets/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LockscreenWidgets;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.ucdavis.ecs189e.Aadat.LockscreenWidgets;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		673286662B968B8000323023 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LockscreenWidgets/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LockscreenWidgets;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = edu.ucdavis.ecs189e.Aadat.LockscreenWidgets;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -858,15 +719,6 @@
 			buildConfigurations = (
 				0DC4E0612B7EFC4B0050F5E1 /* Debug */,
 				0DC4E0622B7EFC4B0050F5E1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		673286672B968B8000323023 /* Build configuration list for PBXNativeTarget "LockscreenWidgetsExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				673286652B968B8000323023 /* Debug */,
-				673286662B968B8000323023 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
