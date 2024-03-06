@@ -99,7 +99,6 @@
 		6748157F2B7FF53C007D4F59 /* TimerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButtonView.swift; sourceTree = "<group>"; };
 		674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskOrSessionView.swift; sourceTree = "<group>"; };
 		674815832B813F1F007D4F59 /* ManageTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageTagsView.swift; sourceTree = "<group>"; };
-		BA2899FA2B97F39900D5BFC3 /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 		BA28C49B2B86B92F00E0D322 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskOrSessionFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -231,14 +230,6 @@
 				673286452B90166500323023 /* CreateTagButtonView.swift */,
 			);
 			path = Objects;
-			sourceTree = "<group>";
-		};
-		BA2899F92B97F38700D5BFC3 /* SpeechRecognizer */ = {
-			isa = PBXGroup;
-			children = (
-				BA2899FA2B97F39900D5BFC3 /* SpeechRecognizer.swift */,
-			);
-			path = SpeechRecognizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,7 +377,6 @@
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,
 				2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */,
 				673286422B8E761B00323023 /* ChartView.swift in Sources */,
-				BA2899FB2B97F39900D5BFC3 /* SpeechRecognizer.swift in Sources */,
 				0D1806072B8EB85C004E03CB /* LanguageIdentifierView.swift in Sources */,
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
