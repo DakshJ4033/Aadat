@@ -17,24 +17,11 @@ enum RootViewType {
     case statsView
 }
 
-//class UserModel: ObservableObject {
-//    @Published var tasks: [Task] = []
-//    @Published var sessions: [Session] = []
-//    
-//    @Published var defaultNoTagStr: String // used in the TaskView PICKER, beware refactor bugs
-//    @Published var allTags: [String]
-//    
-//    // TODO: this init may cause issues depending when we pull from disk
-//    init(defaultNoTagStr: String) {
-//        self.defaultNoTagStr = defaultNoTagStr
-//        self.allTags = [defaultNoTagStr]
-//    }
-//}
 
 struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
-//    @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
+    @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
 //    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
@@ -60,9 +47,9 @@ struct RootView: View {
         .environmentObject(rootViewManager)
 //        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
-//        .onAppear {
-//            speechRecognitionViewModel.startRecording()
-//        }
+        .onAppear {
+            speechRecognitionViewModel.startRecordingProcess()
+        }
     }
 }
 
