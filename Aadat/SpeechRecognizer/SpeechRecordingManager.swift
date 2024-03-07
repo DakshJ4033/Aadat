@@ -51,8 +51,7 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
 //    }
     
     func startRecording() {
-        //deleteExistingAudioFile() // Ensure any existing file is removed
-        deleteExistingAudioFile()
+        deleteExistingAudioFile() // Ensure any existing file is removed
         
         let audioSession = AVAudioSession.sharedInstance()
         do {

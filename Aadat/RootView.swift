@@ -30,7 +30,9 @@ struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
     @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
-    
+    @StateObject var userModel: UserModel = UserModel()
+    @Query var tasks: [Task]
+
     var body: some View {
         Group {
             switch rootViewManager.rootViewType {
@@ -54,14 +56,24 @@ struct RootView: View {
         .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
         .onAppear {
+            initAllTags()
             speechRecognitionViewModel.startRecordingProcess()
+        }
+    }
+    
+    func initAllTags() {
+        if tasks.count > 0 {
+            for task in tasks {
+                !userModel.allTags.contains(task.tag) ? userModel.allTags.append(task.tag) : print("dupe \(task.tag)")
+            }
+        } else {
+            userModel.allTags = ["No Tag"]
         }
         
         userModel.allTags = Array(Set(userModel.allTags))
         UserDefaults.standard.set(userModel.allTags, forKey: "allTags")
     }
 }
-
 
 struct RootBottomNavBar: ViewModifier {
     var rootViewManager: RootViewManager
