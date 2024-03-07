@@ -35,14 +35,17 @@ struct TaskView: View {
                 TextField(task.taskDescription, text: $task.taskDescription)
                 
                 // assign a Tag from allTags or Add New
-                Button("New Tag...") { // Half-sheet name entry
-                    showNewTagSheet.toggle()
-                }.sheet(isPresented: $showNewTagSheet) {
-                    //TODO: make this actually add tags to the userModel and push to disk
-                    TextField("New Tag...", text: $newTag).defaultSheetDetents()
+                HStack {
+                    Text("Tag: ")
+                    Button(task.tag) { // Half-sheet name entry
+                        showNewTagSheet.toggle()
+                    }.sheet(isPresented: $showNewTagSheet) {
+                        //TODO: make this actually add tags to the userModel and push to disk
+                        TextField("New Tag...", text: $newTag).defaultSheetDetents()
+                    }
+                    .padding([.trailing], 121)
                 }
-                .padding([.trailing], 121)
-//
+
 //                Picker(task.tag, selection: $userModel.allTags[0]) {
 //                    ForEach(userModel.allTags, id: \.self) { i in
 //                        Text(i)

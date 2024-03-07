@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 /* RootView Manager */
 class RootViewManager: ObservableObject {
     @Published var rootViewType: RootViewType = .homeView
@@ -17,6 +18,13 @@ enum RootViewType {
     case statsView
 }
 
+class UserModel: ObservableObject {
+    @Published var allTags: [String]
+    init() { self.allTags = UserDefaults.standard.object(forKey:"allTags") as? [String] ?? ["No Tag"] }
+    func updateAllTags() {
+        UserDefaults.standard.set(self.allTags, forKey: "allTags")
+    }
+}
 
 struct RootView: View {
     
@@ -39,15 +47,18 @@ struct RootView: View {
                 StatsView()
                 
             }
-            // TODO: StatsView(), generate stats across different time frames, show habits etc.
             // TODO: CalendarView()?
             
         }
         .environmentObject(rootViewManager)
+        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
         .onAppear {
             speechRecognitionViewModel.startRecordingProcess()
         }
+        
+        userModel.allTags = Array(Set(userModel.allTags))
+        UserDefaults.standard.set(userModel.allTags, forKey: "allTags")
     }
 }
 

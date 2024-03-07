@@ -11,16 +11,17 @@ import SwiftData
 
 struct CreateTagButtonView: View {
     @Query private var tasks: [Task]
-    @Binding var allTags: [String]
+    @EnvironmentObject var userModel: UserModel
     
     var body: some View {
         Button {
             /* don't dupe Tags */
             var dupeNum = 0
-            while allTags.contains("New Tag \(dupeNum)") {
+            while userModel.allTags.contains("New Tag \(dupeNum)") {
                 dupeNum = dupeNum + 1
             }
-            allTags.append("New Tag \(dupeNum)")
+            userModel.allTags.append("New Tag \(dupeNum)")
+            userModel.updateAllTags()
             
         } label: {
             Image(systemName: "plus.circle.fill").font(.largeTitle).imageScale(.large)
@@ -30,5 +31,5 @@ struct CreateTagButtonView: View {
 }
 
 #Preview {
-    CreateTagButtonView(allTags: .constant([]))
+    CreateTagButtonView()
 }
