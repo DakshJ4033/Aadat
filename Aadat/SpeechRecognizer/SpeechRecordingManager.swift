@@ -8,11 +8,14 @@ class SpeechRecognizerViewModel: ObservableObject {
     func startRecordingProcess() {
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
             if granted {
+//                DispatchQueue.main.async {
+//                    self.speechRecognitionManager.startRecording()
+//                }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                    self.speechRecognitionManager.stopRecording()
+//                }
                 DispatchQueue.main.async {
-                    self.speechRecognitionManager.startRecording()
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    self.speechRecognitionManager.stopRecording()
+                    self.speechRecognitionManager.startRepeatingProcess()
                 }
             } else {
                 print("permission denied")
@@ -29,30 +32,30 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
     private var isRecording = false
     private let audioFilename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("recordedAudio.wav")
 
-//    func startRepeatingProcess() {
-//        // Ensure recording starts immediately upon this call
-//        toggleRecording()
-//        
-//        // Set up a repeating timer that toggles recording state every 5 seconds
-//        recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-//            self?.toggleRecording()
-//        }
-//    }
-//    
-//    private func toggleRecording() {
-//        if isRecording {
-//            stopRecording()
-//        } else {
-//            // Start recording after a delay to ensure it happens after stopping
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.startRecording()
-//            }
-//        }
-//    }
+    func startRepeatingProcess() {
+        // Ensure recording starts immediately upon this call
+        toggleRecording()
+        // Set up a repeating timer that toggles recording state every 5 seconds
+        recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+            self?.toggleRecording()
+        }
+    }
+    
+    private func toggleRecording() {
+        if isRecording {
+            stopRecording()
+        } else {
+            // Start recording after a delay to ensure it happens after stopping
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.startRecording()
+            }
+        }
+    }
     
     func startRecording() {
-        deleteExistingAudioFile() // Ensure any existing file is removed
-        
+        // Ensure any existing file is removed
+        deleteExistingAudioFile()
+        // set up AVAudioSession to communicate with OS for hardware access
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.playAndRecord, mode: .default)
@@ -61,7 +64,7 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
             print("Failed to set audio session category: \(error.localizedDescription)")
             return
         }
-        
+        // set up settings to record in .wav format
         let settings = [
             AVFormatIDKey: Int(kAudioFormatLinearPCM),
             AVSampleRateKey: 44100,
@@ -75,17 +78,19 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
             print("Failed to create audio file: \(error.localizedDescription)")
             return
         }
-        
+        // set up AVAudioEngine input node to get microphone input
         let inputNode = audioEngine.inputNode
         let recordingFormat = inputNode.outputFormat(forBus: 0)
+        // install "tap" on input node to listen to audio node's output (audio coming from microphone)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] (buffer, when) in
             do {
+                // write to output file buffer
                 try self?.outputFile?.write(from: buffer)
             } catch {
                 print("Failed to write audio to file: \(error.localizedDescription)")
             }
         }
-        
+        // start audio engine to begin flow of audio data from input node (microphone) to the tap, which writes data to file
         do {
             try audioEngine.start()
         } catch {
@@ -98,34 +103,29 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
     }
     
     func stopRecording() {
+        // stop audio engine's flow of audio data -> output file
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
+        // end AVAudioSession as we no longer need to access microphone hardware
         try? AVAudioSession.sharedInstance().setActive(false)
         isRecording = false
         print("Recording Stopped")
-        
         // Check if the audio file exists and is not empty
          do {
              let attributes = try FileManager.default.attributesOfItem(atPath: audioFilename.path)
              let fileSize = attributes[FileAttributeKey.size] as! UInt64
              if fileSize > 0 {
                  print("Recording stopped. File size: \(fileSize) bytes")
-                 // Continue with file processing
              } else {
                  print("Recording stopped. File is empty.")
-                 // Handle the case where the file is empty as needed
+                 return
              }
          } catch {
              print("Error accessing file: \(error.localizedDescription)")
+             return
          }
+        // identify language spoken in audio file
         languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename)
-        // start recording again after identifying language
-        //self.toggleRecording()
-    }
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
     }
     
     private func deleteExistingAudioFile() {
