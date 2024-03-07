@@ -6,47 +6,53 @@ class SpeechRecognizerViewModel: ObservableObject {
     private var speechRecognitionManager = SpeechRecordingManager()
     
     func startRecordingProcess() {
-        speechRecognitionManager.startRecording()
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            if granted {
+                DispatchQueue.main.async {
+                    self.speechRecognitionManager.startRecording()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.speechRecognitionManager.stopRecording()
+                }
+            } else {
+                print("permission denied")
+            }
+        }
     }
 }
 
-class SpeechRecordingManager: NSObject {
+class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
+    private let languageIdentifier = LanguageIdentifierViewModel()
     private let audioEngine = AVAudioEngine()
     private var outputFile: AVAudioFile?
     private var recordingTimer: Timer?
     private var isRecording = false
-    private let audioFilename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("recordedAudio.m4a")
+    private let audioFilename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("recordedAudio.wav")
+
+//    func startRepeatingProcess() {
+//        // Ensure recording starts immediately upon this call
+//        toggleRecording()
+//        
+//        // Set up a repeating timer that toggles recording state every 5 seconds
+//        recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+//            self?.toggleRecording()
+//        }
+//    }
+//    
+//    private func toggleRecording() {
+//        if isRecording {
+//            stopRecording()
+//        } else {
+//            // Start recording after a delay to ensure it happens after stopping
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.startRecording()
+//            }
+//        }
+//    }
     
-    func toggleRecording() {
-        if isRecording {
-            stopRecording()
-        } else {
-            startRecording()
-        }
-        isRecording.toggle()
-    }
-    
-    func startTimer() {
-        // Stop recording if it's already running to ensure a clean start
-        if isRecording {
-            stopRecording()
-        }
-        
-        recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            self?.toggleRecording()
-        }
-    }
-    
-    func stopTimer() {
-        recordingTimer?.invalidate()
-        recordingTimer = nil
-        if isRecording {
-            stopRecording()
-        }
-    }
-    
-    private func startRecording() {
-        deleteExistingAudioFile() // Ensure any existing file is removed
+    func startRecording() {
+        //deleteExistingAudioFile() // Ensure any existing file is removed
+        deleteExistingAudioFile()
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -58,8 +64,8 @@ class SpeechRecordingManager: NSObject {
         }
         
         let settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 12000,
+            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+            AVSampleRateKey: 44100,
             AVNumberOfChannelsKey: 1,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
@@ -92,12 +98,35 @@ class SpeechRecordingManager: NSObject {
         print("Recording Started")
     }
     
-    private func stopRecording() {
+    func stopRecording() {
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
         try? AVAudioSession.sharedInstance().setActive(false)
         isRecording = false
         print("Recording Stopped")
+        
+        // Check if the audio file exists and is not empty
+         do {
+             let attributes = try FileManager.default.attributesOfItem(atPath: audioFilename.path)
+             let fileSize = attributes[FileAttributeKey.size] as! UInt64
+             if fileSize > 0 {
+                 print("Recording stopped. File size: \(fileSize) bytes")
+                 // Continue with file processing
+             } else {
+                 print("Recording stopped. File is empty.")
+                 // Handle the case where the file is empty as needed
+             }
+         } catch {
+             print("Error accessing file: \(error.localizedDescription)")
+         }
+        languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename)
+        // start recording again after identifying language
+        //self.toggleRecording()
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
     
     private func deleteExistingAudioFile() {

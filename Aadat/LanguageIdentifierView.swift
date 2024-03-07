@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import AudioToolbox
 import Foundation
 import SwiftUI
 
@@ -53,15 +54,15 @@ class LanguageIdentifierViewModel: ObservableObject {
             print("Source file not found.")
             return
         }
-
+        
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let destinationUrl = documentsDirectory.appendingPathComponent("\(fileName).\(fileExtension)")
-
+        
         if fileManager.fileExists(atPath: destinationUrl.path) {
             print("File already exists in Documents directory.")
             return
         }
-
+        
         do {
             try fileManager.copyItem(at: sourceUrl, to: destinationUrl)
             print("File copied to Documents directory.")
@@ -78,10 +79,19 @@ class LanguageIdentifierViewModel: ObservableObject {
         var srcFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
         var dstFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
 
-        ExtAudioFileOpenURL(url as CFURL, &sourceFile)
+        // Check if file exists before attempting to open
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            print("File does not exist at path: \(url.path)")
+            return
+        }
+
+        error = ExtAudioFileOpenURL(url as CFURL, &sourceFile)
+        guard error == noErr else {
+            print("Error opening source file: \(error)")
+            return
+        }
 
         var thePropertySize: UInt32 = UInt32(MemoryLayout.stride(ofValue: srcFormat))
-
         ExtAudioFileGetProperty(sourceFile!,
                                 kExtAudioFileProperty_FileDataFormat,
                                 &thePropertySize, &srcFormat)
@@ -170,27 +180,27 @@ class LanguageIdentifierViewModel: ObservableObject {
         print("Error 7 in convertAudio: \(error.description)")
     }
 }
-
-struct LanguageIdentifierView: View {
-    @StateObject private var viewModel = LanguageIdentifierViewModel()
     
-    var body: some View {
-        Button("Identify Language") {
-            // Example of calling the function
-            viewModel.copyFileToDocumentsDirectory(fileName: "SampleClip", fileExtension: "m4a")
-
-            // After copying, you can retrieve the file URL and pass it to your conversion function
-            let fileManager = FileManager.default
-            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let inputURL = documentsDirectory.appendingPathComponent("SampleClip.m4a")
-            let outputURL = documentsDirectory.appendingPathComponent("out.wav")
-
-            viewModel.convertAudio(inputURL, outputURL: outputURL)
-            viewModel.identifyLanguage(fromAudioFileAt: outputURL)
+    struct LanguageIdentifierView: View {
+        @StateObject private var viewModel = LanguageIdentifierViewModel()
+        
+        var body: some View {
+            Button("Identify Language") {
+                // Example of calling the function
+                viewModel.copyFileToDocumentsDirectory(fileName: "SampleClip", fileExtension: "m4a")
+                
+                // After copying, you can retrieve the file URL and pass it to your conversion function
+                let fileManager = FileManager.default
+                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let inputURL = documentsDirectory.appendingPathComponent("SampleClip.m4a")
+                let outputURL = documentsDirectory.appendingPathComponent("out.wav")
+                
+                viewModel.convertAudio(inputURL, outputURL: outputURL)
+                viewModel.identifyLanguage(fromAudioFileAt: outputURL)
+            }
         }
     }
-}
-
-#Preview {
-    LanguageIdentifierView()
-}
+    
+    #Preview {
+        LanguageIdentifierView()
+    }

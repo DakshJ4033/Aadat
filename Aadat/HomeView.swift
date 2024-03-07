@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    
     @EnvironmentObject var rootViewManager: RootViewManager
     @State var showAllTasks: Bool = false
     
@@ -37,7 +36,6 @@ struct HomeView: View {
             }
             
         }
-//        .environmentObject(userModel)
         .padding()
         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.063, green: 0.1803921568627451, blue: 0.2901960784313726)/*@END_MENU_TOKEN@*/)
     }

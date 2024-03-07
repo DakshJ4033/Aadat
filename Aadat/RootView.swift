@@ -22,7 +22,6 @@ struct RootView: View {
     
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
     @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
-//    @StateObject var userModel: UserModel = UserModel(defaultNoTagStr: "No tag")
     
     var body: some View {
         Group {
@@ -45,13 +44,13 @@ struct RootView: View {
             
         }
         .environmentObject(rootViewManager)
-//        .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
         .onAppear {
             speechRecognitionViewModel.startRecordingProcess()
         }
     }
 }
+
 
 struct RootBottomNavBar: ViewModifier {
     var rootViewManager: RootViewManager
