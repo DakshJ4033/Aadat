@@ -16,6 +16,7 @@ struct TimerButtonView: View {
     let taskTag: String
     @Query private var sessions: [Session]
     
+    
     /* Live Activity vars */
     @State private var isTrackingTime: Bool = false
     @State private var startTime: Date? = nil
@@ -72,6 +73,22 @@ struct TimerButtonView: View {
                 .foregroundColor(taskStarted ? .red : .blue)
         }
         .padding()
+        .onAppear {
+            for session in sessions.reversed() {
+                // Check if the session's tag matches the specific tag
+                if session.tag == taskTag {
+                    
+                    if session.endTime == nil {
+                        taskStarted = true
+                    }
+                    else {
+                        taskStarted = false
+                    }
+                    // Break the loop once the most recent session is found
+                    break
+                }
+            }
+        }
     }
 }
 
