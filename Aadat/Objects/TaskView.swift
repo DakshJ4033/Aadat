@@ -30,20 +30,23 @@ struct TaskView: View {
     var body: some View {
             
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 // Task desc.
                 TextField(task.taskDescription, text: $task.taskDescription)
+                    .multilineTextAlignment(.leading)
+                
+                
                 
                 // assign a Tag from allTags or Add New
                 HStack {
                     Text("Tag: ")
+                    .multilineTextAlignment(.leading)
                     Button(task.tag) { // Half-sheet name entry
                         showNewTagSheet.toggle()
                     }.sheet(isPresented: $showNewTagSheet) {
                         //TODO: make this actually add tags to the userModel and push to disk
                         TextField("New Tag...", text: $newTag).defaultSheetDetents()
                     }
-                    .padding([.trailing], 121)
                 }
 
 //                Picker(task.tag, selection: $userModel.allTags[0]) {
@@ -51,7 +54,8 @@ struct TaskView: View {
 //                        Text(i)
 //                    }
 //                }.pickerStyle(.menu)
-            } .padding()
+            }
+            .padding()
             
             Spacer()
             
@@ -63,11 +67,9 @@ struct TaskView: View {
              // TODO: double check this references the actual Object? (push changes to disk?)
              task.desc = self.task.desc
              }*/
-            .padding()
         }
         
         .frame(maxWidth: .infinity)
-        // TODO: make a better UI for this box
         .background(.white)
         .cornerRadius(10)
         

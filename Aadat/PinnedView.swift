@@ -27,7 +27,7 @@ struct PinnedView: View {
             } else {
                 Text("There are no pinned tasks!")
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.55, saturation: 0.686, brightness: 0.871)/*@END_MENU_TOKEN@*/)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.273, green: 0.692, blue: 0.871)/*@END_MENU_TOKEN@*/)
                     .cornerRadius(10)
             }
         }

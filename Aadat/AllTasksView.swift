@@ -24,20 +24,20 @@ struct AllTasksView: View {
                     TaskView(task: task)
                 }
             } else {
-                Text("There are no pinned tasks!")
+                Text("There are no tasks!")
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.133, saturation: 0.898, brightness: 0.783)/*@END_MENU_TOKEN@*/)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 0.572, saturation: 0.644, brightness: 0.831)/*@END_MENU_TOKEN@*/)
                     .cornerRadius(10)
             }
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         .frame(maxWidth: .infinity)
         // TODO: make a better UI for this box
-        .background(Color(red: 0.3411764705882353, green: 0.6431372549019608, blue: 1.0))
+        .background(Color(red: 0.341, green: 0.6431372549019608, blue: 1.0))
         .cornerRadius(10)
     }
 }
 
 #Preview {
-    PinnedView()
+    AllTasksView()
 }
