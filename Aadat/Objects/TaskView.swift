@@ -7,12 +7,15 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 /* Task Class Dec. */
 
 
 struct TaskView: View {
+    @Query private var tasks: [Task]
     @State private var task: Task
+    
     init(task: Task) {
         self.task = task
     }
@@ -46,11 +49,12 @@ struct TaskView: View {
                     }
                 }
 
-//                Picker(task.tag, selection: $userModel.allTags[0]) {
-//                    ForEach(userModel.allTags, id: \.self) { i in
-//                        Text(i)
-//                    }
-//                }.pickerStyle(.menu)
+                // A tag shouldn't be unique in order for this to work!
+                Picker("Tags", selection: $task.tag) {
+                    ForEach(tasks) { task in
+                        Text("\(task.tag)").tag("\(task.tag)")
+                    }
+                }.pickerStyle(.menu)
             }
             .padding()
             
@@ -65,7 +69,6 @@ struct TaskView: View {
              task.desc = self.task.desc
              }*/
         }
-        
         .frame(maxWidth: .infinity)
         .background(.white)
         .cornerRadius(10)
