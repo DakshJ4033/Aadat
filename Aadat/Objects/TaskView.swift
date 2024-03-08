@@ -33,9 +33,6 @@ struct TaskView: View {
             VStack(alignment: .leading) {
                 // Task desc.
                 TextField(task.taskDescription, text: $task.taskDescription)
-                    .multilineTextAlignment(.leading)
-                
-                
                 
                 // assign a Tag from allTags or Add New
                 HStack {

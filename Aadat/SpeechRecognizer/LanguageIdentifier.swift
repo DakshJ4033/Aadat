@@ -7,6 +7,12 @@
 import AVFoundation
 import AudioToolbox
 import Foundation
+import SwiftData
+
+struct LanguageScore: Codable {
+    let score: Double
+    let label: String
+}
 
 class LanguageIdentifierViewModel: ObservableObject {
     private let apiUrl = "https://api-inference.huggingface.co/models/facebook/mms-lid-126"
@@ -29,16 +35,18 @@ class LanguageIdentifierViewModel: ObservableObject {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            // completion handler for http request
-            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                if let responseString = String(data: data, encoding: .utf8) {
+            do {
+                let languageScores = try JSONDecoder().decode([LanguageScore].self, from: data)
+            
+                // Assuming the array is not empty, access the first element
+                if let highestScore = languageScores.first {
                     DispatchQueue.main.async {
                         // Handle your response here. For example, update your UI.
-                        print("Response: \(responseString)")
+                        print("Highest scoring language: \(highestScore.label) with score \(highestScore.score)")
                     }
                 }
-            } else {
-                print("HTTP Error: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+            } catch {
+                print("Error decoding JSON: \(error)")
             }
         }
         // start network request defined by URLSessionDataTask
