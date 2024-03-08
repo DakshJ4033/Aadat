@@ -61,6 +61,10 @@ struct SessionDetailedView: View {
             .background(.red)
             .cornerRadius(5)
             .controlSize(.large)
+            .onAppear {
+                userStartTime = session.startTime
+                userEndTime = session.endTime ?? Date()
+            }
         }
     }
     

@@ -46,7 +46,7 @@ struct TimerButtonView: View {
             
             
             /* Other stuff */
-            if let mostRecentSession = sessions.last {
+            if let mostRecentSession = retrieveMostRecentSession(taskTag: taskTag, sessions: sessions) {
                 if mostRecentSession.endTime == nil {
                     // if we have a session, and its endTime is nil, end the session
                     mostRecentSession.endSession()
@@ -74,22 +74,25 @@ struct TimerButtonView: View {
         }
         .padding()
         .onAppear {
-            for session in sessions.reversed() {
-                // Check if the session's tag matches the specific tag
-                if session.tag == taskTag {
-                    
-                    if session.endTime == nil {
-                        taskStarted = true
-                    }
-                    else {
-                        taskStarted = false
-                    }
-                    // Break the loop once the most recent session is found
-                    break
+            if let mostRecentSession = retrieveMostRecentSession(taskTag: taskTag, sessions: sessions) {
+                if mostRecentSession.endTime == nil {
+                    taskStarted = true
+                }
+                else {
+                    taskStarted = false
                 }
             }
         }
     }
+}
+
+func retrieveMostRecentSession(taskTag: String, sessions: [Session]) -> Session? {
+    for session in sessions.reversed() {
+        if session.tag == taskTag {
+            return session
+        }
+    }
+    return nil
 }
 
 #Preview {
