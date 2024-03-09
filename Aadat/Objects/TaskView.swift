@@ -7,15 +7,14 @@
 
 import Foundation
 import SwiftUI
-import SwiftData
 
 /* Task Class Dec. */
 
 
 struct TaskView: View {
-    @Query private var tasks: [Task]
     @State private var task: Task
-    
+    @EnvironmentObject var userModel: UserModel
+
     init(task: Task) {
         self.task = task
     }
@@ -51,8 +50,8 @@ struct TaskView: View {
 
                 // A tag shouldn't be unique in order for this to work!
                 Picker("Tags", selection: $task.tag) {
-                    ForEach(tasks) { task in
-                        Text("\(task.tag)").tag("\(task.tag)")
+                    ForEach(0..<userModel.allTags.count, id: \.self) { index in
+                        Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
                     }
                 }.pickerStyle(.menu)
             }
