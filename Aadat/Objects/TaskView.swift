@@ -14,11 +14,7 @@ import SwiftData
 
 struct TaskView: View {
     @Query private var tasks: [Task]
-    @State private var task: Task
-    
-    init(task: Task) {
-        self.task = task
-    }
+    @State var task: Task
     
     // TODO: display Tag, short desc., total time of Tag today, and timer button */
     // TODO: taskDesc is not updating the Object instance

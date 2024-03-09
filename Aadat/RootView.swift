@@ -20,18 +20,22 @@ enum RootViewType {
 
 class UserModel: ObservableObject {
     @Published var allTags: [String]
-    init() { self.allTags = UserDefaults.standard.object(forKey:"allTags") as? [String] ?? ["No Tag"] }
+    
+    init() {
+        self.allTags = UserDefaults.standard.object(forKey:"allTags") as? [String] ?? ["No Tag"]
+    }
+    
     func updateAllTags() {
         UserDefaults.standard.set(self.allTags, forKey: "allTags")
     }
 }
 
 struct RootView: View {
-    
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
-    @StateObject private var speechRecognitionViewModel = SpeechRecognizerViewModel()
+    @StateObject var speechRecognitionModel = SpeechRecognitionModel(identifiedLanguage: "")
     @StateObject var userModel: UserModel = UserModel()
     @Query var tasks: [Task]
+    @Query var LanguageScore: [LanguageScore]
 
     var body: some View {
         Group {
@@ -57,7 +61,7 @@ struct RootView: View {
         .rootBottomNavBar(rootViewManager: rootViewManager)
         .onAppear {
             initAllTags()
-            speechRecognitionViewModel.startRecordingProcess()
+            speechRecognitionModel.startRecordingProcess()
         }
     }
     

@@ -7,24 +7,23 @@
 import AVFoundation
 import AudioToolbox
 import Foundation
-import SwiftData
 
-struct LanguageScore: Codable {
-    let score: Double
-    let label: String
+struct LanguageData: Codable {
+    var label: String
+    var score: Double
 }
 
-class LanguageIdentifierViewModel: ObservableObject {
+class LanguageIdentifier {
     private let apiUrl = "https://api-inference.huggingface.co/models/facebook/mms-lid-126"
     private let token = "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" // TODO: add token to .env file for security
     
-    func identifyLanguage(fromAudioFileAt url: URL) {
-        // function to identify language spoken from provided url to .wav audio file
+    func identifyLanguage(fromAudioFileAt url: URL, completion: @escaping (String?) -> Void) {
         guard let audioData = try? Data(contentsOf: url) else {
             print("Failed to load file")
+            completion(nil)
             return
         }
-        // set up POST request
+        
         var request = URLRequest(url: URL(string: apiUrl)!)
         request.httpMethod = "POST"
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -33,23 +32,23 @@ class LanguageIdentifierViewModel: ObservableObject {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
                 return
             }
             do {
-                let languageScores = try JSONDecoder().decode([LanguageScore].self, from: data)
-            
-                // Assuming the array is not empty, access the first element
+                let languageScores = try JSONDecoder().decode([LanguageData].self, from: data)
+                
                 if let highestScore = languageScores.first {
                     DispatchQueue.main.async {
-                        // Handle your response here. For example, update your UI.
                         print("Highest scoring language: \(highestScore.label) with score \(highestScore.score)")
+                        completion(highestScore.label)
                     }
                 }
             } catch {
                 print("Error decoding JSON: \(error)")
+                completion(nil)
             }
         }
-        // start network request defined by URLSessionDataTask
         task.resume()
     }
 }

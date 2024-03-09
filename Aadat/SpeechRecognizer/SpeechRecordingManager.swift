@@ -2,42 +2,34 @@ import AVFoundation
 import Foundation
 import Speech
 
-class SpeechRecognizerViewModel: ObservableObject {
-    private var speechRecognitionManager = SpeechRecordingManager()
+class SpeechRecognitionModel: ObservableObject {
+    @Published var identifiedLanguage: String
     
-    func startRecordingProcess() {
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            if granted {
-//                DispatchQueue.main.async {
-//                    self.speechRecognitionManager.startRecording()
-//                }
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//                    self.speechRecognitionManager.stopRecording()
-//                }
-                DispatchQueue.main.async {
-                    self.speechRecognitionManager.startRepeatingProcess()
-                }
-            } else {
-                print("permission denied")
-            }
-        }
+    init(identifiedLanguage: String) {
+        self.identifiedLanguage = ""
     }
-}
 
-class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
-    private let languageIdentifier = LanguageIdentifierViewModel()
+    private let languageIdentifier = LanguageIdentifier()
     private let audioEngine = AVAudioEngine()
     private var outputFile: AVAudioFile?
     private var recordingTimer: Timer?
     private var isRecording = false
     private let audioFilename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("recordedAudio.wav")
-
-    func startRepeatingProcess() {
-        // Ensure recording starts immediately upon this call
-        toggleRecording()
-        // Set up a repeating timer that toggles recording state every 5 seconds
-        recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            self?.toggleRecording()
+    
+    func startRecordingProcess() {
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            if granted {
+                DispatchQueue.main.async {
+                    // Ensure recording starts immediately upon this call
+                    self.toggleRecording()
+                    // Set up a repeating timer that toggles recording state every 5 seconds
+                    self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+                        self?.toggleRecording()
+                    }
+                }
+            } else {
+                print("permission denied")
+            }
         }
     }
     
@@ -125,7 +117,13 @@ class SpeechRecordingManager: NSObject, AVAudioRecorderDelegate {
              return
          }
         // identify language spoken in audio file
-        languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename)
+        languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename) { languageLabel in
+            if let languageLabel = languageLabel {
+                self.identifiedLanguage = languageLabel
+            } else {
+                self.identifiedLanguage = ""
+            }
+        }
     }
     
     private func deleteExistingAudioFile() {
