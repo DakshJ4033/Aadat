@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct TaskOrSessionFormView: View {
+    @EnvironmentObject var userModel: UserModel
     @Query private var tasks: [Task]
     @State private var task = Task()
     @State private var selectedTag = "No Tag"
@@ -46,6 +47,10 @@ struct TaskOrSessionFormView: View {
                     task.isPinned = pinnedSelection
                     
                     context.insert(task)
+                    
+                    userModel.allTags.append(task.tag)
+                    userModel.updateAllTags()
+                    
                     dismiss()
                 } label: {
                     Text("Add")
@@ -70,8 +75,8 @@ struct TaskOrSessionFormView: View {
                         if tasks.count < 1 {
                             Text("No Tag").tag("No Tag")
                         }
-                        ForEach(tasks) { task in
-                            Text("\(task.tag)").tag("\(task.tag)")
+                        ForEach(0..<userModel.allTags.count, id: \.self) { index in
+                            Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
                         }
                     }, label: {
                         HStack {

@@ -54,10 +54,13 @@ struct ChartView: View {
         .accessibilityLabel(Text("Select duration")) // Set accessibility label (optional)
         .accentColor(.black) 
         .foregroundStyle(.black)
-        .padding(20)
+        .padding(10)
         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.6509803921568628, green: 0.5098039215686274, blue: 1.0)/*@END_MENU_TOKEN@*/)
         .cornerRadius(10)
         .font(.headline)
+        
+        Spacer()
+            .frame(height: 25)
         
         VStack {
             Chart(dailyTimeData3) {
@@ -71,9 +74,11 @@ struct ChartView: View {
             .frame(height:250)
             .padding(15)
             .background(.white)
+            .cornerRadius(5)
 
             
             Spacer()
+                .frame(height: 50)
             
             Chart(dailyTimeData2) { dataPoint in
                 SectorMark(
@@ -92,6 +97,7 @@ struct ChartView: View {
             .frame(height:250)
             .padding(15)
             .background(.white)
+            .cornerRadius(5)
         }
     }
     
