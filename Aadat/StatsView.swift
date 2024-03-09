@@ -16,12 +16,25 @@ struct StatsView: View {
         ScrollView {
             VStack {
                 Text("Statistics")
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
                     .foregroundStyle(.white)
-                ChartView()
+                
+                if sessions.count > 0 {
+                    ChartView()
+                } else {
+                    Text("There are no active sessions!")
+                        .fontWeight(.medium)
+                        .padding(/*@START_MENU_TOKEN@*/.all, 20.0/*@END_MENU_TOKEN@*/)
+                        .background(Color(hue: 0.58, saturation: 0.783, brightness: 0.456))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                }
                 
             }
             
         }
+        .frame(maxWidth: .infinity)
         .padding()
         .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.063, green: 0.1803921568627451, blue: 0.2901960784313726)/*@END_MENU_TOKEN@*/)
     }
