@@ -35,8 +35,7 @@ struct RootView: View {
     @StateObject var speechRecognitionModel = SpeechRecognitionModel(identifiedLanguage: "")
     @StateObject var userModel: UserModel = UserModel()
     @Query var tasks: [Task]
-    @Query var LanguageScore: [LanguageScore]
-
+    
     var body: some View {
         Group {
             switch rootViewManager.rootViewType {
