@@ -5,11 +5,11 @@ import SwiftData
 
 class SpeechRecognitionModel: ObservableObject {
     @Published var identifiedLanguage: String
-    @Published var previousLanguage: String
+    @Published var lastAutomatedTaskLanguage: String
     
     init(identifiedLanguage: String) {
         self.identifiedLanguage = ""
-        self.previousLanguage = ""
+        self.lastAutomatedTaskLanguage = ""
     }
 
     private let languageIdentifier = LanguageIdentifier()

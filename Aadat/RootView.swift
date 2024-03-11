@@ -76,25 +76,34 @@ struct RootView: View {
     }
     
     private func updateSessions() {
-        print("prev lang: \(speechRecognitionModel.previousLanguage)")
-        if (speechRecognitionModel.previousLanguage.isEmpty) {
-            speechRecognitionModel.previousLanguage = speechRecognitionModel.identifiedLanguage
+        print("prev lang: \(speechRecognitionModel.lastAutomatedTaskLanguage)")
+        
+        let identifiedLanguage = speechRecognitionModel.identifiedLanguage.lowercased()
+        let lastAutomatedTaskLanguage = speechRecognitionModel.lastAutomatedTaskLanguage.lowercased()
+        
+        if (speechRecognitionModel.lastAutomatedTaskLanguage.isEmpty) {
             for task in tasks {
-                if (task.tag == speechRecognitionModel.previousLanguage) {
-                    // if we have a session, but its endTime is not nil, then make a new session
+                if (task.tag.lowercased() == identifiedLanguage) {
+                    // if there's a task that matches the identified language then start that task automatically
+                    speechRecognitionModel.lastAutomatedTaskLanguage = speechRecognitionModel.identifiedLanguage
                     let newSession = Session(startTime: Date.now)
                     newSession.tag = task.tag
                     newSession.isAutomatic = true
                     context.insert(newSession)
+                    break
                 }
             }
-        } else if (!speechRecognitionModel.previousLanguage.isEmpty && speechRecognitionModel.identifiedLanguage != speechRecognitionModel.previousLanguage) {
+        } else if (!speechRecognitionModel.lastAutomatedTaskLanguage.isEmpty && (identifiedLanguage != lastAutomatedTaskLanguage)) {
+            // if we already started a task automatically and the language we detect is not the same as that task
             print("going in")
             for session in sessions {
-                if session.tag == speechRecognitionModel.previousLanguage && session.isAutomatic {
+                if ((session.tag.lowercased() == lastAutomatedTaskLanguage) && session.isAutomatic) {
+                    speechRecognitionModel.lastAutomatedTaskLanguage = ""
                     print("going in to end session")
                     session.endSession()
-                    speechRecognitionModel.previousLanguage = ""
+                    // call updateSessions again to potentially start a new automated task with the language that was just detected
+                    updateSessions()
+                    break
                 }
             }
         }
