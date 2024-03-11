@@ -14,18 +14,15 @@ struct HomeView: View {
     var body: some View {
         ScrollView {
             VStack {
-                
                 if(userModel.showAllTasks) {
                     AllTasksView()
-                } else {
+                }else {
                     PinnedView()
                 }
                 
                 SessionsView()
-                
                 AddTaskOrSessionView()
             }
-            
         }
         .mainBackground()
     }

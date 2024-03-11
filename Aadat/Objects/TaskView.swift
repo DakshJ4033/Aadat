@@ -44,6 +44,7 @@ struct TaskView: View {
                             Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])").standardText()
                         }
                     }.pickerStyle(.menu)
+                        .standardPickerText()
                     
                     /*Button(task.tag) { // Half-sheet name entry
                         showNewTagSheet.toggle()

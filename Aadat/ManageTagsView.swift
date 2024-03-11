@@ -16,39 +16,37 @@ struct ManageTagsView: View {
     @EnvironmentObject var userModel: UserModel
     
     @State var newTagName: String = ""
-    
     @State private var searchText = ""
     
     var body: some View {
         // ScrollView BREAKS Lists!!!
         NavigationStack {
             ZStack {
-                VStack { /* Show all Tags so user can pin / search / unpin */
-                    List {
-                        ForEach(searchResults, id: \.self) { tag in
-                            TagView(tag: tag)
-                        }
+                /* Show all Tags so user can pin / search / unpin */
+                List {
+                    ForEach(searchResults, id: \.self) { tag in
+                        TagView(tag: tag)
                     }
-                    .searchable(text: $searchText)
-                    .navigationTitle("Tags")
+                    .listRowSeparator(.hidden, edges: .all)
                 }
+                //.listStyle(.plain)
+                .navigationTitle("Tags")
+                .searchable(text: $searchText)
                 
-                VStack {
-                    Spacer();Spacer()
+                /*VStack {
+                    Spacer()
                     HStack {
-                        Spacer();Spacer()
+                        Spacer()
                         CreateTagButtonView()
                     }
-                }
-                
+                }*/
             }
-            
-            
         }
         .environmentObject(userModel)
-        .cornerRadius(15)
-        .padding()
-        .background()
+        //.cornerRadius(15)
+        //.mainBackground()
+        //.padding()
+        //.background()
     }
     
     var searchResults: [String] {

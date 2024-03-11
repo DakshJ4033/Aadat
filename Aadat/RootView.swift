@@ -38,6 +38,11 @@ struct RootView: View {
     @StateObject var speechRecognitionModel = SpeechRecognitionModel(identifiedLanguage: "")
     @StateObject var userModel: UserModel = UserModel()
     
+    /* have to use this for toolbar.bottomBar coloring */
+    // hex to uiColor https://www.uicolor.io
+    let darkUIColor = UIColor(red: 0.03, green: 0.01, blue: 0.03, alpha: 1.00)
+    init() {UIToolbar.appearance().barTintColor = darkUIColor}
+    
     var body: some View {
         Group {
             switch rootViewManager.rootViewType {
@@ -62,7 +67,7 @@ struct RootView: View {
         
         .onAppear {
             initAllTags()
-            speechRecognitionModel.startRecordingProcess()
+            //speechRecognitionModel.startRecordingProcess()
         }
         .onChange(of: speechRecognitionModel.identifiedLanguage) {
             print("Going into updateSessions with identified language: \(speechRecognitionModel.identifiedLanguage)")
@@ -116,6 +121,7 @@ struct RootBottomNavBar: ViewModifier {
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     HStack {
+                        
                         Button { /* Home Button */
                             rootViewManager.rootViewType = .homeView
                         } label: {

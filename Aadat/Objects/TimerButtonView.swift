@@ -70,7 +70,7 @@ struct TimerButtonView: View {
             Image(systemName: taskStarted ? "stop.circle.fill" : "play.circle.fill")
                 .resizable() // Make the image resizable
                 .frame(width: 24, height: 24)
-                .foregroundColor(taskStarted ? .red : .blue)
+                .foregroundColor(taskStarted ? Color(hex:standardLightRedHex) : Color(hex:standardBrightPinkHex))
         }
         .padding()
         .onAppear {

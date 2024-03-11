@@ -212,11 +212,11 @@
 				BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */,
 				674815832B813F1F007D4F59 /* ManageTagsView.swift */,
 				6732863F2B8E754700323023 /* StatsView.swift */,
+				2E2464B82B91C434000805AD /* AllTasksView.swift */,
 				0D242ED52B88474E0086AFB3 /* Models */,
 				6748157A2B7FF0E7007D4F59 /* Objects */,
 				0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */,
 				0DC4E03F2B7EFC4B0050F5E1 /* Preview Content */,
-				2E2464B82B91C434000805AD /* AllTasksView.swift */,
 			);
 			path = Aadat;
 			sourceTree = "<group>";
