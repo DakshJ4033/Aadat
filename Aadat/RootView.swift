@@ -20,6 +20,8 @@ enum RootViewType {
 
 class UserModel: ObservableObject {
     @Published var allTags: [String]
+    @Published var showAllTasks: Bool = false
+    
     init() { self.allTags = UserDefaults.standard.object(forKey:"allTags") as? [String] ?? ["No Tag"] }
     func updateAllTags() {
         UserDefaults.standard.set(self.allTags, forKey: "allTags")
@@ -55,6 +57,7 @@ struct RootView: View {
         .environmentObject(rootViewManager)
         .environmentObject(userModel)
         .rootBottomNavBar(rootViewManager: rootViewManager)
+        
         .onAppear {
             initAllTags()
             speechRecognitionViewModel.startRecordingProcess()
@@ -85,20 +88,23 @@ struct RootBottomNavBar: ViewModifier {
                         Button { /* Home Button */
                             rootViewManager.rootViewType = .homeView
                         } label: {
-                            Image(systemName: "house.circle.fill")
-                        }
+                            Image(systemName: "fitness.timer.fill")
+                                .frame(maxWidth: .infinity)
+                        }.standardToolbarButton()
                         
                         Button { /* All Tags View */
                             rootViewManager.rootViewType = .manageTagsView
                         } label: {
                             Image(systemName: "tag.fill")
-                        }
+                                .frame(maxWidth: .infinity)
+                        }.standardToolbarButton()
                         
                         Button { /* Stats View */
                             rootViewManager.rootViewType = .statsView
                         } label: {
                             Image(systemName: "chart.bar.xaxis.ascending.badge.clock.rtl")
-                        }
+                                .frame(maxWidth: .infinity)
+                        }.standardToolbarButton()
                     }
                 }
             }
