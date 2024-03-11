@@ -169,7 +169,7 @@ class LanguageIdentifier {
                 
                 if let highestScore = languageScores.first {
                     DispatchQueue.main.async {
-                        if let language = self.languageDictionary[highestScore.label], highestScore.score > 0.75 {
+                        if let language = self.languageDictionary[highestScore.label], highestScore.score > 0.70 {
                             print("language: \(highestScore.label), score: \(highestScore.score)")
                             completion(language)
                         } else {
@@ -178,7 +178,14 @@ class LanguageIdentifier {
                         }
                     }
                 }
-                
+            } catch DecodingError.keyNotFound(let key, let context) {
+                print("Missing key: \(key)")
+                print("Decoding context: \(context)")
+                completion("nil")
+            } catch DecodingError.typeMismatch(let type, let context) {
+                print("Type Mismatch for type: \(type)")
+                print("Decoding context: \(context)")
+                completion("nil")
             } catch {
                 print("Error decoding JSON: \(error)")
                 completion("nil")
