@@ -16,16 +16,14 @@ struct SessionView: View {
     
     var body: some View {
         HStack {
-            Text("\(session.tag)")
-                .lineLimit(1)
-            Text("Time elapsed:")
-            Text(formattedTime(from: elapsedTime))
+            Text("\(session.tag)").lineLimit(1)
+            Spacer()
+            Text("\(formattedTime(from: elapsedTime))")
         }
+        .standardText()
         .padding()
-        .background(.white)
-        .onTapGesture {
-            showSessionPopOver = true;
-        }
+        .standardBoxBackground()
+        .onTapGesture {showSessionPopOver = true}
         .popover(isPresented: $showSessionPopOver) {
             SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
         }
@@ -37,8 +35,9 @@ struct SessionView: View {
                     elapsedTime = Date().timeIntervalSince(session.startTime)
                 }
             }
-          }
+        }
     }
+    
     // function that nicely formats the string to display the time interval
     private func formattedTime(from time: TimeInterval) -> String {
         let minutes = Int(time / 60)
