@@ -23,12 +23,14 @@ class SpeechRecognitionModel: ObservableObject {
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
             if granted {
                 DispatchQueue.main.async {
-                    // Ensure recording starts immediately upon this call
-                    self.toggleRecording()
                     // Set up a repeating timer that toggles recording state every 5 seconds
                     self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-                        self?.toggleRecording()
+                        DispatchQueue.global().async {
+                            self?.toggleRecording()
+                        }
                     }
+                    // Ensure recording starts immediately upon this call
+                    self.toggleRecording()
                 }
             } else {
                 print("permission denied")
@@ -41,7 +43,7 @@ class SpeechRecognitionModel: ObservableObject {
             stopRecording()
         } else {
             // Start recording after a delay to ensure it happens after stopping
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
                 self.startRecording()
             }
         }
@@ -120,16 +122,12 @@ class SpeechRecognitionModel: ObservableObject {
              return
          }
         // identify language spoken in audio file
-        languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename) { languageLabel in
-            DispatchQueue.main.async {
-//                if let languageLabel = languageLabel {
-//                    self.identifiedLanguage = languageLabel
-//                    print("identified language: ", self.identifiedLanguage)
-//                } else {
-//                    self.identifiedLanguage = ""
-//                }
-                if languageLabel != "nil" {
-                    self.identifiedLanguage = languageLabel
+        DispatchQueue.global().async {
+            self.languageIdentifier.identifyLanguage(fromAudioFileAt: self.audioFilename) { languageLabel in
+                DispatchQueue.main.async {
+                    if languageLabel != "nil" {
+                        self.identifiedLanguage = languageLabel
+                    }
                 }
             }
         }
