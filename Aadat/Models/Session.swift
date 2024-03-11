@@ -13,6 +13,7 @@ final class Session {
     var startTime: Date
     var endTime: Date?
     var tag: String
+    var isAutomatic: Bool = false
     
     init(startTime: Date, endTime: Date? = nil, tag: String = "No Tag") {
         self.startTime = startTime

@@ -1,20 +1,23 @@
 import AVFoundation
 import Foundation
 import Speech
+import SwiftData
 
 class SpeechRecognitionModel: ObservableObject {
     @Published var identifiedLanguage: String
+    @Published var previousLanguage: String
     
     init(identifiedLanguage: String) {
         self.identifiedLanguage = ""
+        self.previousLanguage = ""
     }
 
     private let languageIdentifier = LanguageIdentifier()
     private let audioEngine = AVAudioEngine()
     private var outputFile: AVAudioFile?
-    private var recordingTimer: Timer?
     private var isRecording = false
     private let audioFilename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("recordedAudio.wav")
+    private var recordingTimer: Timer?
     
     func startRecordingProcess() {
         AVAudioSession.sharedInstance().requestRecordPermission { granted in
@@ -118,10 +121,16 @@ class SpeechRecognitionModel: ObservableObject {
          }
         // identify language spoken in audio file
         languageIdentifier.identifyLanguage(fromAudioFileAt: audioFilename) { languageLabel in
-            if let languageLabel = languageLabel {
-                self.identifiedLanguage = languageLabel
-            } else {
-                self.identifiedLanguage = ""
+            DispatchQueue.main.async {
+//                if let languageLabel = languageLabel {
+//                    self.identifiedLanguage = languageLabel
+//                    print("identified language: ", self.identifiedLanguage)
+//                } else {
+//                    self.identifiedLanguage = ""
+//                }
+                if languageLabel != "nil" {
+                    self.identifiedLanguage = languageLabel
+                }
             }
         }
     }

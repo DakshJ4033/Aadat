@@ -4,7 +4,9 @@
 //
 //  Created by Daksh Jain on 2/15/24.
 //
-
+import AVFoundation
+import Foundation
+import Speech
 import SwiftUI
 import SwiftData
 /* RootView Manager */
@@ -31,10 +33,12 @@ class UserModel: ObservableObject {
 }
 
 struct RootView: View {
+    @Query var sessions: [Session]
+    @Query var tasks: [Task]
+    @Environment(\.modelContext) var context
     @StateObject var rootViewManager: RootViewManager = RootViewManager()
     @StateObject var speechRecognitionModel = SpeechRecognitionModel(identifiedLanguage: "")
     @StateObject var userModel: UserModel = UserModel()
-    @Query var tasks: [Task]
     
     var body: some View {
         Group {
@@ -42,7 +46,6 @@ struct RootView: View {
                 
             case .homeView:
                 HomeView()
-                
             case .manageTagsView:
                 TabView {
                     ManageTagsView()
@@ -61,6 +64,35 @@ struct RootView: View {
         .onAppear {
             initAllTags()
             speechRecognitionModel.startRecordingProcess()
+        }
+        .onChange(of: speechRecognitionModel.identifiedLanguage) {
+            print("Going into updateSessions with identified language: \(speechRecognitionModel.identifiedLanguage)")
+            updateSessions()
+        }
+    }
+    
+    private func updateSessions() {
+        print("prev lang: \(speechRecognitionModel.previousLanguage)")
+        if (speechRecognitionModel.previousLanguage.isEmpty) {
+            speechRecognitionModel.previousLanguage = speechRecognitionModel.identifiedLanguage
+            for task in tasks {
+                if (task.tag == speechRecognitionModel.previousLanguage) {
+                    // if we have a session, but its endTime is not nil, then make a new session
+                    let newSession = Session(startTime: Date.now)
+                    newSession.tag = task.tag
+                    newSession.isAutomatic = true
+                    context.insert(newSession)
+                }
+            }
+        } else if (!speechRecognitionModel.previousLanguage.isEmpty && speechRecognitionModel.identifiedLanguage != speechRecognitionModel.previousLanguage) {
+            print("going in")
+            for session in sessions {
+                if session.tag == speechRecognitionModel.previousLanguage && session.isAutomatic {
+                    print("going in to end session")
+                    session.endSession()
+                    speechRecognitionModel.previousLanguage = ""
+                }
+            }
         }
     }
     
