@@ -10,6 +10,8 @@ import SwiftUI
 import SwiftData
 
 struct SessionsView: View {
+    @Environment(\.defaultMinListRowHeight) var minRowHeight
+    @Environment(\.modelContext) var context
     @Query private var sessions: [Session]
 
     var body: some View {
@@ -17,9 +19,17 @@ struct SessionsView: View {
             /* Show completed sessions */
             Text("Sessions").standardTitleText()
             if sessions.count != 0 {
-                ForEach(sessions) { session in
-                    SessionView(session: session)
+                Section {
+                    ForEach(sessions) { session in
+                        SessionView(session: session)
+//                            .swipeActions(edge: .trailing) {
+//                                Button("Delete", role: .destructive) {
+//                                    context.delete(session)
+//                                }
+//                            }
+                    }
                 }
+                //.frame(minHeight: minRowHeight * 5)
             } else {
                 Spacer()
                 Text("There are no recorded sessions!").standardText()
@@ -27,6 +37,13 @@ struct SessionsView: View {
             }
         }
         .standardEncapsulatingBox()
+    }
+    
+    func delete(_ indexSet: IndexSet) {
+        for i in indexSet {
+            let session = sessions[i]
+            context.delete(session)
+        }
     }
 }
 

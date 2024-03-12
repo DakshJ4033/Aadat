@@ -7,34 +7,47 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
+import SwipeActions
 
 struct SessionView: View {
     var session: Session
     
+    @Environment(\.modelContext) var context
+    @Query private var sessions: [Session]
     @State private var elapsedTime: TimeInterval = 0.0
     @State private var showSessionPopOver: Bool = false
     
     var body: some View {
-        HStack {
-            Text("\(session.tag)").lineLimit(1)
-            Spacer()
-            Text("\(formattedTime(from: elapsedTime))")
-        }
-        .standardText()
-        .padding()
-        .standardBoxBackground()
-        .onTapGesture {showSessionPopOver = true}
-        .popover(isPresented: $showSessionPopOver) {
-            SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
-        }
-        .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-                if let unwrappedEndTime = session.endTime {
-                    elapsedTime = unwrappedEndTime.timeIntervalSince(session.startTime)
-                } else {
-                    elapsedTime = Date().timeIntervalSince(session.startTime)
+        SwipeView {
+            HStack {
+                Text("\(session.tag)").lineLimit(1)
+                Spacer()
+                Text("\(formattedTime(from: elapsedTime))")
+            }
+            .frame(maxWidth: .infinity)
+            .standardText()
+            .padding()
+            .standardBoxBackground()
+            .onTapGesture {showSessionPopOver = true}
+            .popover(isPresented: $showSessionPopOver) {
+                SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
+            }
+            .onAppear {
+                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                    if let unwrappedEndTime = session.endTime {
+                        elapsedTime = unwrappedEndTime.timeIntervalSince(session.startTime)
+                    } else {
+                        elapsedTime = Date().timeIntervalSince(session.startTime)
+                    }
                 }
             }
+        } trailingActions: { _ in
+            SwipeAction("Delete") {
+                context.delete(session)
+            }
+            .standardText()
+            .background(Color.red)
         }
     }
     

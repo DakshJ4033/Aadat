@@ -12,6 +12,7 @@
 		0D0AF06B2B9A7163008FF0AF /* TimerWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D281782B9A53F1001B41F2 /* TimerWidgetLiveActivity.swift */; };
 		0D242ED72B8847B20086AFB3 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED62B8847B20086AFB3 /* Task.swift */; };
 		0D242ED92B884F9B0086AFB3 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242ED82B884F9B0086AFB3 /* Session.swift */; };
+		0D806BF02B9FDDED00F87548 /* SwipeActions in Frameworks */ = {isa = PBXBuildFile; productRef = 0D806BEF2B9FDDED00F87548 /* SwipeActions */; };
 		0DC4E03A2B7EFC480050F5E1 /* AadatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */; };
 		0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4E03B2B7EFC480050F5E1 /* RootView.swift */; };
 		0DC4E03E2B7EFC4B0050F5E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */; };
@@ -135,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D806BF02B9FDDED00F87548 /* SwipeActions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +312,9 @@
 				67D281822B9A53F3001B41F2 /* PBXTargetDependency */,
 			);
 			name = Aadat;
+			packageProductDependencies = (
+				0D806BEF2B9FDDED00F87548 /* SwipeActions */,
+			);
 			productName = Aadat;
 			productReference = 0DC4E0362B7EFC480050F5E1 /* Aadat.app */;
 			productType = "com.apple.product-type.application";
@@ -402,6 +407,9 @@
 				Base,
 			);
 			mainGroup = 0DC4E02D2B7EFC480050F5E1;
+			packageReferences = (
+				0D806BEE2B9FDDED00F87548 /* XCRemoteSwiftPackageReference "SwipeActions" */,
+			);
 			productRefGroup = 0DC4E0372B7EFC480050F5E1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -888,6 +896,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0D806BEE2B9FDDED00F87548 /* XCRemoteSwiftPackageReference "SwipeActions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/SwipeActions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0D806BEF2B9FDDED00F87548 /* SwipeActions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D806BEE2B9FDDED00F87548 /* XCRemoteSwiftPackageReference "SwipeActions" */;
+			productName = SwipeActions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0DC4E02E2B7EFC480050F5E1 /* Project object */;
 }
