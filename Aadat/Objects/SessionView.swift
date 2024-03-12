@@ -29,9 +29,15 @@ struct SessionView: View {
             .standardText()
             .padding()
             .standardBoxBackground()
-            .onTapGesture {showSessionPopOver = true}
-            .popover(isPresented: $showSessionPopOver) {
+            .onTapGesture {
+                showSessionPopOver.toggle()
+            }
+            .sheet(isPresented: $showSessionPopOver) {
                 SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
+                    .presentationDetents([.fraction(0.35)])
+                    .presentationBackground(
+                        Color(hex: standardDarkGrayHex)
+                    )
             }
             .onAppear {
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
@@ -49,6 +55,9 @@ struct SessionView: View {
             .standardText()
             .background(Color.red)
         }
+        .swipeMinimumDistance(10)
+        .swipeOffsetCloseAnimation(stiffness: 160, damping: 70)
+        .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
     }
     
     // function that nicely formats the string to display the time interval

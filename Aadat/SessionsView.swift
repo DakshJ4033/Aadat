@@ -22,14 +22,8 @@ struct SessionsView: View {
                 Section {
                     ForEach(sessions) { session in
                         SessionView(session: session)
-//                            .swipeActions(edge: .trailing) {
-//                                Button("Delete", role: .destructive) {
-//                                    context.delete(session)
-//                                }
-//                            }
                     }
                 }
-                //.frame(minHeight: minRowHeight * 5)
             } else {
                 Spacer()
                 Text("There are no recorded sessions!").standardText()

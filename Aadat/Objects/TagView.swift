@@ -8,76 +8,61 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import SwipeActions
 
 struct TagView: View {
-    
+    @Environment(\.modelContext) var context
     @Query private var tasks: [Task]
     @State var pinnedStatus: String = "pin.slash"
-    var tag: String
+    var task: Task
     
     var body: some View {
-        HStack {
-            Text(tag)
-            Spacer();Spacer()
-            
-            /* pin/unpin */
-            Button {
-                pinOrUnpin()
-                
-            } label: {
-                /*if pinnedStatus == true {
-                    Image(systemName: "pin.circle.fill").font(.title2).imageScale(.medium)
-                } else if pinnedStatus == false {
-                    Image(systemName: "pin.circle").font(.title2).imageScale(.medium)
-                }*/
-                Image(systemName: pinnedStatus).font(.title2).imageScale(.medium)
-
+        SwipeView {
+            VStack {
+                HStack {
+                    Text(task.tag)
+                    Spacer();Spacer()
+                    /* pin/unpin */
+                    Button {
+                        pinOrUnpin()
+                    } label: {
+                        Image(systemName: pinnedStatus).font(.title2).imageScale(.medium)
+                            .foregroundColor(Color(hex:standardBrightPinkHex))
+                    }
+                }
+                .standardBoxBackground()
+                .standardText()
+                .onAppear{ pinnedStatus = getPinnedStatus()}
             }
-
-        }.onAppear{ pinnedStatus = getPinnedStatus()}
-        .cornerRadius(15)
-        .padding()
-        .background()
+            .padding()
+        } trailingActions: { _ in
+            SwipeAction("Delete") {
+                context.delete(task)
+            }
+            .standardText()
+            .background(Color.red)
+        }
+        .swipeMinimumDistance(10)
+        .swipeOffsetCloseAnimation(stiffness: 160, damping: 70)
+        .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
     }
     
     func getPinnedStatus() -> String {
-        if tasks.count > 0 {
-            for task in tasks {
-                if task.tag == tag && task.isPinned {
-                    return "pin.circle.fill"
-                } else if task.tag == tag && !task.isPinned {
-                    return "pin.circle"
-                } // DEBUG else { print("\(tag) == \(task.tag)?")}
-            }
-        } else {
-            print("no tasks found in PinnedStatus?")
-        }
-        print("\(tag) had no Task")
-        return "pin.slash" // tag not found on a task
+        return task.isPinned ? "pin.circle.fill" :  "pin.circle"
+        // TODO: tag not found on a task????
     }
     
     func pinOrUnpin() {
-        if tasks.count > 0 {
-            for task in tasks {
-                if task.tag == tag && task.isPinned {
-                    task.isPinned = false
-                    pinnedStatus = "pin.circle"
-                    return
-                } else if task.tag == tag && !task.isPinned {
-                    task.isPinned = true
-                    pinnedStatus = "pin.circle.fill"
-                    return
-                } /*else {
-                    print("No Tasks are using this tag")
-                }*/
-            }
+        if (task.isPinned) {
+            task.isPinned = false
+            pinnedStatus = "pin.circle"
         } else {
-            print("No Tags available")
+            task.isPinned = true
+            pinnedStatus = "pin.circle.fill"
         }
-        
     }
 }
 
 #Preview {
-    TagView(tag: "Test Tag")
+    TagView(task: Task())
 }

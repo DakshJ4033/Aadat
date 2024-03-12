@@ -16,6 +16,7 @@ let standardDarkHex = 0x18101F // really dark purple
 let standardLightHex = 0xEEDCF7 // white purple-pink
 let standardBrightPinkHex = 0xC36AC0
 let standardLightRedHex = 0xCB7C6B
+let standardDarkGrayHex = 0x171717 // dark gray
 
 /* hex extension */
 extension Color {

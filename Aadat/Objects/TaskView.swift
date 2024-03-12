@@ -39,13 +39,17 @@ struct TaskView: View {
                     //Text(task.tag).standardTaskText()
                     
                     // A tag shouldn't be unique in order for this to work!
-                   Picker("Tags", selection: $task.tag) {
+                    Picker("Tags", selection: $task.tag) {
                         ForEach(0..<userModel.allTags.count, id: \.self) { index in
-                            Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])").standardText()
+                            Text("\(userModel.allTags[index])")
+                                .tag("\(userModel.allTags[index])")
+                                .standardText()
                         }
-                    }.pickerStyle(.menu)
-                        .standardPickerText()
-                    
+                    }
+                    .pickerStyle(.menu)
+                    .tint(Color(hex: standardLightHex))
+//                    }.pickerStyle(.menu)
+//                        .standardPickerText()
                     /*Button(task.tag) { // Half-sheet name entry
                         showNewTagSheet.toggle()
                     }.sheet(isPresented: $showNewTagSheet) {
@@ -53,12 +57,6 @@ struct TaskView: View {
                         TextField("New Tag...", text: $newTag).defaultSheetDetents()
                     }*/
                 }.standardText()
-                /*
-                HStack {
-                    // Task desc.
-                    Text("Desc: ")
-                    TextField(task.taskDescription, text: $task.taskDescription)
-                }.standardText()*/
             }
             .padding()
                         
