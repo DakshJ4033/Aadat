@@ -16,7 +16,6 @@ class RootViewManager: ObservableObject {
 
 enum RootViewType {
     case homeView
-    case manageTagsView
     case statsView
     case calendarView
 }
@@ -47,22 +46,14 @@ struct RootView: View {
     var body: some View {
         Group {
             switch rootViewManager.rootViewType {
-                
-            case .homeView:
-                HomeView()
-            case .manageTagsView:
-                TabView {
-                    ManageTagsView()
-                }
-                
-            case .statsView:
-                StatsView()
-                
-            case .calendarView:
-                SessionsCalendarView()
-                    .mainBackground()
+                case .homeView:
+                    HomeView()
+                case .statsView:
+                    StatsView()
+                case .calendarView:
+                    SessionsCalendarView()
+                        .mainBackground()
             }
-            
         }
         .environmentObject(rootViewManager)
         .environmentObject(userModel)
@@ -141,13 +132,6 @@ struct RootBottomNavBar: ViewModifier {
                                 .frame(maxWidth: .infinity)
                         }.standardToolbarButton()
                         
-                        Button { /* All Tags View */
-                            rootViewManager.rootViewType = .manageTagsView
-                        } label: {
-                            Image(systemName: "tag.fill")
-                                .frame(maxWidth: .infinity)
-                        }.standardToolbarButton()
-                        
                         Button { /* Stats View */
                             rootViewManager.rootViewType = .statsView
                         } label: {
@@ -155,7 +139,7 @@ struct RootBottomNavBar: ViewModifier {
                                 .frame(maxWidth: .infinity)
                         }.standardToolbarButton()
                         
-                        Button { /* Stats View */
+                        Button { /* Calendar View */
                             rootViewManager.rootViewType = .calendarView
                         } label: {
                             Image(systemName: "calendar")
