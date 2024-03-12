@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct StatsView: View {
-    
+    @EnvironmentObject var userModel: UserModel
     @Query private var sessions: [Session]
     var body: some View {
         ScrollView {
@@ -22,6 +22,7 @@ struct StatsView: View {
                 
                 if sessions.count > 0 {
                     ChartView()
+                        .environmentObject(userModel)
                 } else {
                     Text("There are no active sessions!")
                         .fontWeight(.medium)

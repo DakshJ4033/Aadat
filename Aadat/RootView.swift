@@ -56,10 +56,8 @@ struct RootView: View {
                 
             case .statsView:
                 StatsView()
-                
             }
             // TODO: CalendarView()?
-            
         }
         .environmentObject(rootViewManager)
         .environmentObject(userModel)

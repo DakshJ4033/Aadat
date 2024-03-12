@@ -110,7 +110,7 @@ class SpeechRecognitionModel: ObservableObject {
         // Check if the audio file exists and is not empty
          do {
              let attributes = try FileManager.default.attributesOfItem(atPath: audioFilename.path)
-             let fileSize = attributes[FileAttributeKey.size] as! UInt64
+             let fileSize = (attributes[FileAttributeKey.size] as? UInt64) ?? 0
              if fileSize > 0 {
                  print("Recording stopped. File size: \(fileSize) bytes")
              } else {

@@ -153,7 +153,14 @@ class LanguageIdentifier {
             return
         }
         
-        var request = URLRequest(url: URL(string: apiUrl)!)
+        guard let url = URL(string: apiUrl) else {
+            // Handle the error or invalid URL case
+            print("Failed to generate url.")
+            completion("nil")
+            return
+        }
+
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpBody = audioData

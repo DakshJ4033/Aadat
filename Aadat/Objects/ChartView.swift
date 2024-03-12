@@ -12,15 +12,12 @@ import Charts
 
 struct ChartView: View {
     @Query private var sessions: [Session]
-    
-    @StateObject var userModel: UserModel = UserModel()
-    @State private var updatedMenuOptions: [String] = []
+    @EnvironmentObject var userModel: UserModel
     @State private var selectedOption = "All"
     
-    init() {
-            // Initialize updatedMenuOptions with the initial value of userModel.allTags
-            _updatedMenuOptions = State(initialValue: userModel.allTags)
-        }
+    var updatedMenuOptions: [String] {
+        userModel.allTags // Directly access userModel here
+    }
     
     var menuOptions: [String] {
         return ["All"] + updatedMenuOptions
