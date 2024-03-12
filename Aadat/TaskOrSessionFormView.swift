@@ -32,6 +32,7 @@ struct TaskOrSessionFormView: View {
                 Spacer()
                     .frame(width: 95)
                 Text("New Task")
+                    .standardText()
                     .font(.headline)
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 0))
                 Spacer()
@@ -57,43 +58,60 @@ struct TaskOrSessionFormView: View {
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 15))
                 }
             }
+            .background(Color(hex: 0x18101F))
             Form {
-                Section(header: Text("Create Task")) {
-                    TextField("Task Description", text: $task.taskDescription)
-                        .focused($taskDescFieldIsFocused)
-                        .padding([.bottom], 30)
+                Section(header: Text("Create Task").standardText()) {
+                    TextField(text: $task.taskDescription, label: {
+                        Text("Task Description").standardText()
+                    })
+                    .focused($taskDescFieldIsFocused)
+                    .padding([.bottom], 30)
+                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                    .standardText()
+                    .listRowBackground(Color(hex: 0x18101F))
                 }
-                
-                Section(header: Text("Pinned?")) {
-                    Toggle("Pin Task?", isOn: $pinnedSelection)
+
+                Section(header: Text("Pinned?").standardText()) {
+                    Toggle(isOn: $pinnedSelection, label: {
+                        Text("Pin Task?").standardText()
+                    })
+                    .listRowBackground(Color(hex: 0x18101F))
                 }
                 
                 // You can either add a new tag (Picker must have No Tag selected) or
                 // pick a pre-existing tag (TextField should be empty)
-                Section(header: Text("Tags")) {
+                Section(header: Text("Tags").standardText()) {
                     Picker(selection: $selectedTag, content: {
                         if tasks.count < 1 {
-                            Text("No Tag").tag("No Tag")
+                            Text("No Tag").tag("No Tag").standardText()
                         }
                         ForEach(0..<userModel.allTags.count, id: \.self) { index in
                             Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
+                                .accentColor(.white)
                         }
                     }, label: {
                         HStack {
-                            Image(systemName: "number")
-                            Text("Tags")
+                            Image(systemName: "number").foregroundColor(Color(hex: 0xEEDCF7))
+                            Text("Tags").standardText()
                         }
                     })
+                    .listRowBackground(Color(hex: 0x18101F))
                  
-                    TextField("Add New Tag...", text: $newTagName)
+                    TextField(text: $newTagName, label: {
+                        Text("Add New Tag...").standardText()
+                    })
+                    .standardText()
+                    .listRowBackground(Color(hex: 0x18101F))
                 }
                  
-                 
             }
+            .scrollContentBackground(.hidden)
+            .background(.black)
             .onAppear() {
                taskDescFieldIsFocused = true
             }
         }
+        .background(.black)
     }
 }
 
