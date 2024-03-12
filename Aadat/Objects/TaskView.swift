@@ -56,12 +56,16 @@ struct TaskView: View {
                         //TODO: make this actually add tags to the userModel and push to disk
                         TextField("New Tag...", text: $newTag).defaultSheetDetents()
                     }*/
+                    
                 }.standardText()
             }
             .padding()
-                        
-            VStack {
+                 
+            
+            
+            HStack {
                 // TODO: total time today, discuss session times as well
+                PinButtonView(task: task)
                 TimerButtonView(taskTag: task.tag)
             }
             /*.onChange(of: self.$task.desc) {
