@@ -18,6 +18,7 @@ enum RootViewType {
     case homeView
     case manageTagsView
     case statsView
+    case calendarView
 }
 
 class UserModel: ObservableObject {
@@ -56,8 +57,12 @@ struct RootView: View {
                 
             case .statsView:
                 StatsView()
+                
+            case .calendarView:
+                SessionsCalendarView()
+                    .mainBackground()
             }
-            // TODO: CalendarView()?
+            
         }
         .environmentObject(rootViewManager)
         .environmentObject(userModel)
@@ -147,6 +152,13 @@ struct RootBottomNavBar: ViewModifier {
                             rootViewManager.rootViewType = .statsView
                         } label: {
                             Image(systemName: "chart.bar.xaxis.ascending.badge.clock.rtl")
+                                .frame(maxWidth: .infinity)
+                        }.standardToolbarButton()
+                        
+                        Button { /* Stats View */
+                            rootViewManager.rootViewType = .calendarView
+                        } label: {
+                            Image(systemName: "calendar")
                                 .frame(maxWidth: .infinity)
                         }.standardToolbarButton()
                     }

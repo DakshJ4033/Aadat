@@ -22,7 +22,7 @@ final class Session {
     }
     
     func totalTime() -> TimeInterval {
-            return (endTime ?? Date()).timeIntervalSince(startTime) / 60
+            return (endTime ?? Date()).timeIntervalSince(startTime)
     }
     
     func endSession() {
