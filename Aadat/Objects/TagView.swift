@@ -13,38 +13,49 @@ import SwipeActions
 struct TagView: View {
     @Environment(\.modelContext) var context
     @Query private var tasks: [Task]
+    @Query private var sessions: [Session]
     @State var pinnedStatus: String = "pin.slash"
     var task: Task
     
     var body: some View {
-        SwipeView {
             VStack {
-                HStack {
-                    Text(task.tag)
-                    Spacer();Spacer()
-                    /* pin/unpin */
-                    Button {
-                        pinOrUnpin()
-                    } label: {
-                        Image(systemName: pinnedStatus).font(.title2).imageScale(.medium)
-                            .foregroundColor(Color(hex:standardBrightPinkHex))
+                SwipeView {
+                    HStack {
+                        Text(task.tag)
+                            .standardText()
+                        Spacer();Spacer()
+                        /* pin/unpin */
+                        Button {
+                            pinOrUnpin()
+                        } label: {
+                            Image(systemName: pinnedStatus).font(.title2).imageScale(.medium)
+                                .foregroundColor(Color(hex:standardBrightPinkHex))
+                        }
                     }
+                    .frame(maxWidth: .infinity)
+                    .standardText()
+                    .padding()
+                    .standardBoxBackground()
+                    .onAppear{ pinnedStatus = getPinnedStatus()}
+                } trailingActions: { _ in
+                    SwipeAction("Delete") {
+                        for session in sessions {
+                            if (session.tag == task.tag) {
+                                session.tag = "No Tag"
+                            }
+                        }
+                        context.delete(task)
+                    }
+                    .allowSwipeToTrigger()
+                    .standardText()
+                    .background(Color.red)
                 }
-                .standardBoxBackground()
-                .standardText()
-                .onAppear{ pinnedStatus = getPinnedStatus()}
+                .swipeMinimumPointToTrigger(0.9)
+                .swipeMinimumDistance(10)
+                .swipeOffsetCloseAnimation(stiffness: 160, damping: 70)
+                .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
             }
             .padding()
-        } trailingActions: { _ in
-            SwipeAction("Delete") {
-                context.delete(task)
-            }
-            .standardText()
-            .background(Color.red)
-        }
-        .swipeMinimumDistance(10)
-        .swipeOffsetCloseAnimation(stiffness: 160, damping: 70)
-        .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
     }
     
     func getPinnedStatus() -> String {

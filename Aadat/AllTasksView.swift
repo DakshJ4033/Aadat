@@ -17,7 +17,7 @@ struct AllTasksView: View {
         VStack {
             HStack {
                 Text("All Tasks").standardTitleText()
-                Toggle("Show All Tasks?", isOn: $userModel.showAllTasks).standardText().padding()
+                Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding()
             }
             if tasks.count != 0 {
                 ForEach(tasks) { task in

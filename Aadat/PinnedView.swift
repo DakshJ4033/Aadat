@@ -19,12 +19,11 @@ struct PinnedView: View {
         // TODO: make pinniing actually an editable thing from UI perspective?
         
         VStack {
+            HStack {
+                Text("Pinned Tasks").standardTitleText()
+                Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding()
+            }
             if tasks.count != 0 {
-                HStack {
-                    Text("Pinned Tasks").standardTitleText()
-                    Toggle("Show All Tasks?", isOn: $userModel.showAllTasks).standardText().padding()
-                }
-                
                 ForEach(tasks) { task in
                     TaskView(task: task)
                 }

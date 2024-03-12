@@ -52,9 +52,11 @@ struct SessionView: View {
             SwipeAction("Delete") {
                 context.delete(session)
             }
+            .allowSwipeToTrigger()
             .standardText()
             .background(Color.red)
         }
+        .swipeMinimumPointToTrigger(0.9)
         .swipeMinimumDistance(10)
         .swipeOffsetCloseAnimation(stiffness: 160, damping: 70)
         .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
