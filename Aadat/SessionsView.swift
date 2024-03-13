@@ -16,9 +16,6 @@ struct SessionsView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Sessions").standardTitleText()
-            }
 
             /* Show completed sessions */
             // Get today's date
@@ -53,9 +50,9 @@ struct SessionsView: View {
                                 .padding(.bottom, 8)
                         }
                     }
-                    .accentColor(Color(hex:standardBrightPinkHex))
+                    .accentColor(.white)
                     }
-                } 
+                }
             }else {
                 Spacer()
                 Text("There are no recorded sessions!").standardText()
