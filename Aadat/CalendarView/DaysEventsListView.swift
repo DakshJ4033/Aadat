@@ -40,7 +40,8 @@ struct DaysEventsListView: View {
                 }
             }
             else {
-                Text("no sessions were done on this day")
+                Text("No Sessions done today")
+                    .foregroundStyle(.white)
             }
     }
 }
