@@ -30,16 +30,33 @@ struct SessionsView: View {
             }
             
             let groupedSessions = Dictionary(grouping: todaySessions, by: { $0.tag })
+            
             Text("Sessions").standardTitleText()
             Text("Past 24 hours")
                 .foregroundStyle(Color(hex: standardLightHex))
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
             if todaySessions.count != 0 {
                 Section {
-                    ForEach(todaySessions) { session in
-                        SessionView(session: session)
+                    ForEach(groupedSessions.keys.sorted(), id: \.self) { sessionTag in
+                        DisclosureGroup {
+                            if let sessionsForTag = groupedSessions[sessionTag] {
+                                ForEach(sessionsForTag) { session in
+                                    SessionView(session: session)
+                                }
+                            }
+                        }
+                    label: {
+                        VStack(alignment: .leading) {
+                            Text(sessionTag)
+                                .standardTitleText()
+                                .padding(.bottom, 8)
+                        }
                     }
-            } else {
+                    .accentColor(Color(hex:standardBrightPinkHex))
+                    }
+                } 
+            }else {
                 Spacer()
                 Text("There are no recorded sessions!").standardText()
                 Spacer()

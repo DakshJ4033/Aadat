@@ -18,10 +18,11 @@ struct DaysEventsListView: View {
             let foundEvents = sessions.filter {$0.startTime.startOfDay == dateSelected?.date?.startOfDay}
             
             if foundEvents.count > 0 {
-                // Iterate over each session in foundEvents and display its tag
-                ForEach(foundEvents, id: \.id) { session in
-                    HStack{
-                        SessionView(session: session)
+                ScrollView {
+                    VStack {
+                        ForEach(foundEvents, id: \.id) { session in
+                                SessionView(session: session)
+                        }
                     }
                 }
             }
