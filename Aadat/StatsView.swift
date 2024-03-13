@@ -12,6 +12,7 @@ import SwiftData
 struct StatsView: View {
     @EnvironmentObject var userModel: UserModel
     @Query private var sessions: [Session]
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -22,9 +23,8 @@ struct StatsView: View {
                 
                 if sessions.count > 0 {
                     ChartView()
-                        .environmentObject(userModel)
                 } else {
-                    Text("There are no active sessions!")
+                    Text("You have no previous sessions history!")
                         .fontWeight(.medium)
                         .padding(/*@START_MENU_TOKEN@*/.all, 20.0/*@END_MENU_TOKEN@*/)
                         .background(Color(hue: 0.58, saturation: 0.783, brightness: 0.456))
