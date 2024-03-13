@@ -79,6 +79,33 @@ struct ChartView: View {
         .padding(15)
         .background(Color(hex: standardLightHex))
         .cornerRadius(5)
+        
+        // view that shows if you have a streak of consecutive sessions for a tag going
+        VStack {
+            Text("🔥Habit Streaks🔥 ")
+                .standardTitleText()
+            Section {
+                ScrollView {
+                    ForEach(dailyTimeData2) { tag in
+                        let currentStreak = calculateStreak(for: sessions, withTag: tag.id)
+                        
+                        if currentStreak == 1 {
+                            Text("\(tag.id): \(currentStreak) day")
+                                .foregroundColor(.white)
+                        }
+                        else if currentStreak > 1 {
+                            Text("\(tag.id): \(currentStreak) days")
+                                .foregroundColor(.white)
+                        }
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .standardText()
+            .padding()
+            .standardBoxBackground()
+        }
+        .padding(.top)
     }
     
     func groupSessionsByTag(sessions: [Session]) -> [String: TimeInterval] {
@@ -95,6 +122,26 @@ struct ChartView: View {
         }
         
         return sessionsByTag
+    }
+    
+    // counts how many consective days you had a session until today
+    // starts counting the day before and tries to go back day by day until it cannot find another consecutive session
+    // currently does not count the sessions you have created on the current day
+    func calculateStreak(for sessions: [Session], withTag tag: String) -> Int {
+        var streakCount = 0
+        
+        // Start from yesterday, start from current day if there is an error
+        var currentDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        let calendar = Calendar.current
+        
+        // Loop while there are sessions for the tag on consecutive days
+        while let _ = sessions.first(where: { calendar.isDate($0.startTime, inSameDayAs: currentDate) && $0.tag == tag }) {
+            streakCount += 1
+            // Move to the previous day
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+        }
+        
+        return streakCount
     }
     
 //    func weekdayString(from date: Date) -> String {
