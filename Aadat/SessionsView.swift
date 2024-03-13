@@ -15,6 +15,7 @@ struct SessionsView: View {
     @Query private var sessions: [Session]
 
     var body: some View {
+        
         VStack {
 
             /* Show completed sessions */
@@ -22,18 +23,19 @@ struct SessionsView: View {
             let today = Date()
 
             // Filter sessions based on startTime being today
-            let todaySessions = sessions.filter { Calendar.current.isDate($0.startTime, inSameDayAs: today)  ||
-                $0.endTime == nil
-            }
+//            let todaySessions = sessions.filter { Calendar.current.isDate($0.startTime, inSameDayAs: today)  ||
+//                $0.endTime == nil
+//            }
+        
             
-            let groupedSessions = Dictionary(grouping: todaySessions, by: { $0.tag })
+            let groupedSessions = Dictionary(grouping: sessions, by: { $0.tag })
             
             Text("Sessions").standardTitleText().padding(.top)
             Text("Past 24 hours")
                 .foregroundStyle(Color(hex: standardLightHex))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            if todaySessions.count != 0 {
+            if sessions.count != 0 {
                 Section {
                     ForEach(groupedSessions.keys.sorted(), id: \.self) { sessionTag in
                         DisclosureGroup {

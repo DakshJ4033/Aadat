@@ -181,7 +181,7 @@ class LanguageIdentifier {
                             completion(language)
                         } else {
                             print("NULL: language: \(highestScore.label), score: \(highestScore.score)")
-                            completion("nil")
+                            completion("none")
                         }
                     }
                 }

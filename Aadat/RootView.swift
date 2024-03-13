@@ -61,11 +61,32 @@ struct RootView: View {
         
         .onAppear {
             initAllTags()
-            //speechRecognitionModel.startRecordingProcess()
+            speechRecognitionModel.startRecordingProcess()
         }
         .onChange(of: speechRecognitionModel.identifiedLanguage) {
             print("Going into updateSessions with identified language: \(speechRecognitionModel.identifiedLanguage)")
             updateSessions()
+        }
+        .onChange(of: speechRecognitionModel.stopAutomatedTaskCount) {
+            stopLastAutomatedTask()
+        }
+    }
+    
+    private func stopLastAutomatedTask() {
+        let identifiedLanguage = speechRecognitionModel.identifiedLanguage.lowercased()
+        let lastAutomatedTaskLanguage = speechRecognitionModel.lastAutomatedTaskLanguage.lowercased()
+        
+        if (speechRecognitionModel.stopAutomatedTaskCount == 3) {
+            if (!speechRecognitionModel.lastAutomatedTaskLanguage.isEmpty) {
+                speechRecognitionModel.stopAutomatedTaskCount = 0
+                for session in sessions {
+                    if (session.tag.lowercased() == lastAutomatedTaskLanguage && session.isAutomatic) {
+                        speechRecognitionModel.lastAutomatedTaskLanguage = ""
+                        speechRecognitionModel.identifiedLanguage = ""
+                        session.endSession()
+                    }
+                }
+            }
         }
     }
     
@@ -77,10 +98,12 @@ struct RootView: View {
         
         if (speechRecognitionModel.lastAutomatedTaskLanguage.isEmpty) {
             for task in tasks {
+                print("task tag: \"\(task.tag.lowercased())\"")
+                print("identifiedLanguge: \"\(speechRecognitionModel.identifiedLanguage.lowercased())\"")
                 if (task.tag.lowercased() == identifiedLanguage) {
                     // if there's a task that matches the identified language then start that task automatically
                     speechRecognitionModel.lastAutomatedTaskLanguage = speechRecognitionModel.identifiedLanguage
-                    let newSession = Session(startTime: Date.now)
+                    let newSession = Session(startTime: Date())
                     newSession.tag = task.tag
                     newSession.isAutomatic = true
                     context.insert(newSession)

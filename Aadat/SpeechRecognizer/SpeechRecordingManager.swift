@@ -6,10 +6,12 @@ import SwiftData
 class SpeechRecognitionModel: ObservableObject {
     @Published var identifiedLanguage: String
     @Published var lastAutomatedTaskLanguage: String
+    @Published var stopAutomatedTaskCount: Int
     
     init(identifiedLanguage: String) {
         self.identifiedLanguage = ""
         self.lastAutomatedTaskLanguage = ""
+        self.stopAutomatedTaskCount = 0
     }
 
     private let languageIdentifier = LanguageIdentifier()
@@ -125,7 +127,10 @@ class SpeechRecognitionModel: ObservableObject {
         DispatchQueue.global().async {
             self.languageIdentifier.identifyLanguage(fromAudioFileAt: self.audioFilename) { languageLabel in
                 DispatchQueue.main.async {
-                    if languageLabel != "nil" {
+                    if (languageLabel == "none") {
+                        self.stopAutomatedTaskCount += 1
+                    }
+                    else if (languageLabel != "nil") {
                         self.identifiedLanguage = languageLabel
                     }
                 }
