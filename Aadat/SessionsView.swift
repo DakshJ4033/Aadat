@@ -28,7 +28,7 @@ struct SessionsView: View {
             
             let groupedSessions = Dictionary(grouping: todaySessions, by: { $0.tag })
             
-            Text("Sessions").standardTitleText()
+            Text("Sessions").standardTitleText().padding(.top)
             Text("Past 24 hours")
                 .foregroundStyle(Color(hex: standardLightHex))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,7 +46,7 @@ struct SessionsView: View {
                     label: {
                         VStack(alignment: .leading) {
                             Text(sessionTag)
-                                .standardTitleText()
+                                .standardSubTitleText()
                                 .padding(.bottom, 8)
                         }
                     }

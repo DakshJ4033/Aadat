@@ -66,7 +66,7 @@ struct TaskView: View {
             HStack {
                 // TODO: total time today, discuss session times as well
                 PinButtonView(task: task)
-                TimerButtonView(taskTag: task.tag)
+                TimerButtonView(task: task)
             }
             /*.onChange(of: self.$task.desc) {
              // TODO: double check this references the actual Object? (push changes to disk?)

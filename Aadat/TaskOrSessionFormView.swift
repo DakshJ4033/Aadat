@@ -8,6 +8,15 @@
 import SwiftUI
 import SwiftData
 
+extension Color {
+    static func random() -> ColorComponents {
+        let colorComponent: ColorComponents = ColorComponents(red: Float.random(in: 0..<1),
+                                                              green: Float.random(in: 0..<1), blue: Float.random(in: 0..<1))
+        
+        return colorComponent
+    }
+}
+
 struct TaskOrSessionFormView: View {
     @EnvironmentObject var userModel: UserModel
     @Query private var tasks: [Task]
@@ -63,6 +72,7 @@ struct TaskOrSessionFormView: View {
                                 task.tag = selectedTag
                             }
                             
+                            task.color = Color.random()
                             task.isPinned = pinnedSelection
                             context.insert(task)
                             userModel.allTags.append(task.tag)

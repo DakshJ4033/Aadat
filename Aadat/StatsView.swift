@@ -16,10 +16,12 @@ struct StatsView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Text("Statistics")
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .foregroundStyle(.white)
+                HStack {
+                    Text("Statistics")
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                        .standardTitleText()
+                }
                 
                 if sessions.count > 0 {
                     ChartView()
@@ -37,7 +39,7 @@ struct StatsView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.063, green: 0.1803921568627451, blue: 0.2901960784313726)/*@END_MENU_TOKEN@*/)
+        .background(Color(hex: standardDarkGrayHex))
     }
 }
 

@@ -13,7 +13,7 @@ import ActivityKit
 struct TimerButtonView: View {
     @Environment(\.modelContext) var context
     @State var taskStarted = false
-    let taskTag: String
+    let task: Task
     @Query private var sessions: [Session]
     
     
@@ -46,7 +46,7 @@ struct TimerButtonView: View {
             
             
             /* Other stuff */
-            if let mostRecentSession = retrieveMostRecentSession(taskTag: taskTag, sessions: sessions) {
+            if let mostRecentSession = retrieveMostRecentSession(task: task, sessions: sessions) {
                 if mostRecentSession.endTime == nil {
                     // if we have a session, and its endTime is nil, end the session
                     mostRecentSession.endSession()
@@ -55,14 +55,16 @@ struct TimerButtonView: View {
                 else {
                     // if we have a session, but its endTime is not nil, then make a new session
                     let newSession = Session(startTime: Date.now)
-                    newSession.tag = taskTag
+                    newSession.color = task.color
+                    newSession.tag = task.tag
                     context.insert(newSession)
                     taskStarted = true
                 }
             } else {
                 // if we have no sessions created, just create a new one
                 let newSession = Session(startTime: Date.now)
-                newSession.tag = taskTag
+                newSession.color = task.color
+                newSession.tag = task.tag
                 context.insert(newSession)
                 taskStarted = true
             }
@@ -74,7 +76,7 @@ struct TimerButtonView: View {
         }
         .padding()
         .onAppear {
-            if let mostRecentSession = retrieveMostRecentSession(taskTag: taskTag, sessions: sessions) {
+            if let mostRecentSession = retrieveMostRecentSession(task: task, sessions: sessions) {
                 if mostRecentSession.endTime == nil {
                     taskStarted = true
                 }
@@ -86,9 +88,9 @@ struct TimerButtonView: View {
     }
 }
 
-func retrieveMostRecentSession(taskTag: String, sessions: [Session]) -> Session? {
+func retrieveMostRecentSession(task: Task, sessions: [Session]) -> Session? {
     for session in sessions.reversed() {
-        if session.tag == taskTag {
+        if session.tag == task.tag {
             return session
         }
     }
@@ -96,5 +98,5 @@ func retrieveMostRecentSession(taskTag: String, sessions: [Session]) -> Session?
 }
 
 #Preview {
-    TimerButtonView(taskTag: "")
+    TimerButtonView(task: Task())
 }

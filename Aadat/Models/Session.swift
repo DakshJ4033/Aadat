@@ -7,18 +7,21 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class Session {
     var startTime: Date
     var endTime: Date?
     var tag: String
+    var color: ColorComponents
     var isAutomatic: Bool = false
     
-    init(startTime: Date, endTime: Date? = nil, tag: String = "No Tag") {
+    init(startTime: Date, endTime: Date? = nil, tag: String = "No Tag", color: ColorComponents = ColorComponents(red: 0, green: 0, blue: 0)) {
         self.startTime = startTime
         self.endTime = endTime
         self.tag = tag
+        self.color = color
     }
     
     func totalTime() -> TimeInterval {

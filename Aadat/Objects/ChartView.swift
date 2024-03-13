@@ -10,223 +10,168 @@ import SwiftUI
 import SwiftData
 import Charts
 
-struct SessionData: Identifiable {
-    var id = UUID()
+struct SessionGroupKey: Hashable {
+    var startTime: Date
     var tag: String
-    var totalTime: TimeInterval
     var color: Color
 }
 
-struct ChartView: View {
-    @Query private var sessions: [Session]
-    @State var data: [SessionData] = []
+struct SessionData: Identifiable {
+    var id = UUID()
+    var tag: String
+    var color: Color
+    var dayOfWeek: Date
+    var totalTime: TimeInterval
+}
+
+struct DailyTimeData: Identifiable {
+    let id: String // Use the date as the unique identifier
+    let timeInterval: TimeInterval
     
-    var body: some View {
-        Chart {
-            ForEach(data) { shape in
-                BarMark(
-                    x: .value("Shape Type", shape.tag),
-                    y: .value("Total Count", shape.totalTime)
-                )
-                //.foregroundStyle(by: .value("Shape Color", shape.color))
-            }
-        }
-        VStack {
-            Text("CHARTS")
-        }.onAppear {
-            fetchSessionData()
-        }
-    }
-    
-    private func fetchSessionData() {
-        var totalTimeByTag: [String: TimeInterval] = [:]
-        
-        for session in sessions {
-            if let existingTotalTime = totalTimeByTag[session.tag] {
-                totalTimeByTag[session.tag] = existingTotalTime + session.totalTime()
-            } else {
-                totalTimeByTag[session.tag] = session.totalTime()
-            }
-        }
-        // Create SessionData objects from the dictionary
-        data = totalTimeByTag.map { SessionData(tag: $0.key, totalTime: $0.value) }
-        for sessiondata in data {
-            print("\(sessiondata.tag): \(sessiondata.totalTime)")
-        }
+    init(date: String, interval: TimeInterval) {
+        self.id = date
+        self.timeInterval = interval
     }
 }
 
-//struct ChartView: View {
-//    @Query private var tasks: [Task]
-//    @Query private var sessions: [Session]
-//    @EnvironmentObject var userModel: UserModel
-//    @State private var selectedOption = "All"
-//    
-//    var updatedMenuOptions: [String] {
-//        userModel.allTags // Directly access userModel here
+struct ChartView: View {
+    @Query private var tasks: [Task]
+    @Query private var sessions: [Session]
+    @State private var groupedData: [(tag: String, data: [(weekday: Date, totalTime: TimeInterval)])] = []
+    
+    var body: some View {
+        let groupedSessions = groupSessionsByTag(sessions: sessions)
+        let dailyTimeData2: [DailyTimeData] = groupSessionsByTag(sessions: sessions).map { date, interval in
+            DailyTimeData(date: date, interval: interval)
+        }
+        
+        Chart(dailyTimeData2) { dataPoint in
+            SectorMark(
+                angle: .value(
+                    Text(verbatim: dataPoint.id),
+                    dataPoint.timeInterval
+                ),
+                innerRadius: .ratio(0.618),
+                angularInset: 1.5
+            )
+            .cornerRadius(5)
+            .foregroundStyle(
+                by: .value(
+                    "Type", dataPoint.id
+                )
+            )
+        }
+        .chartBackground { chartProxy in
+          GeometryReader { geometry in
+            let frame = geometry[chartProxy.plotAreaFrame]
+            VStack {
+              Text("Top Task")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+              Text(groupedSessions.max(by: { $0.value < $1.value })?.key ?? "")
+                .font(.title2.bold())
+                .foregroundColor(.primary)
+            }
+            .position(x: frame.midX, y: frame.midY)
+          }
+        }
+        .frame(height:250)
+        .padding(15)
+        .background(Color(hex: standardLightHex))
+        .cornerRadius(5)
+    }
+    
+    func groupSessionsByTag(sessions: [Session]) -> [String: TimeInterval] {
+        
+        // Initialize an empty dictionary to store session times grouped by tag
+        var sessionsByTag: [String: TimeInterval] = [:]
+        
+        // Iterate through each session and group times based on their tag
+        for session in sessions {
+            let tag = session.tag  // Access the tag value
+            
+            // Add the session's total time to the corresponding tag entry
+            sessionsByTag[tag, default: 0] += session.totalTime()  // Use default value of 0 if the tag doesn't exist
+        }
+        
+        return sessionsByTag
+    }
+    
+//    func weekdayString(from date: Date) -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "EEE" // This returns the abbreviated day of the week, e.g., "Mon"
+//        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Use a fixed locale to ensure consistency
+//        return dateFormatter.string(from: date)
 //    }
 //    
-//    var menuOptions: [String] {
-//        return ["All"] + updatedMenuOptions
-//    }
-//    
-//    var body: some View {
+//    private func fetchSessionData() {
+//        // First, we need a dictionary that maps from (tag, weekday) to totalTime
+//        var totalTimeByTagAndWeekday: [String: [(weekday: Date, totalTime: TimeInterval)]] = [:]
 //        
+//        var calendar = Calendar(identifier: .gregorian)
+//        calendar.timeZone = TimeZone(secondsFromGMT: 0)! // Ensure the calendar is using UTC
 //        
-//        let dailyTimeData2: [DailyTimeData] = groupSessionsByTag(sessions: sessions).map { date, interval in
-//            DailyTimeData(date: date, interval: interval)
+//        // Define the date range for the past week
+//        let now = Date() // This is in your local time zone
+//        guard let today = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: now) else { return }
+//        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: today) else { return }
+//
+//        // Filter sessions that occurred within the last week
+//        let sessionsPastWeek = sessions.filter {
+//            $0.startTime >= oneWeekAgo && $0.startTime <= today
 //        }
 //        
-//        let dailyTimeData3: [DailyTimeDataLineGraph] = sessions.compactMap { session in
-//            if (selectedOption == "All" || (session.tag == selectedOption)) {
-//                return DailyTimeDataLineGraph(date: session.startTime, interval: session.totalTime(), sessionTag: session.tag)
-//            }
-//            return nil
+//        // Debug print statements
+//        print("All sessions:")
+//        for session in sessions {
+//            print("\(session.tag), \(session.startTime)")
 //        }
 //        
-//        HStack {
-//            Text("Tag:")
-//                .foregroundStyle(.black)
-//            Picker("", selection: $selectedOption) {
-//                ForEach(menuOptions, id: \.self) { option in
-//                    Text(option)
-//                        .foregroundStyle(.black)
+//        print("Sessions in the past week:")
+//        for session in sessionsPastWeek {
+//            print("\(session.tag), \(session.startTime)")
+//        }
+//        
+//        for session in sessionsPastWeek {
+//            // Extract the weekday from the session's startTime
+//            let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear, .weekday], from: session.startTime)
+//            guard let weekday = calendar.date(from: components) else { continue }
+//            
+//            // Append the totalTime to the correct tag and weekday entry
+//            if totalTimeByTagAndWeekday[session.tag] != nil {
+//                if let index = totalTimeByTagAndWeekday[session.tag]?.firstIndex(where: { $0.weekday == weekday }) {
+//                    totalTimeByTagAndWeekday[session.tag]?[index].totalTime += session.totalTime()
+//                } else {
+//                    totalTimeByTagAndWeekday[session.tag]?.append((weekday: weekday, totalTime: session.totalTime()))
 //                }
+//            } else {
+//                totalTimeByTagAndWeekday[session.tag] = [(weekday: weekday, totalTime: session.totalTime())]
 //            }
 //        }
-//        .pickerStyle(.menu) // Set the picker style to menu
-//        .accessibilityLabel(Text("Select duration")) // Set accessibility label (optional)
-//        .accentColor(.black) 
-//        .foregroundStyle(.black)
-//        .padding(10)
-//        .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(red: 0.6509803921568628, green: 0.5098039215686274, blue: 1.0)/*@END_MENU_TOKEN@*/)
-//        .cornerRadius(10)
-//        .font(.headline)
 //        
-//        Spacer()
-//            .frame(height: 25)
-//        
-//        VStack {
-//            Chart(dailyTimeData3) {
-//                    LineMark(
-//                        x: .value("Date", $0.date),
-//                        y: .value("Time Spent", $0.timeInterval)
-//                    )
-//                    .foregroundStyle(by: .value("Tag", $0.sessionTag))
-//            }
-//            .chartYAxisLabel("Minutes")
-//            .frame(height:250)
-//            .padding(15)
-//            .background(.white)
-//            .cornerRadius(5)
 //
-//            
-//            Spacer()
-//                .frame(height: 50)
-//            
-//            Chart(dailyTimeData2) { dataPoint in
-//                SectorMark(
-//                    angle: .value(
-//                        Text(verbatim: dataPoint.id),
-//                        dataPoint.timeInterval
-//                    )
-//                )
-//                .foregroundStyle(
-//                    by: .value(
-//                        "Type", dataPoint.id
-//                    )
-//                    
-//                )
+//        // Now map the dictionary to your desired array structure
+//        let result = totalTimeByTagAndWeekday.map { tag, weekData -> (String, [(Date, TimeInterval)]) in
+//            return (tag, weekData.map { ($0.weekday, $0.totalTime) })
+//        }
+//        
+//        // Define a function to map the weekday number to a sortable value with Monday as the first day
+//        func sortValueForWeekday(date: Date) -> Int {
+//            let weekday = Calendar.current.component(.weekday, from: date)
+//            return weekday == 1 ? 7 : weekday - 1 // Adjust Sunday to be the last
+//        }
+//        
+//        // Sort the tuples by weekday for each tag
+//        let sortedResult = result.map { (tag: String, weekData: [(weekday: Date, totalTime: TimeInterval)]) -> (String, [(Date, TimeInterval)]) in
+//            let sortedWeekData = weekData.sorted { (data1: (weekday: Date, totalTime: TimeInterval), data2: (weekday: Date, totalTime: TimeInterval)) -> Bool in
+//                return data1.weekday < data2.weekday
 //            }
-//            .frame(height:250)
-//            .padding(15)
-//            .background(.white)
-//            .cornerRadius(5)
-//        }
-//    }
-//    
-//    
-//    func groupSessionsByDay(sessions: [Session]) -> [String: TimeInterval] {
-//        // Initialize an empty dictionary with zero time for each day
-//        var sessionsByDay: [String: TimeInterval] = [
-//            "Sun": 0,
-//            "Mon": 0,
-//            "Tue": 0,
-//            "Wed": 0,
-//            "Thu": 0,
-//            "Fri": 0,
-//            "Sat": 0,
-//        ]
-//        
-//        // Add session times to their corresponding day name
-//        for session in sessions {
-//            let day = Calendar.current.startOfDay(for: session.startTime)
-//            let dayFormatter = DateFormatter()
-//            dayFormatter.dateFormat = "EEE" // Use format for abbreviated day name
-//            let dayName = dayFormatter.string(from: day)
-//            sessionsByDay[dayName] = sessionsByDay[dayName, default: 0] + session.totalTime()
+//            return (tag, sortedWeekData)
 //        }
 //        
-//        return sessionsByDay
+//        print(sortedResult)
+//        // Store the sorted result in your state variable
+//        self.groupedData = sortedResult
 //    }
-//    
-//    func groupSessionsByTag(sessions: [Session]) -> [String: TimeInterval] {
-//        
-//        // Initialize an empty dictionary to store session times grouped by tag
-//        var sessionsByTag: [String: TimeInterval] = [:]
-//        
-//        // Iterate through each session and group times based on their tag
-//        for session in sessions {
-//            let tag = session.tag  // Access the tag value
-//            
-//            // Add the session's total time to the corresponding tag entry
-//            sessionsByTag[tag, default: 0] += session.totalTime()  // Use default value of 0 if the tag doesn't exist
-//        }
-//        
-//        return sessionsByTag
-//    }
-//    
-//    func groupSessionsByDayLifeTime(sessions: [Session]) -> [String: TimeInterval] {
-//        
-//        // Initialize an empty dictionary to store session times grouped by tag
-//        var sessionsByTag: [String: TimeInterval] = [:]
-//        
-//        // Iterate through each session and group times based on their tag
-//        for session in sessions {
-//            let tag = session.tag  // Access the tag value
-//            
-//            // Add the session's total time to the corresponding tag entry
-//            sessionsByTag[tag, default: 0] += session.totalTime()  // Use default value of 0 if the tag doesn't exist
-//        }
-//        
-//        return sessionsByTag
-//    }
-//    
-//    struct DailyTimeData: Identifiable {
-//        let id: String // Use the date as the unique identifier
-//        let timeInterval: TimeInterval
-//        
-//        init(date: String, interval: TimeInterval) {
-//            self.id = date
-//            self.timeInterval = interval
-//        }
-//    }
-//    
-//    struct DailyTimeDataLineGraph: Identifiable {
-//        let id: UUID
-//        let date: Date
-//        let timeInterval: TimeInterval
-//        let sessionTag: String
-//        
-//        init(date: Date, interval: TimeInterval, sessionTag: String) {
-//            let calendar = Calendar.current
-//            let components = calendar.dateComponents([.year, .month, .day], from: date)
-//            
-//            self.date = calendar.date(from: DateComponents(year: components.year, month: components.month, day: components.day)) ?? Date()
-//            self.timeInterval = interval
-//            self.sessionTag = sessionTag
-//            self.id = UUID()
-//        }
-//    }
-//
-//}
+
+}

@@ -44,6 +44,9 @@ extension View {
     func standardTitleText() -> some View {
         modifier(StandardTitleText())
     }
+    func standardSubTitleText() -> some View {
+        modifier(StandardSubTitleText())
+    }
     func separatorLine() -> some View {
         modifier(SeparatorLine())
     }
@@ -89,6 +92,15 @@ struct StandardTitleText: ViewModifier {
         content
             .foregroundStyle(Color(hex: standardLightHex))
             .font(.title)
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+struct StandardSubTitleText: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundStyle(Color(hex: standardLightHex))
+            .font(.title3)
             .bold()
             .frame(maxWidth: .infinity, alignment: .leading)
     }

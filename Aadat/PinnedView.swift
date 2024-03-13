@@ -20,7 +20,7 @@ struct PinnedView: View {
 
         /* "All vs. Pinned Tasks" and "Show All" toggle */
         userModel.showAllTasks ? Text("All Tasks").standardTitleText() : Text("Pinned Tasks").standardTitleText()
-        Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding()
+        Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding(.bottom)
         
         if (userModel.showAllTasks) {
             VStack {
