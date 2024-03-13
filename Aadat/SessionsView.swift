@@ -17,10 +17,22 @@ struct SessionsView: View {
     var body: some View {
         VStack {
             /* Show completed sessions */
+            // Get today's date
+            let today = Date()
+
+            // Filter sessions based on startTime being today
+            let todaySessions = sessions.filter { Calendar.current.isDate($0.startTime, inSameDayAs: today)  ||
+                $0.endTime == nil
+            }
+            
+            let groupedSessions = Dictionary(grouping: todaySessions, by: { $0.tag })
             Text("Sessions").standardTitleText()
-            if sessions.count != 0 {
+            Text("Past 24 hours")
+                .foregroundStyle(Color(hex: standardLightHex))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            if todaySessions.count != 0 {
                 Section {
-                    ForEach(sessions) { session in
+                    ForEach(todaySessions) { session in
                         SessionView(session: session)
                     }
                 }
