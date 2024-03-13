@@ -8,18 +8,38 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct PinnedView: View {
     @Query(filter: #Predicate<Task> {$0.isPinned == true})
     private var pinnedTasks: [Task]
     @Query private var allTasks: [Task]
+    @State private var showPopOver: Bool = false
     
     @EnvironmentObject var userModel: UserModel
     
     var body: some View {
 
         /* "All vs. Pinned Tasks" and "Show All" toggle */
-        userModel.showAllTasks ? Text("All Tasks").standardTitleText() : Text("Pinned Tasks").standardTitleText()
+        HStack {
+            userModel.showAllTasks ? Text("All Tasks").standardTitleText() : Text("Pinned Tasks").standardTitleText()
+            Spacer()
+            Button {
+                showPopOver.toggle()
+            } label: {
+                Text("Hint")
+                    .foregroundStyle(Color(hex: standardBrightPinkHex))
+            }
+            .popover(isPresented: $showPopOver, attachmentAnchor: .point(.bottomLeading)) {
+                Text("Swipe left to delete tasks and sessions!\n\n\n If you have a language task set like \"Japanese\" then the task will automatically start if you start speaking Japanese!")
+                    .standardText()
+                    .background(Color(hex:standardDarkGrayHex))
+                    .presentationCompactAdaptation(.popover)
+                    .presentationBackground(Color(hex:standardDarkGrayHex))
+                    .frame(width: 300, height: 200) // Set your desired width and height
+                    .padding()
+            }
+        }
         Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding(.bottom)
         
         if (userModel.showAllTasks) {
