@@ -90,20 +90,27 @@ struct ChartView: View {
                         let currentStreak = calculateStreak(for: sessions, withTag: tag.id)
                         
                         if currentStreak == 1 {
-                            Text("\(tag.id): \(currentStreak) day")
-                                .foregroundColor(.white)
+                            VStack {
+                                Text("\(tag.id): \(currentStreak) day")
+                                    .foregroundColor(.white)
+                            }
+                            .standardSubTitleText()
+                            .padding()
+                            .standardBoxBackground()
                         }
                         else if currentStreak > 1 {
-                            Text("\(tag.id): \(currentStreak) days")
-                                .foregroundColor(.white)
+                            VStack {
+                                Text("\(tag.id): \(currentStreak) days")
+                                    .foregroundColor(.white)
+                            }
+                            .standardSubTitleText()
+                            .padding()
+                            .standardBoxBackground()
                         }
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .standardText()
-            .padding()
-            .standardBoxBackground()
+            .frame(maxWidth: .infinity, alignment: .leading) //<-- Here
         }
         .padding(.top)
     }
