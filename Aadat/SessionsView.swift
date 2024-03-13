@@ -16,6 +16,10 @@ struct SessionsView: View {
 
     var body: some View {
         VStack {
+            HStack {
+                Text("Sessions").standardTitleText()
+            }
+
             /* Show completed sessions */
             // Get today's date
             let today = Date()
@@ -35,7 +39,6 @@ struct SessionsView: View {
                     ForEach(todaySessions) { session in
                         SessionView(session: session)
                     }
-                }
             } else {
                 Spacer()
                 Text("There are no recorded sessions!").standardText()

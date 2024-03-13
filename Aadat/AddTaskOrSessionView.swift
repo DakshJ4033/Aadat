@@ -18,15 +18,15 @@ struct AddTaskOrSessionView: View {
         Button {
             showAddTaskOrSessionSheet.toggle()
         } label: {
-             Label("Add Detailed Task", systemImage: "plus.circle")
-                .foregroundColor(.black)
+             Label("Add", systemImage: "plus.circle")
+                .foregroundStyle(Color(hex:standardDarkHex))
                 .font(.headline)
         }
         .sheet(isPresented: $showAddTaskOrSessionSheet) {
             TaskOrSessionFormView()
         }
         .buttonStyle(.bordered)
-        .background(Color(red: 0.443, green: 0.35294117647058826, blue: 1.0))
+        .background(Color(hex:standardBrightPinkHex))
         .cornerRadius(5)
         .controlSize(.large)
     }

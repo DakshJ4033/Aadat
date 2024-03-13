@@ -11,28 +11,42 @@ import SwiftData
 
 struct PinnedView: View {
     @Query(filter: #Predicate<Task> {$0.isPinned == true})
+    private var pinnedTasks: [Task]
+    @Query private var allTasks: [Task]
     
-    private var tasks: [Task]
     @EnvironmentObject var userModel: UserModel
     
     var body: some View {
-        // TODO: make pinniing actually an editable thing from UI perspective?
+
+        /* "All vs. Pinned Tasks" and "Show All" toggle */
+        userModel.showAllTasks ? Text("All Tasks").standardTitleText() : Text("Pinned Tasks").standardTitleText()
+        Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding()
         
-        VStack {
-            HStack {
-                Text("Pinned Tasks").standardTitleText()
-                Toggle("Show All", isOn: $userModel.showAllTasks).standardText().padding()
-            }
-            if tasks.count != 0 {
-                ForEach(tasks) { task in
-                    TaskView(task: task)
+        if (userModel.showAllTasks) {
+            VStack {
+                if allTasks.count != 0 {
+                    ForEach(allTasks) { task in
+                        TaskView(task: task)
+                    }
+                } else {
+                    Text("No pinned tasks!").standardTitleText().separatorLine()
+                    Spacer()
                 }
-            } else {
-                Text("No pinned tasks!").standardTitleText().separatorLine()
-                Spacer()
             }
+            .standardEncapsulatingBox()
+        } else {
+            VStack {
+                if pinnedTasks.count != 0 {
+                    ForEach(pinnedTasks) { task in
+                        TaskView(task: task)
+                    }
+                } else {
+                    Text("No pinned tasks!").standardTitleText().separatorLine()
+                    Spacer()
+                }
+            }
+            .standardEncapsulatingBox()
         }
-        .standardEncapsulatingBox()
     }
 }
 

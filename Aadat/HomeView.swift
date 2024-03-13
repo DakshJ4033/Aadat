@@ -12,18 +12,21 @@ struct HomeView: View {
     @EnvironmentObject var userModel: UserModel
     
     var body: some View {
-        ScrollView {
-            VStack {
-                if (userModel.showAllTasks) {
-                    AllTasksView()
-                } else {
-                    PinnedView()
-                }
+        ZStack {
+            ScrollView {
+                PinnedView()
                 SessionsView()
-                AddTaskOrSessionView()
+            }
+            .mainBackground()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    AddTaskOrSessionView()
+                }
             }
         }
-        .mainBackground()
     }
 }
 

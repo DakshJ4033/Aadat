@@ -33,12 +33,25 @@ struct SessionDetailedView: View {
                 .tint(Color(hex: standardBrightPinkHex))
                 .environment(\.colorScheme, .dark) // <- This modifier
 
-            Toggle("Ongoing task?", isOn: $onGoingTask)
+            Toggle("Ongoing session?", isOn: $onGoingTask)
                 .padding(10)
                 .standardText()
             HStack {
                 Spacer()
-                
+                Button {
+                    context.delete(session)
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                        .foregroundStyle(Color(hex: standardLightHex))
+                        .bold()
+                }
+                .buttonStyle(.bordered)
+                .background(Color(.red))
+                .cornerRadius(5)
+                .controlSize(.large)
+            
+                Spacer()
+
                 Button {
                     session.startTime = userStartTime
                     
@@ -50,21 +63,7 @@ struct SessionDetailedView: View {
                     
                     showSessionPopover = false
                 } label: {
-                    Label("Log Time", systemImage: "clock")
-                        .foregroundStyle(Color(hex: standardLightHex))
-                        .bold()
-                }
-                .buttonStyle(.bordered)
-                .background(Color(hex: standardDarkHex))
-                .cornerRadius(5)
-                .controlSize(.large)
-
-                Spacer()
-
-                Button {
-                    context.delete(session)
-                } label: {
-                    Label("Delete Session", systemImage: "trash")
+                    Label("Save", systemImage: "clock")
                         .foregroundStyle(Color(hex: standardLightHex))
                         .bold()
                 }
