@@ -15,21 +15,18 @@ struct DaysEventsListView: View {
     
     
     var body: some View {
-        let foundEvents = sessions.filter {$0.startTime.startOfDay == dateSelected?.date?.startOfDay}
-        
-        if foundEvents.count > 0 {
-            // Iterate over each session in foundEvents and display its tag
-            ForEach(foundEvents, id: \.id) { session in
-                HStack{
-                    Text(session.tag)
-                    Text(session.getTotalTime())
+            let foundEvents = sessions.filter {$0.startTime.startOfDay == dateSelected?.date?.startOfDay}
+            
+            if foundEvents.count > 0 {
+                // Iterate over each session in foundEvents and display its tag
+                ForEach(foundEvents, id: \.id) { session in
+                    HStack{
+                        SessionView(session: session)
+                    }
                 }
             }
-
-        }
-        else {
-            Text("no sessions were done on this day")
-        }
-        
+            else {
+                Text("no sessions were done on this day")
+            }
     }
 }

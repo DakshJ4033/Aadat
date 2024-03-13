@@ -13,18 +13,23 @@ struct SessionsCalendarView: View {
     
     @State private var dateSelected: DateComponents?
     @State private var displayEvents = false
-    
+        
     var body: some View {
-        CalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), sessions: sessions,
+        CalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), sessions: sessions, 
         dateSelected: $dateSelected,
         displayEvents: $displayEvents
         )
+        
         .colorScheme(.dark)
         .sheet(isPresented: $displayEvents) {
             DaysEventsListView(dateSelected: $dateSelected, sessions: sessions)
-                            .presentationDetents([.medium, .large])
-                    }
-                    .navigationTitle("Calendar View")
+                .presentationDetents([.fraction(0.35)])
+                .presentationBackground(
+                    Color(hex: standardDarkGrayHex)
+                )
+        }
+
+
     }
 }
 
