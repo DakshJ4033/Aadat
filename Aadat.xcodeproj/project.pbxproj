@@ -28,7 +28,6 @@
 		6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732863D2B87D55200323023 /* CustomModifiers.swift */; };
 		673286402B8E754700323023 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6732863F2B8E754700323023 /* StatsView.swift */; };
 		673286422B8E761B00323023 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286412B8E761B00323023 /* ChartView.swift */; };
-		673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286432B90161200323023 /* StartGenericSessionButtonView.swift */; };
 		673286462B90166500323023 /* CreateTagButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673286452B90166500323023 /* CreateTagButtonView.swift */; };
 		674815752B7FEC53007D4F59 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815742B7FEC53007D4F59 /* HomeView.swift */; };
 		674815772B7FED47007D4F59 /* PinnedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815762B7FED47007D4F59 /* PinnedView.swift */; };
@@ -36,7 +35,7 @@
 		6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748157B2B7FF0FE007D4F59 /* TaskView.swift */; };
 		6748157E2B7FF178007D4F59 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748157D2B7FF178007D4F59 /* SessionView.swift */; };
 		674815802B7FF53C007D4F59 /* TimerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6748157F2B7FF53C007D4F59 /* TimerButtonView.swift */; };
-		674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */; };
+		674815822B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674815812B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift */; };
 		6797094A2BA0F58200B41D2C /* PinButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679709492BA0F58200B41D2C /* PinButtonView.swift */; };
 		67D281732B9A53F1001B41F2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673286512B968B7E00323023 /* WidgetKit.framework */; };
 		67D281742B9A53F1001B41F2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 673286532B968B7E00323023 /* SwiftUI.framework */; };
@@ -113,7 +112,6 @@
 		6732863D2B87D55200323023 /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
 		6732863F2B8E754700323023 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		673286412B8E761B00323023 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
-		673286432B90161200323023 /* StartGenericSessionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartGenericSessionButtonView.swift; sourceTree = "<group>"; };
 		673286452B90166500323023 /* CreateTagButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTagButtonView.swift; sourceTree = "<group>"; };
 		673286512B968B7E00323023 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		673286532B968B7E00323023 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -123,7 +121,7 @@
 		6748157B2B7FF0FE007D4F59 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		6748157D2B7FF178007D4F59 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		6748157F2B7FF53C007D4F59 /* TimerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButtonView.swift; sourceTree = "<group>"; };
-		674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskOrSessionView.swift; sourceTree = "<group>"; };
+		674815812B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskOrSessionButtonView.swift; sourceTree = "<group>"; };
 		679709492BA0F58200B41D2C /* PinButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinButtonView.swift; sourceTree = "<group>"; };
 		67D281722B9A53F1001B41F2 /* TimerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TimerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		67D281762B9A53F1001B41F2 /* TimerWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWidgetBundle.swift; sourceTree = "<group>"; };
@@ -218,7 +216,7 @@
 				674815762B7FED47007D4F59 /* PinnedView.swift */,
 				2E2464B82B91C434000805AD /* AllTasksView.swift */,
 				674815782B7FEDA4007D4F59 /* SessionsView.swift */,
-				674815812B813DB9007D4F59 /* AddTaskOrSessionView.swift */,
+				674815812B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift */,
 				BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */,
 				6732863F2B8E754700323023 /* StatsView.swift */,
 				0D242ED52B88474E0086AFB3 /* Models */,
@@ -283,7 +281,6 @@
 				6748157D2B7FF178007D4F59 /* SessionView.swift */,
 				2E6737F32B88138C00F11A40 /* SessionDetailedView.swift */,
 				673286412B8E761B00323023 /* ChartView.swift */,
-				673286432B90161200323023 /* StartGenericSessionButtonView.swift */,
 				673286452B90166500323023 /* CreateTagButtonView.swift */,
 			);
 			path = Objects;
@@ -490,14 +487,13 @@
 				674815792B7FEDA4007D4F59 /* SessionsView.swift in Sources */,
 				0D242ED92B884F9B0086AFB3 /* Session.swift in Sources */,
 				674815752B7FEC53007D4F59 /* HomeView.swift in Sources */,
-				673286442B90161200323023 /* StartGenericSessionButtonView.swift in Sources */,
 				6748157C2B7FF0FE007D4F59 /* TaskView.swift in Sources */,
 				2E6737F42B88138C00F11A40 /* SessionDetailedView.swift in Sources */,
 				673286422B8E761B00323023 /* ChartView.swift in Sources */,
 				BA289A042B97F69A00D5BFC3 /* SpeechRecordingManager.swift in Sources */,
 				0DC4E03C2B7EFC480050F5E1 /* RootView.swift in Sources */,
 				6797094A2BA0F58200B41D2C /* PinButtonView.swift in Sources */,
-				674815822B813DB9007D4F59 /* AddTaskOrSessionView.swift in Sources */,
+				674815822B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift in Sources */,
 				0D0AF0662B9A6D9A008FF0AF /* LanguageIdentifier.swift in Sources */,
 				0D0AF06B2B9A7163008FF0AF /* TimerWidgetLiveActivity.swift in Sources */,
 				6732863E2B87D55200323023 /* CustomModifiers.swift in Sources */,

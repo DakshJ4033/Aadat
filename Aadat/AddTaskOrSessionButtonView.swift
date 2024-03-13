@@ -8,13 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct AddTaskOrSessionView: View {
+struct AddTaskOrSessionButtonView: View {
     
     @State var showAddTaskOrSessionSheet = false
 
     var body: some View {
         /* Click to add empty Task/Session */
-        // TODO: make this a persistent button that doesn't scroll away
         Button {
             showAddTaskOrSessionSheet.toggle()
         } label: {
@@ -24,14 +23,18 @@ struct AddTaskOrSessionView: View {
         }
         .sheet(isPresented: $showAddTaskOrSessionSheet) {
             TaskOrSessionFormView()
+                .presentationDetents([.fraction(0.50)])
+                .presentationBackground(Color(hex: standardDarkGrayHex))
         }
         .buttonStyle(.bordered)
         .background(Color(hex:standardBrightPinkHex))
         .cornerRadius(5)
         .controlSize(.large)
+        .padding()
+
     }
 }
 
 #Preview {
-    AddTaskOrSessionView()
+    AddTaskOrSessionButtonView()
 }

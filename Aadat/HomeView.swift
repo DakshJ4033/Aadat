@@ -23,7 +23,7 @@ struct HomeView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    AddTaskOrSessionView()
+                    AddTaskOrSessionButtonView()
                 }
             }
         }

@@ -15,100 +15,158 @@ struct TaskOrSessionFormView: View {
     @State private var selectedTag = "No Tag"
     @State private var newTagName = ""
     @FocusState private var taskDescFieldIsFocused: Bool
-    @State private var pinnedSelection: Bool = false
+    @State private var pinnedSelection: Bool = true
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     
+    @State var userStartTime : Date = Date()
+    @State var userEndTime : Date = Date()
+    @State private var newSessionTag = ""
+    @State private var onGoingTask: Bool = false
+
+    
+    
+    enum FormType: String, CaseIterable, Identifiable {
+        case taskForm, sessionForm
+        var id: Self { self }
+    }
+
+    @State private var selectedFormType: FormType = .taskForm
+    
     var body: some View {
         VStack {
+            /* Form Top Bar */
             HStack {
-                Button {
+                Button("Cancel") {
                     dismiss()
-                } label: {
-                    Text("Cancel")
-                        .padding(EdgeInsets(top: 20, leading: 15, bottom: 15, trailing: 0))
-                }
-                Spacer()
-                    .frame(width: 95)
-                Text("New Task")
-                    .standardText()
-                    .font(.headline)
-                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 0))
-                Spacer()
-                Button {
-                    // TODO: Implement task/session creation logic
-                    
-                    if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
-                        task.tag = newTagName
-                    } else if (newTagName == "") {
-                        task.tag = selectedTag
-                    }
-                    
-                    task.isPinned = pinnedSelection
-                    
-                    context.insert(task)
-                    
-                    userModel.allTags.append(task.tag)
-                    userModel.updateAllTags()
-                    
-                    dismiss()
-                } label: {
-                    Text("Add")
-                        .padding(EdgeInsets(top: 20, leading: 0, bottom: 15, trailing: 15))
-                }
-            }
-            .background(Color(hex: 0x18101F))
-            Form {
-                Section(header: Text("Create Task").standardText()) {
-                    TextField(text: $task.taskDescription, label: {
-                        Text("Task Description").standardText()
-                    })
-                    .focused($taskDescFieldIsFocused)
-                    .padding([.bottom], 30)
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .standardText()
-                    .listRowBackground(Color(hex: 0x18101F))
-                }
-
-                Section(header: Text("Pinned?").standardText()) {
-                    Toggle(isOn: $pinnedSelection, label: {
-                        Text("Pin Task?").standardText()
-                    })
-                    .listRowBackground(Color(hex: 0x18101F))
                 }
                 
-                // You can either add a new tag (Picker must have No Tag selected) or
-                // pick a pre-existing tag (TextField should be empty)
-                Section(header: Text("Tags").standardText()) {
-                    Picker(selection: $selectedTag, content: {
-                        if tasks.count < 1 {
-                            Text("No Tag").tag("No Tag").standardText()
+                Spacer().frame(maxWidth: .infinity)
+                
+                if selectedFormType == .taskForm {
+                    Text("New Task").standardText()
+                    Spacer().frame(maxWidth: .infinity)
+                    Button("Add") {
+                        if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+                            task.tag = newTagName
+                        } else if (newTagName == "") {
+                            task.tag = selectedTag
                         }
-                        ForEach(0..<userModel.allTags.count, id: \.self) { index in
-                            Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                                .accentColor(.white)
+                        
+                        task.isPinned = pinnedSelection
+                        context.insert(task)
+                        userModel.allTags.append(task.tag)
+                        userModel.updateAllTags()
+                        dismiss()
+                    }
+                } else if selectedFormType == .sessionForm {
+                    Text("New Session").standardText()
+                    Spacer().frame(maxWidth: .infinity)
+                    Button("Add") {
+                        if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+                            newSessionTag = newTagName
+                        } else if (newTagName == "") {
+                            newSessionTag = selectedTag
                         }
-                    }, label: {
-                        HStack {
-                            Image(systemName: "number").foregroundColor(Color(hex: 0xEEDCF7))
-                            Text("Tags").standardText()
-                        }
-                    })
-                    .listRowBackground(Color(hex: 0x18101F))
-                 
-                    TextField(text: $newTagName, label: {
-                        Text("Add New Tag...").standardText()
-                    })
-                    .standardText()
-                    .listRowBackground(Color(hex: 0x18101F))
+                        
+                        let newSession = Session(startTime: userStartTime, endTime: userEndTime, tag: newSessionTag)
+                        context.insert(newSession)
+                        dismiss()
+                    }
                 }
-                 
             }
-            .scrollContentBackground(.hidden)
-            .background(.black)
-            .onAppear() {
-               taskDescFieldIsFocused = true
+            .padding()
+            .background(Color(hex: standardDarkHex))
+            
+            /* Picker, changes form if creating a Task vs Session */
+            HStack {
+                Picker("FormType", selection: $selectedFormType) {
+                    Text("Task").tag(FormType.taskForm)
+                    Text("Session").tag(FormType.sessionForm)
+                }
+                .pickerStyle(.segmented)
+            }.background(Color(hex:standardLightHex))
+            
+            /* Create Task/Session Form */
+            if selectedFormType == .taskForm {
+                Form {
+                    Section {
+                        /* Tag Picker */
+                        Picker(selection: $selectedTag, content: {
+                            if tasks.count < 1 {
+                                Text("No Tag").tag("No Tag").standardText()
+                            }
+                            ForEach(0..<userModel.allTags.count, id: \.self) { index in
+                                Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
+                                    .accentColor(.white)
+                            }
+                        }, label: {
+                            Text("Tag").standardText()
+                        })
+                        .listRowBackground(Color(hex: standardDarkHex))
+                        
+                        /* Type New Tag */
+                        TextField(text: $newTagName, label: {
+                            Text("Enter New Tag...").standardText()
+                        })
+                        .standardText()
+                        .listRowBackground(Color(hex: standardDarkHex))
+                    }
+                    
+                    /* Pin Task Toggle */
+                    Section {
+                        Toggle(isOn: $pinnedSelection, label: {
+                            Text("Pin Task?").standardText()
+                        }).listRowBackground(Color(hex: standardDarkHex))
+                    }
+                }
+                .scrollContentBackground(.hidden)
+                .background(.black)
+                .onAppear() {
+                    taskDescFieldIsFocused = true
+                }
+            } else if selectedFormType == .sessionForm {
+                Form {
+                    Section {
+                        /* Tag Picker */
+                        Picker(selection: $selectedTag, content: {
+                            if tasks.count < 1 {
+                                Text("No Tag").tag("No Tag").standardText()
+                            }
+                            ForEach(0..<userModel.allTags.count, id: \.self) { index in
+                                Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
+                                    .accentColor(.white)
+                            }
+                        }, label: {
+                            Text("Tag").standardText()
+                        }).listRowBackground(Color(hex: standardDarkHex))
+                        
+                        /* Type New Tag */
+                        TextField(text: $newTagName, label: {
+                            Text("Enter New Tag...").standardText()
+                        })
+                        .standardText()
+                        .listRowBackground(Color(hex: standardDarkHex))
+                    }
+                    
+                    Section {
+                        DatePicker("Start Time:", selection: $userStartTime, displayedComponents: [.date, .hourAndMinute])
+                            .standardText()
+                            .datePickerStyle(.compact)
+                            .tint(Color(hex: standardBrightPinkHex))
+                            .environment(\.colorScheme, .dark) // <- This modifier
+                    
+                        DatePicker("End Time:", selection: $userEndTime, displayedComponents: [.date, .hourAndMinute])
+                            .opacity(onGoingTask ? 0:1)
+                            .standardText()
+                            .datePickerStyle(.compact)
+                            .tint(Color(hex: standardBrightPinkHex))
+                            .environment(\.colorScheme, .dark) // <- This modifier
+                    }.listRowBackground(Color(hex: standardDarkHex))
+                }
+                .scrollContentBackground(.hidden)
+                .background(.black)
             }
         }
         .background(.black)
@@ -118,4 +176,3 @@ struct TaskOrSessionFormView: View {
 #Preview {
     TaskOrSessionFormView()
 }
-

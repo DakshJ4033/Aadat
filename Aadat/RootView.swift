@@ -132,17 +132,17 @@ struct RootBottomNavBar: ViewModifier {
                                 .frame(maxWidth: .infinity)
                         }.standardToolbarButton()
                         
-                        Button { /* Stats View */
-                            rootViewManager.rootViewType = .statsView
-                        } label: {
-                            Image(systemName: "chart.bar.xaxis.ascending.badge.clock.rtl")
-                                .frame(maxWidth: .infinity)
-                        }.standardToolbarButton()
-                        
                         Button { /* Calendar View */
                             rootViewManager.rootViewType = .calendarView
                         } label: {
                             Image(systemName: "calendar")
+                                .frame(maxWidth: .infinity)
+                        }.standardToolbarButton()
+                        
+                        Button { /* Stats View */
+                            rootViewManager.rootViewType = .statsView
+                        } label: {
+                            Image(systemName: "chart.bar.xaxis.ascending.badge.clock.rtl")
                                 .frame(maxWidth: .infinity)
                         }.standardToolbarButton()
                     }

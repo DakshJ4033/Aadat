@@ -35,9 +35,7 @@ struct SessionView: View {
             .sheet(isPresented: $showSessionPopOver) {
                 SessionDetailedView(session: session, showSessionPopover: $showSessionPopOver)
                     .presentationDetents([.fraction(0.35)])
-                    .presentationBackground(
-                        Color(hex: standardDarkGrayHex)
-                    )
+                    .presentationBackground(Color(hex: standardDarkGrayHex))
             }
             .onAppear {
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
@@ -62,7 +60,7 @@ struct SessionView: View {
         .swipeOffsetTriggerAnimation(stiffness: 500, damping: 600)
     }
     
-    // function that nicely formats the string to display the time interval
+    /* Format str. to display time interval */
     private func formattedTime(from time: TimeInterval) -> String {
         let minutes = Int(time / 60)
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
