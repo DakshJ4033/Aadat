@@ -33,6 +33,8 @@ struct TaskOrSessionFormView: View {
     }
 
     @State private var selectedFormType: FormType = .taskForm
+    @State private var showAlert = false
+
     
     var body: some View {
         VStack {
@@ -48,22 +50,33 @@ struct TaskOrSessionFormView: View {
                     Text("New Task").standardText()
                     Spacer().frame(maxWidth: .infinity)
                     Button("Add") {
-                        if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
-                            task.tag = newTagName
-                        } else if (newTagName == "") {
-                            task.tag = selectedTag
-                        }
                         
-                        task.isPinned = pinnedSelection
-                        context.insert(task)
-                        userModel.allTags.append(task.tag)
-                        userModel.updateAllTags()
-                        dismiss()
+                        if newTagName.isEmpty {
+                            newTagName = selectedTag
+                        }
+                        if userModel.allTags.contains(newTagName) {
+                            showAlert = true
+                        } else {
+                            if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+                                task.tag = newTagName
+                            } else if (newTagName == "") {
+                                task.tag = selectedTag
+                            }
+                            
+                            task.isPinned = pinnedSelection
+                            context.insert(task)
+                            userModel.allTags.append(task.tag)
+                            userModel.updateAllTags()
+                            dismiss()
+                        }
+                    }.alert(isPresented: $showAlert) {
+                        Alert(title: Text("Error"), message: Text("Tag already exists!"))
                     }
                 } else if selectedFormType == .sessionForm {
                     Text("New Session").standardText()
                     Spacer().frame(maxWidth: .infinity)
                     Button("Add") {
+                        
                         if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
                             newSessionTag = newTagName
                         } else if (newTagName == "") {
