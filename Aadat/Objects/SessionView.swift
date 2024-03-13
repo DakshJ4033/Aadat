@@ -21,7 +21,13 @@ struct SessionView: View {
     var body: some View {
         SwipeView {
             HStack {
-                Text("\(session.tag)").lineLimit(1)
+                Text("Started: \(session.getStartTime())").lineLimit(1)
+                    .font(.system(size: 15))
+                Spacer()
+                if session.endTime != nil {
+                    Text("Ended: \(session.getEndTime())").lineLimit(1)
+                        .font(.system(size: 15))
+                }
                 Spacer()
                 Text("\(formattedTime(from: elapsedTime))")
             }
