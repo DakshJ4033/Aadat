@@ -9,7 +9,7 @@ import Foundation
 
 extension Date {
     func diff(numDays: Int) -> Date {
-        Calendar.current.date(byAdding: .day, value: numDays, to: self)!
+        Calendar.current.date(byAdding: .day, value: numDays, to: self) ?? Date()
     }
     
     var startOfDay: Date {
