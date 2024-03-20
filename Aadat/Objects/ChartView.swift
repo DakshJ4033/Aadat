@@ -63,19 +63,24 @@ struct ChartView: View {
         }
         .chartBackground { chartProxy in
           GeometryReader { geometry in
-            let frame = geometry[chartProxy.plotAreaFrame]
-            VStack {
-              Text("Top Task")
-                .font(.callout)
-                .foregroundStyle(.secondary)
-              Text(groupedSessions.max(by: { $0.value < $1.value })?.key ?? "")
-                .font(.title2.bold())
-                .foregroundColor(.primary)
+            if let plotFrame = chartProxy.plotFrame {
+              let frame = geometry[plotFrame]
+              VStack {
+                Text("Top Task")
+                  .font(.callout)
+                  .foregroundStyle(.secondary)
+                Text(groupedSessions.max(by: { $0.value < $1.value })?.key ?? "")
+                  .font(.title2.bold())
+                  .foregroundColor(.primary)
+              }
+              .position(x: frame.midX, y: frame.midY)
+            } else {
+              // Handle the case where plotFrame is nil (optional chaining can be used here)
+              Text("No frame available")
             }
-            .position(x: frame.midX, y: frame.midY)
           }
         }
-        .frame(height:250)
+        .frame(height: 250)
         .padding(15)
         .background(Color(hex: standardLightHex))
         .cornerRadius(5)

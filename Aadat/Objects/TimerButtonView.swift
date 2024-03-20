@@ -29,7 +29,7 @@ struct TimerButtonView: View {
             if isTrackingTime {
                 startTime = .now
             } else {
-                guard let startTime else {return}
+                guard startTime != nil else {return}
                 self.startTime = nil
             }
             
