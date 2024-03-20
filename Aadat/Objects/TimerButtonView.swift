@@ -20,7 +20,6 @@ struct TimerButtonView: View {
     /* Live Activity vars */
     @State private var isTrackingTime: Bool = false
     @State private var startTime: Date? = nil
-    @State private var activity: Activity<TimerWidgetAttributes>? = nil
     
     var body: some View {
         
@@ -29,18 +28,8 @@ struct TimerButtonView: View {
             isTrackingTime.toggle()
             if isTrackingTime {
                 startTime = .now
-                let attributes = TimerWidgetAttributes(name: "name here")
-                let state = TimerWidgetAttributes.ContentState(emoji: "emoji")
-                activity = try? Activity.request(
-                    attributes: attributes,
-                    content: .init(state: state, staleDate: nil), 
-                    pushType: nil)
             } else {
                 guard let startTime else {return}
-                let state = TimerWidgetAttributes.ContentState(emoji: "emoji") // use startTime when you add it to the dynamic data / attributes?
-                _Concurrency.Task {
-                    await activity?.end(_:.init(state: state, staleDate: nil), dismissalPolicy: .immediate)
-                }
                 self.startTime = nil
             }
             
