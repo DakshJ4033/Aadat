@@ -26,7 +26,6 @@ struct PinButtonView: View {
     
     func getPinnedStatus() -> String {
         return task.isPinned ? "pin.circle.fill" :  "pin.circle"
-        // TODO: tag not found on a task????
     }
     
     func pinOrUnpin() {
