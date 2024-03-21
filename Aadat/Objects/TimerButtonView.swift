@@ -12,29 +12,30 @@ import ActivityKit
 
 struct TimerButtonView: View {
     @Environment(\.modelContext) var context
+    @Query private var sessions: [Session]
     @State var taskStarted = false
     let task: Task
-    @Query private var sessions: [Session]
     
+    fileprivate func createSession() {
+        let newSession = Session(startTime: Date.now)
+        newSession.color = task.color
+        newSession.tag = task.tag
+        context.insert(newSession)
+        taskStarted = true
+    }
     
-    /* Live Activity vars */
-    @State private var isTrackingTime: Bool = false
-    @State private var startTime: Date? = nil
-    
-    var body: some View {
-        
-        Button {
-            /* Start Live Activity */
-            isTrackingTime.toggle()
-            if isTrackingTime {
-                startTime = .now
-            } else {
-                guard startTime != nil else {return}
-                self.startTime = nil
+    fileprivate func retrieveMostRecentSession(task: Task, sessions: [Session]) -> Session? {
+        for session in sessions.reversed() {
+            if session.tag == task.tag {
+                return session
             }
-            
-            
-            /* Other stuff */
+        }
+        return nil
+    }
+
+    var body: some View {
+        Button {
+            /* Manage session creation and stops */
             if let mostRecentSession = retrieveMostRecentSession(task: task, sessions: sessions) {
                 if mostRecentSession.endTime == nil {
                     // if we have a session, and its endTime is nil, end the session
@@ -43,23 +44,15 @@ struct TimerButtonView: View {
                 }
                 else {
                     // if we have a session, but its endTime is not nil, then make a new session
-                    let newSession = Session(startTime: Date.now)
-                    newSession.color = task.color
-                    newSession.tag = task.tag
-                    context.insert(newSession)
-                    taskStarted = true
+                    createSession()
                 }
             } else {
                 // if we have no sessions created, just create a new one
-                let newSession = Session(startTime: Date.now)
-                newSession.color = task.color
-                newSession.tag = task.tag
-                context.insert(newSession)
-                taskStarted = true
+                createSession()
             }
         } label: {
             Image(systemName: taskStarted ? "stop.circle.fill" : "play.circle.fill")
-                .resizable() // Make the image resizable
+                .resizable()
                 .frame(width: 24, height: 24)
                 .foregroundColor(taskStarted ? Color(hex:standardLightRedHex) : Color(hex:standardBrightPinkHex))
         }
@@ -75,15 +68,6 @@ struct TimerButtonView: View {
             }
         }
     }
-}
-
-func retrieveMostRecentSession(task: Task, sessions: [Session]) -> Session? {
-    for session in sessions.reversed() {
-        if session.tag == task.tag {
-            return session
-        }
-    }
-    return nil
 }
 
 #Preview {
