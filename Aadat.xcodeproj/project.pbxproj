@@ -171,23 +171,23 @@
 		0DC4E0382B7EFC480050F5E1 /* Aadat */ = {
 			isa = PBXGroup;
 			children = (
-				2EB51B532BA0E5E700A90116 /* CalendarView */,
-				BA289A022B97F68700D5BFC3 /* SpeechRecognizer */,
 				0D0AF0602B97EF23008FF0AF /* Info.plist */,
 				0DC4E0392B7EFC480050F5E1 /* AadatApp.swift */,
+				674815812B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift */,
+				2E2464B82B91C434000805AD /* AllTasksView.swift */,
 				6732863D2B87D55200323023 /* CustomModifiers.swift */,
-				0DC4E03B2B7EFC480050F5E1 /* RootView.swift */,
 				674815742B7FEC53007D4F59 /* HomeView.swift */,
 				674815762B7FED47007D4F59 /* PinnedView.swift */,
-				2E2464B82B91C434000805AD /* AllTasksView.swift */,
+				0DC4E03B2B7EFC480050F5E1 /* RootView.swift */,
 				674815782B7FEDA4007D4F59 /* SessionsView.swift */,
-				674815812B813DB9007D4F59 /* AddTaskOrSessionButtonView.swift */,
-				BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */,
 				6732863F2B8E754700323023 /* StatsView.swift */,
+				BA28C49D2B86BC2F00E0D322 /* TaskOrSessionFormView.swift */,
+				0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */,
+				2EB51B532BA0E5E700A90116 /* CalendarView */,
 				0D242ED52B88474E0086AFB3 /* Models */,
 				6748157A2B7FF0E7007D4F59 /* Objects */,
-				0DC4E03D2B7EFC4B0050F5E1 /* Assets.xcassets */,
 				0DC4E03F2B7EFC4B0050F5E1 /* Preview Content */,
+				BA289A022B97F68700D5BFC3 /* SpeechRecognizer */,
 			);
 			path = Aadat;
 			sourceTree = "<group>";

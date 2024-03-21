@@ -50,10 +50,16 @@ struct TaskView: View {
         } trailingActions: { _ in
             SwipeAction("Delete") {
                 for session in sessions {
-                      if (session.tag == task.tag) {
-                          session.tag = "No Tag"
-                      }
-                  }
+                    if (session.tag == task.tag) {
+                        session.tag = "No Tag"
+                    }
+                }
+                for (index, tag) in userModel.allTags.enumerated() {
+                    if task.tag == tag {
+                        userModel.allTags.remove(at: index)
+                        return
+                    }
+                }
                 context.delete(task)
             }
             .allowSwipeToTrigger()

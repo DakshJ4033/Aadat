@@ -117,9 +117,6 @@ struct TaskOrSessionFormView: View {
                     Section {
                         /* Tag Picker */
                         Picker(selection: $selectedTag, content: {
-                            if tasks.count < 1 {
-                                Text("No Tag").tag("No Tag").standardText()
-                            }
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
                                 Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
                                     .accentColor(.white)
