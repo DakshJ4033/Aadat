@@ -33,8 +33,6 @@ struct TaskOrSessionFormView: View {
     @State var userEndTime : Date = Date()
     @State private var newSessionTag = ""
     @State private var onGoingTask: Bool = false
-
-    
     
     enum FormType: String, CaseIterable, Identifiable {
         case taskForm, sessionForm
@@ -43,15 +41,18 @@ struct TaskOrSessionFormView: View {
 
     @State private var selectedFormType: FormType = .taskForm
     @State private var showAlert = false
-
     
     var body: some View {
         VStack {
             /* Form Top Bar */
             HStack {
-                Button("Cancel") {
+                Button(action: {
                     dismiss()
-                }
+                }, label: {
+                    Text("Cancel")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                })
                 
                 Spacer()
                 
@@ -60,8 +61,7 @@ struct TaskOrSessionFormView: View {
                         .bold()
                         .foregroundStyle(Color(hex: standardLightHex))
                     Spacer()
-                    Button("Add") {
-                        
+                    Button(action: {
                         if newTagName.isEmpty {
                             newTagName = selectedTag
                         }
@@ -81,7 +81,12 @@ struct TaskOrSessionFormView: View {
                             userModel.updateAllTags()
                             dismiss()
                         }
-                    }.alert(isPresented: $showAlert) {
+                    }, label: {
+                        Text("Add")
+                            .bold()
+                            .foregroundStyle(Color(hex: standardLightHex))
+                    })
+                    .alert(isPresented: $showAlert) {
                         Alert(title: Text("Error"), message: Text("Tag already exists!"))
                     }
                 } else if selectedFormType == .sessionForm {
@@ -89,7 +94,7 @@ struct TaskOrSessionFormView: View {
                         .bold()
                         .foregroundStyle(Color(hex: standardLightHex))
                     Spacer()
-                    Button("Add") {
+                    Button(action: {
                         
                         if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
                             newSessionTag = newTagName
@@ -100,7 +105,11 @@ struct TaskOrSessionFormView: View {
                         let newSession = Session(startTime: userStartTime, endTime: userEndTime, tag: newSessionTag)
                         context.insert(newSession)
                         dismiss()
-                    }
+                    }, label: {
+                        Text("Add")
+                            .bold()
+                            .foregroundStyle(Color(hex: standardLightHex))
+                    })
                 }
             }
             .padding()
