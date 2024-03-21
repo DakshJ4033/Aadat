@@ -53,11 +53,13 @@ struct TaskOrSessionFormView: View {
                     dismiss()
                 }
                 
-                Spacer().frame(maxWidth: .infinity)
+                Spacer()
                 
                 if selectedFormType == .taskForm {
-                    Text("New Task").standardText()
-                    Spacer().frame(maxWidth: .infinity)
+                    Text("New Task")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                    Spacer()
                     Button("Add") {
                         
                         if newTagName.isEmpty {
@@ -83,8 +85,10 @@ struct TaskOrSessionFormView: View {
                         Alert(title: Text("Error"), message: Text("Tag already exists!"))
                     }
                 } else if selectedFormType == .sessionForm {
-                    Text("New Session").standardText()
-                    Spacer().frame(maxWidth: .infinity)
+                    Text("New Session")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                    Spacer()
                     Button("Add") {
                         
                         if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
@@ -108,6 +112,7 @@ struct TaskOrSessionFormView: View {
                     Text("Task").tag(FormType.taskForm)
                     Text("Session").tag(FormType.sessionForm)
                 }
+                .colorMultiply(Color(hex: 0xD9A3DC))
                 .pickerStyle(.segmented)
             }.background(Color(hex:standardLightHex))
             
@@ -119,11 +124,11 @@ struct TaskOrSessionFormView: View {
                         Picker(selection: $selectedTag, content: {
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
                                 Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                                    .accentColor(.white)
                             }
                         }, label: {
                             Text("Tag").standardText()
                         })
+                        .tint(Color(hex: standardLightHex))
                         .listRowBackground(Color(hex: standardDarkHex))
                         
                         /* Type New Tag */
@@ -156,11 +161,12 @@ struct TaskOrSessionFormView: View {
                             }
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
                                 Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                                    .accentColor(.white)
                             }
                         }, label: {
                             Text("Tag").standardText()
-                        }).listRowBackground(Color(hex: standardDarkHex))
+                        })
+                        .listRowBackground(Color(hex: standardDarkHex))
+                        .tint(Color(hex: standardLightHex))
                         
                         /* Type New Tag */
                         TextField(text: $newTagName, label: {
@@ -186,10 +192,10 @@ struct TaskOrSessionFormView: View {
                     }.listRowBackground(Color(hex: standardDarkHex))
                 }
                 .scrollContentBackground(.hidden)
-                .background(.black)
+                .background(Color(hex: standardDarkGrayHex))
             }
         }
-        .background(.black)
+        .background(Color(hex: standardDarkGrayHex))
     }
 }
 
