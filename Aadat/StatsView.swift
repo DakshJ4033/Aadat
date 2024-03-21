@@ -29,7 +29,7 @@ struct StatsView: View {
                     Text("You have no previous sessions history!")
                         .fontWeight(.medium)
                         .padding(/*@START_MENU_TOKEN@*/.all, 20.0/*@END_MENU_TOKEN@*/)
-                        .background(Color(hue: 0.58, saturation: 0.783, brightness: 0.456))
+                        .background(Color(hex: standardDarkHex))
                         .cornerRadius(10)
                         .foregroundColor(.white)
                 }

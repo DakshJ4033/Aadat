@@ -12,7 +12,7 @@ import SwiftUI
 View specific modifiers may make
 more sense to keep on their View file
 Add more sections below */
-let standardDarkHex = 0x18101F // really dark purple
+let standardDarkHex = 0x422C42 // really dark purple
 let standardLightHex = 0xEEDCF7 // white purple-pink
 let standardBrightPinkHex = 0xC36AC0
 let standardLightRedHex = 0xCB7C6B
@@ -68,7 +68,7 @@ struct MainBackground: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding()
-            .background(Color(hex: 0x070308))
+            .background(Color(hex: standardDarkGrayHex))
     }
 }
 struct StandardBoxBackground: ViewModifier {

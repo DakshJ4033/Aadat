@@ -142,7 +142,7 @@ struct TaskOrSessionFormView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                .background(.black)
+                .background(Color(hex: standardDarkGrayHex))
                 .onAppear() {
                     taskDescFieldIsFocused = true
                 }
