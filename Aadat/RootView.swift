@@ -73,7 +73,7 @@ struct RootView: View {
     }
     
     private func stopLastAutomatedTask() {
-        let identifiedLanguage = speechRecognitionModel.identifiedLanguage.lowercased()
+        let _ = speechRecognitionModel.identifiedLanguage.lowercased()
         let lastAutomatedTaskLanguage = speechRecognitionModel.lastAutomatedTaskLanguage.lowercased()
         
         if (speechRecognitionModel.stopAutomatedTaskCount == 3) {

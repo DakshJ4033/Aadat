@@ -11,8 +11,6 @@ import SwiftData
 import SwipeActions
 
 /* Task Class Dec. */
-
-
 struct TaskView: View {
     @Environment(\.modelContext) var context
     @Query private var tasks: [Task]
@@ -20,10 +18,6 @@ struct TaskView: View {
     @State var task: Task
     @EnvironmentObject var userModel: UserModel
 
-//    init(task: Task) {
-//        self.task = task
-//    }
-    
     @State var searchText: String = ""
     @State var showNewTagSheet: Bool = false
     @State var newTag: String = "New Tag"
@@ -35,8 +29,6 @@ struct TaskView: View {
                     // assign a Tag from allTags or Add New
                     HStack {
                         Text("Tag: ")
-                        //Text(task.tag).standardTaskText()
-                        
                         // A tag shouldn't be unique in order for this to work!
                         Picker("Tags", selection: $task.tag) {
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
@@ -58,10 +50,16 @@ struct TaskView: View {
         } trailingActions: { _ in
             SwipeAction("Delete") {
                 for session in sessions {
-                      if (session.tag == task.tag) {
-                          session.tag = "No Tag"
-                      }
-                  }
+                    if (session.tag == task.tag) {
+                        session.tag = "No Tag"
+                    }
+                }
+                for (index, tag) in userModel.allTags.enumerated() {
+                    if task.tag == tag {
+                        userModel.allTags.remove(at: index)
+                        return
+                    }
+                }
                 context.delete(task)
             }
             .allowSwipeToTrigger()

@@ -63,19 +63,24 @@ struct ChartView: View {
         }
         .chartBackground { chartProxy in
           GeometryReader { geometry in
-            let frame = geometry[chartProxy.plotAreaFrame]
-            VStack {
-              Text("Top Task")
-                .font(.callout)
-                .foregroundStyle(.secondary)
-              Text(groupedSessions.max(by: { $0.value < $1.value })?.key ?? "")
-                .font(.title2.bold())
-                .foregroundColor(.primary)
+            if let plotFrame = chartProxy.plotFrame {
+              let frame = geometry[plotFrame]
+              VStack {
+                Text("Top Task")
+                  .font(.callout)
+                  .foregroundStyle(.secondary)
+                Text(groupedSessions.max(by: { $0.value < $1.value })?.key ?? "")
+                  .font(.title2.bold())
+                  .foregroundColor(.primary)
+              }
+              .position(x: frame.midX, y: frame.midY)
+            } else {
+              // Handle the case where plotFrame is nil (optional chaining can be used here)
+              Text("No frame available")
             }
-            .position(x: frame.midX, y: frame.midY)
           }
         }
-        .frame(height:250)
+        .frame(height: 250)
         .padding(15)
         .background(Color(hex: standardLightHex))
         .cornerRadius(5)
@@ -145,87 +150,9 @@ struct ChartView: View {
         while let _ = sessions.first(where: { calendar.isDate($0.startTime, inSameDayAs: currentDate) && $0.tag == tag }) {
             streakCount += 1
             // Move to the previous day
-            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? Date()
         }
         
         return streakCount
     }
-    
-//    func weekdayString(from date: Date) -> String {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "EEE" // This returns the abbreviated day of the week, e.g., "Mon"
-//        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Use a fixed locale to ensure consistency
-//        return dateFormatter.string(from: date)
-//    }
-//    
-//    private func fetchSessionData() {
-//        // First, we need a dictionary that maps from (tag, weekday) to totalTime
-//        var totalTimeByTagAndWeekday: [String: [(weekday: Date, totalTime: TimeInterval)]] = [:]
-//        
-//        var calendar = Calendar(identifier: .gregorian)
-//        calendar.timeZone = TimeZone(secondsFromGMT: 0)! // Ensure the calendar is using UTC
-//        
-//        // Define the date range for the past week
-//        let now = Date() // This is in your local time zone
-//        guard let today = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: now) else { return }
-//        guard let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: today) else { return }
-//
-//        // Filter sessions that occurred within the last week
-//        let sessionsPastWeek = sessions.filter {
-//            $0.startTime >= oneWeekAgo && $0.startTime <= today
-//        }
-//        
-//        // Debug print statements
-//        print("All sessions:")
-//        for session in sessions {
-//            print("\(session.tag), \(session.startTime)")
-//        }
-//        
-//        print("Sessions in the past week:")
-//        for session in sessionsPastWeek {
-//            print("\(session.tag), \(session.startTime)")
-//        }
-//        
-//        for session in sessionsPastWeek {
-//            // Extract the weekday from the session's startTime
-//            let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear, .weekday], from: session.startTime)
-//            guard let weekday = calendar.date(from: components) else { continue }
-//            
-//            // Append the totalTime to the correct tag and weekday entry
-//            if totalTimeByTagAndWeekday[session.tag] != nil {
-//                if let index = totalTimeByTagAndWeekday[session.tag]?.firstIndex(where: { $0.weekday == weekday }) {
-//                    totalTimeByTagAndWeekday[session.tag]?[index].totalTime += session.totalTime()
-//                } else {
-//                    totalTimeByTagAndWeekday[session.tag]?.append((weekday: weekday, totalTime: session.totalTime()))
-//                }
-//            } else {
-//                totalTimeByTagAndWeekday[session.tag] = [(weekday: weekday, totalTime: session.totalTime())]
-//            }
-//        }
-//        
-//
-//        // Now map the dictionary to your desired array structure
-//        let result = totalTimeByTagAndWeekday.map { tag, weekData -> (String, [(Date, TimeInterval)]) in
-//            return (tag, weekData.map { ($0.weekday, $0.totalTime) })
-//        }
-//        
-//        // Define a function to map the weekday number to a sortable value with Monday as the first day
-//        func sortValueForWeekday(date: Date) -> Int {
-//            let weekday = Calendar.current.component(.weekday, from: date)
-//            return weekday == 1 ? 7 : weekday - 1 // Adjust Sunday to be the last
-//        }
-//        
-//        // Sort the tuples by weekday for each tag
-//        let sortedResult = result.map { (tag: String, weekData: [(weekday: Date, totalTime: TimeInterval)]) -> (String, [(Date, TimeInterval)]) in
-//            let sortedWeekData = weekData.sorted { (data1: (weekday: Date, totalTime: TimeInterval), data2: (weekday: Date, totalTime: TimeInterval)) -> Bool in
-//                return data1.weekday < data2.weekday
-//            }
-//            return (tag, sortedWeekData)
-//        }
-//        
-//        print(sortedResult)
-//        // Store the sorted result in your state variable
-//        self.groupedData = sortedResult
-//    }
-
 }

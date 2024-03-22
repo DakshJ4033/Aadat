@@ -15,7 +15,7 @@ struct LanguageData: Codable {
 
 class LanguageIdentifier {
     private let apiUrl = "https://api-inference.huggingface.co/models/facebook/mms-lid-126"
-    private let token = "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" // TODO: add token to .env file for security
+    private let token = "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" // can add token to .env file for security
     
     private let languageDictionary = [
         "ara": "Arabic",

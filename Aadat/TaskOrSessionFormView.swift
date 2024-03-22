@@ -33,8 +33,6 @@ struct TaskOrSessionFormView: View {
     @State var userEndTime : Date = Date()
     @State private var newSessionTag = ""
     @State private var onGoingTask: Bool = false
-
-    
     
     enum FormType: String, CaseIterable, Identifiable {
         case taskForm, sessionForm
@@ -43,23 +41,27 @@ struct TaskOrSessionFormView: View {
 
     @State private var selectedFormType: FormType = .taskForm
     @State private var showAlert = false
-
     
     var body: some View {
         VStack {
             /* Form Top Bar */
             HStack {
-                Button("Cancel") {
+                Button(action: {
                     dismiss()
-                }
+                }, label: {
+                    Text("Cancel")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                })
                 
-                Spacer().frame(maxWidth: .infinity)
+                Spacer()
                 
                 if selectedFormType == .taskForm {
-                    Text("New Task").standardText()
-                    Spacer().frame(maxWidth: .infinity)
-                    Button("Add") {
-                        
+                    Text("New Task")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                    Spacer()
+                    Button(action: {
                         if newTagName.isEmpty {
                             newTagName = selectedTag
                         }
@@ -79,13 +81,20 @@ struct TaskOrSessionFormView: View {
                             userModel.updateAllTags()
                             dismiss()
                         }
-                    }.alert(isPresented: $showAlert) {
+                    }, label: {
+                        Text("Add")
+                            .bold()
+                            .foregroundStyle(Color(hex: standardLightHex))
+                    })
+                    .alert(isPresented: $showAlert) {
                         Alert(title: Text("Error"), message: Text("Tag already exists!"))
                     }
                 } else if selectedFormType == .sessionForm {
-                    Text("New Session").standardText()
-                    Spacer().frame(maxWidth: .infinity)
-                    Button("Add") {
+                    Text("New Session")
+                        .bold()
+                        .foregroundStyle(Color(hex: standardLightHex))
+                    Spacer()
+                    Button(action: {
                         
                         if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
                             newSessionTag = newTagName
@@ -96,7 +105,11 @@ struct TaskOrSessionFormView: View {
                         let newSession = Session(startTime: userStartTime, endTime: userEndTime, tag: newSessionTag)
                         context.insert(newSession)
                         dismiss()
-                    }
+                    }, label: {
+                        Text("Add")
+                            .bold()
+                            .foregroundStyle(Color(hex: standardLightHex))
+                    })
                 }
             }
             .padding()
@@ -108,6 +121,7 @@ struct TaskOrSessionFormView: View {
                     Text("Task").tag(FormType.taskForm)
                     Text("Session").tag(FormType.sessionForm)
                 }
+                .colorMultiply(Color(hex: 0xD9A3DC))
                 .pickerStyle(.segmented)
             }.background(Color(hex:standardLightHex))
             
@@ -117,16 +131,13 @@ struct TaskOrSessionFormView: View {
                     Section {
                         /* Tag Picker */
                         Picker(selection: $selectedTag, content: {
-                            if tasks.count < 1 {
-                                Text("No Tag").tag("No Tag").standardText()
-                            }
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
                                 Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                                    .accentColor(.white)
                             }
                         }, label: {
                             Text("Tag").standardText()
                         })
+                        .tint(Color(hex: standardLightHex))
                         .listRowBackground(Color(hex: standardDarkHex))
                         
                         /* Type New Tag */
@@ -145,7 +156,7 @@ struct TaskOrSessionFormView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                .background(.black)
+                .background(Color(hex: standardDarkGrayHex))
                 .onAppear() {
                     taskDescFieldIsFocused = true
                 }
@@ -159,11 +170,12 @@ struct TaskOrSessionFormView: View {
                             }
                             ForEach(0..<userModel.allTags.count, id: \.self) { index in
                                 Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                                    .accentColor(.white)
                             }
                         }, label: {
                             Text("Tag").standardText()
-                        }).listRowBackground(Color(hex: standardDarkHex))
+                        })
+                        .listRowBackground(Color(hex: standardDarkHex))
+                        .tint(Color(hex: standardLightHex))
                         
                         /* Type New Tag */
                         TextField(text: $newTagName, label: {
@@ -189,10 +201,10 @@ struct TaskOrSessionFormView: View {
                     }.listRowBackground(Color(hex: standardDarkHex))
                 }
                 .scrollContentBackground(.hidden)
-                .background(.black)
+                .background(Color(hex: standardDarkGrayHex))
             }
         }
-        .background(.black)
+        .background(Color(hex: standardDarkGrayHex))
     }
 }
 
