@@ -17,12 +17,12 @@ struct TaskView: View {
     @Environment(\.modelContext) var context
     @Query private var tasks: [Task]
     @Query private var sessions: [Session]
-    @State private var task: Task
+    @State var task: Task
     @EnvironmentObject var userModel: UserModel
 
-    init(task: Task) {
-        self.task = task
-    }
+//    init(task: Task) {
+//        self.task = task
+//    }
     
     @State var searchText: String = ""
     @State var showNewTagSheet: Bool = false
