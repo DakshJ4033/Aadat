@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import SwiftData
-import ActivityKit
 
 struct TimerButtonView: View {
     @Environment(\.modelContext) var context

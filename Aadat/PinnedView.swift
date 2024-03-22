@@ -36,7 +36,7 @@ struct PinnedView: View {
                     .background(Color(hex:standardDarkGrayHex))
                     .presentationCompactAdaptation(.popover)
                     .presentationBackground(Color(hex:standardDarkGrayHex))
-                    .frame(width: 300, height: 200) // Set your desired width and height
+                    .frame(width: 300, height: 200)
                     .padding()
             }
         }

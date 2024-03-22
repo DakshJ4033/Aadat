@@ -23,7 +23,6 @@ struct TaskOrSessionFormView: View {
     @State private var task = Task()
     @State private var selectedTag = "No Tag"
     @State private var newTagName = ""
-    @FocusState private var taskDescFieldIsFocused: Bool
     @State private var pinnedSelection: Bool = true
     
     @Environment(\.dismiss) var dismiss
@@ -42,6 +41,38 @@ struct TaskOrSessionFormView: View {
     @State private var selectedFormType: FormType = .taskForm
     @State private var showAlert = false
     
+    fileprivate func addTask() {
+        if newTagName.isEmpty {
+            newTagName = selectedTag
+        }
+        if userModel.allTags.contains(newTagName) {
+            showAlert = true
+        } else {
+            if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+                task.tag = newTagName
+            } else if (newTagName == "") {
+                task.tag = selectedTag
+            }
+            
+            task.color = Color.random()
+            task.isPinned = pinnedSelection
+            context.insert(task)
+            userModel.allTags.append(task.tag)
+            userModel.updateAllTags()
+        }
+    }
+    
+    fileprivate func addSession() {
+        if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
+            newSessionTag = newTagName
+        } else if (newTagName == "") {
+            newSessionTag = selectedTag
+        }
+        
+        let newSession = Session(startTime: userStartTime, endTime: userEndTime, tag: newSessionTag)
+        context.insert(newSession)
+    }
+    
     var body: some View {
         VStack {
             /* Form Top Bar */
@@ -56,60 +87,26 @@ struct TaskOrSessionFormView: View {
                 
                 Spacer()
                 
-                if selectedFormType == .taskForm {
-                    Text("New Task")
-                        .bold()
-                        .foregroundStyle(Color(hex: standardLightHex))
-                    Spacer()
-                    Button(action: {
-                        if newTagName.isEmpty {
-                            newTagName = selectedTag
-                        }
-                        if userModel.allTags.contains(newTagName) {
-                            showAlert = true
-                        } else {
-                            if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
-                                task.tag = newTagName
-                            } else if (newTagName == "") {
-                                task.tag = selectedTag
-                            }
-                            
-                            task.color = Color.random()
-                            task.isPinned = pinnedSelection
-                            context.insert(task)
-                            userModel.allTags.append(task.tag)
-                            userModel.updateAllTags()
-                            dismiss()
-                        }
-                    }, label: {
-                        Text("Add")
-                            .bold()
-                            .foregroundStyle(Color(hex: standardLightHex))
-                    })
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Error"), message: Text("Tag already exists!"))
+                Text("New \(selectedFormType == .taskForm ? "Task" : "Session")")
+                    .bold()
+                    .foregroundStyle(Color(hex: standardLightHex))
+                
+                Spacer()
+                
+                Button(action: {
+                    if selectedFormType == .taskForm {
+                        addTask()
+                    } else {
+                        addSession()
                     }
-                } else if selectedFormType == .sessionForm {
-                    Text("New Session")
+                    dismiss()
+                }, label: {
+                    Text("Add")
                         .bold()
                         .foregroundStyle(Color(hex: standardLightHex))
-                    Spacer()
-                    Button(action: {
-                        
-                        if newTagName != "" && selectedTag == "No Tag" { // Case where user enters a new tag
-                            newSessionTag = newTagName
-                        } else if (newTagName == "") {
-                            newSessionTag = selectedTag
-                        }
-                        
-                        let newSession = Session(startTime: userStartTime, endTime: userEndTime, tag: newSessionTag)
-                        context.insert(newSession)
-                        dismiss()
-                    }, label: {
-                        Text("Add")
-                            .bold()
-                            .foregroundStyle(Color(hex: standardLightHex))
-                    })
+                })
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Error"), message: Text("Tag already exists!"))
                 }
             }
             .padding()
@@ -123,86 +120,57 @@ struct TaskOrSessionFormView: View {
                 }
                 .colorMultiply(Color(hex: 0xD9A3DC))
                 .pickerStyle(.segmented)
-            }.background(Color(hex:standardLightHex))
+            }
+            .background(Color(hex:standardLightHex))
             
             /* Create Task/Session Form */
-            if selectedFormType == .taskForm {
-                Form {
-                    Section {
-                        /* Tag Picker */
-                        Picker(selection: $selectedTag, content: {
-                            ForEach(0..<userModel.allTags.count, id: \.self) { index in
-                                Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                            }
-                        }, label: {
-                            Text("Tag").standardText()
-                        })
-                        .tint(Color(hex: standardLightHex))
-                        .listRowBackground(Color(hex: standardDarkHex))
-                        
-                        /* Type New Tag */
-                        TextField(text: $newTagName, label: {
-                            Text("Enter New Tag...").standardText()
-                        })
-                        .standardText()
-                        .listRowBackground(Color(hex: standardDarkHex))
-                    }
+            Form {
+                Section {
+                    /* Tag Picker */
+                    Picker(selection: $selectedTag, content: {
+                        ForEach(0..<userModel.allTags.count, id: \.self) { index in
+                            Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
+                        }
+                    }, label: {
+                        Text("Tag").standardText()
+                    })
+                    .tint(Color(hex: standardLightHex))
+                    .listRowBackground(Color(hex: standardDarkHex))
                     
-                    /* Pin Task Toggle */
+                    /* Type New Tag */
+                    TextField(text: $newTagName, label: {
+                        Text("Enter New Tag...").standardText()
+                    })
+                    .standardText()
+                    .listRowBackground(Color(hex: standardDarkHex))
+                }
+                
+                if selectedFormType == .taskForm {
                     Section {
                         Toggle(isOn: $pinnedSelection, label: {
                             Text("Pin Task?").standardText()
                         }).listRowBackground(Color(hex: standardDarkHex))
                     }
-                }
-                .scrollContentBackground(.hidden)
-                .background(Color(hex: standardDarkGrayHex))
-                .onAppear() {
-                    taskDescFieldIsFocused = true
-                }
-            } else if selectedFormType == .sessionForm {
-                Form {
-                    Section {
-                        /* Tag Picker */
-                        Picker(selection: $selectedTag, content: {
-                            if tasks.count < 1 {
-                                Text("No Tag").tag("No Tag").standardText()
-                            }
-                            ForEach(0..<userModel.allTags.count, id: \.self) { index in
-                                Text("\(userModel.allTags[index])").tag("\(userModel.allTags[index])")
-                            }
-                        }, label: {
-                            Text("Tag").standardText()
-                        })
-                        .listRowBackground(Color(hex: standardDarkHex))
-                        .tint(Color(hex: standardLightHex))
-                        
-                        /* Type New Tag */
-                        TextField(text: $newTagName, label: {
-                            Text("Enter New Tag...").standardText()
-                        })
-                        .standardText()
-                        .listRowBackground(Color(hex: standardDarkHex))
-                    }
-                    
+                } else {
                     Section {
                         DatePicker("Start Time:", selection: $userStartTime, displayedComponents: [.date, .hourAndMinute])
                             .standardText()
                             .datePickerStyle(.compact)
                             .tint(Color(hex: standardBrightPinkHex))
-                            .environment(\.colorScheme, .dark) // <- This modifier
+                            .environment(\.colorScheme, .dark)
                     
                         DatePicker("End Time:", selection: $userEndTime, displayedComponents: [.date, .hourAndMinute])
                             .opacity(onGoingTask ? 0:1)
                             .standardText()
                             .datePickerStyle(.compact)
                             .tint(Color(hex: standardBrightPinkHex))
-                            .environment(\.colorScheme, .dark) // <- This modifier
-                    }.listRowBackground(Color(hex: standardDarkHex))
+                            .environment(\.colorScheme, .dark)
+                    }
+                    .listRowBackground(Color(hex: standardDarkHex))
                 }
-                .scrollContentBackground(.hidden)
-                .background(Color(hex: standardDarkGrayHex))
             }
+            .scrollContentBackground(.hidden)
+            .background(Color(hex: standardDarkGrayHex))
         }
         .background(Color(hex: standardDarkGrayHex))
     }
